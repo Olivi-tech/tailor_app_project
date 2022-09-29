@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "87471755892",
+    "project_id": "tailor-app-project-58e33",
+    "storage_bucket": "tailor-app-project-58e33.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:87471755892:android:de5021249ae61bc461f721",
+        "android_client_info": {
+          "package_name": "shakilawan.com.tailor_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "87471755892-kqmk8apnnup0ddupkiqf1fsdgl2kt6ec.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4TcbTGahQVCu0uxKLrfMYzuh2PipRuks"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "87471755892-kqmk8apnnup0ddupkiqf1fsdgl2kt6ec.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

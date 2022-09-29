@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">tailor app</string>
+    <string name="facebook_app_id">600704895172381</string>
+    <string name="fb_login_protocol_scheme">fb600704895172381</string>
+    <string name="facebook_client_token">ba07ed42390e97702c8f767d7fd361e6</string>
+</resources>
