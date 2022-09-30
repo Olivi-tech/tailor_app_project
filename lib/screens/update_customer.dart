@@ -3,20 +3,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tailor_app/screens/model_add_customer.dart';
 import 'package:tailor_app/utils/widgets.dart';
 
-class AddItem extends StatefulWidget {
+class UpdateCustomer extends StatefulWidget {
   Map<String, dynamic>? map = {};
   bool? editing;
 
-  AddItem({Key? key, this.map}) : super(key: key);
+  UpdateCustomer({Key? key, this.map}) : super(key: key);
 
   @override
-  State<AddItem> createState() => _AddItemState();
+  State<UpdateCustomer> createState() => _UpdateCustomerState();
 }
 
-class _AddItemState extends State<AddItem> {
+class _UpdateCustomerState extends State<UpdateCustomer> {
+  //static String firstName = widget.map![ModelAddCustomer.keyArmLength];
   // final String title = widget.editing! ? 'Update Customer': 'Add Customer';
   final GlobalKey<FormState> _formKeyCustomer = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKeyMeasurement = GlobalKey<FormState>();
@@ -28,7 +30,7 @@ class _AddItemState extends State<AddItem> {
   late final TextEditingController _addressController;
 
   ///adding customer's Measurements ///
-  late final TextEditingController _collarController;
+  late final TextEditingController _neckController;
   late final TextEditingController _shoulderController;
   late final TextEditingController _chestController;
   late final TextEditingController _waistController;
@@ -55,7 +57,7 @@ class _AddItemState extends State<AddItem> {
         TextEditingController(text: widget.map![ModelAddCustomer.keyAddress]);
 
     ///customer's Measurements ///
-    _collarController =
+    _neckController =
         TextEditingController(text: widget.map![ModelAddCustomer.keyNeck]);
     _shoulderController =
         TextEditingController(text: widget.map![ModelAddCustomer.keyShoulder]);
@@ -94,7 +96,7 @@ class _AddItemState extends State<AddItem> {
     _addressController.dispose();
 
     ///customer's Measurements /////
-    _collarController.dispose();
+    _neckController.dispose();
     _shoulderController.dispose();
     _chestController.dispose();
     _waistController.dispose();
@@ -114,13 +116,13 @@ class _AddItemState extends State<AddItem> {
     User? currentUser = FirebaseAuth.instance.currentUser;
     final customerCollection =
         FirebaseFirestore.instance.collection(currentUser!.uid);
-    Future<void> addCustomer() async {
+    Future<void> updateCustomer() async {
       var obj = ModelAddCustomer(
           firstName: _firstNameController.text,
           lastName: _lastNameController.text,
           phoneNumber: _phoneController.text,
           address: _addressController.text,
-          neck: _collarController.text,
+          neck: _neckController.text,
           armLength: _armLengthController.text,
           biceps: _bicepsController.text,
           calf: _calfController.text,
@@ -136,7 +138,7 @@ class _AddItemState extends State<AddItem> {
           .set(obj.toMap());
     }
 
-    // double width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
     // double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
@@ -146,7 +148,95 @@ class _AddItemState extends State<AddItem> {
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                if (_firstNameController.text.isEmpty ||
+                    _lastNameController.text.isEmpty ||
+                    _phoneController.text.isEmpty) {
+                  Fluttertoast.showToast(
+                      msg: _phoneController.text.isEmpty
+                          ? 'phone can\'t be empty'
+                          : 'Name can\'t be empty');
+                } else if (_addressController.text.isEmpty ||
+                    _neckController.text.isEmpty) {
+                  Fluttertoast.showToast(
+                      msg: _addressController.text.isEmpty
+                          ? 'Address is empty'
+                          : 'Neck\'s measurement is empty');
+                } else if (_shoulderController.text.isEmpty ||
+                    _chestController.text.isEmpty) {
+                  Fluttertoast.showToast(
+                      msg: _shoulderController.text.isEmpty
+                          ? 'Shoulder\'s measurement is empty'
+                          : 'Chest\'s measurement is empty');
+                } else if (_waistController.text.isEmpty ||
+                    _armLengthController.text.isEmpty) {
+                  Fluttertoast.showToast(
+                      msg: _waistController.text.isEmpty
+                          ? 'Waist\'s measurement is empty'
+                          : 'Arm Length\'s measurement is empty');
+                } else if (_bicepsController.text.isEmpty ||
+                    _wristController.text.isEmpty) {
+                  Fluttertoast.showToast(
+                      msg: _bicepsController.text.isEmpty
+                          ? 'Biceps measurement is empty'
+                          : 'Wrist measurement is empty');
+                } else if (_lengthController.text.isEmpty ||
+                    _thighController.text.isEmpty) {
+                  Fluttertoast.showToast(
+                      msg: _lengthController.text.isEmpty
+                          ? 'Length measurement is empty'
+                          : 'Thigh measurement is empty');
+                } else if (_inseamController.text.isEmpty ||
+                    _calfController.text.isEmpty) {
+                  Fluttertoast.showToast(
+                      msg: _inseamController.text.isEmpty ||
+                              _calfController.text.isEmpty
+                          ? 'Inseam measurement is empty'
+                          : 'Calf measurement is empty');
+                } else {
+                  updateCustomer().whenComplete(() {
+                    AwesomeDialog(
+                      width: width,
+                      context: context,
+                      animType: AnimType.scale,
+                      headerAnimationLoop: true,
+                      dialogType: DialogType.success,
+                      showCloseIcon: false,
+                      dismissOnTouchOutside: false,
+                      autoDismiss: false,
+                      // autoHide: const Duration(seconds: 3),
+                      title: 'Success',
+                      desc: 'Updated ${_firstNameController.text}',
+                      btnOkOnPress: () {
+                        Navigator.pop(context);
+                      },
+                      btnOkIcon: Icons.check_circle,
+                      onDismissCallback: (type) {
+                        Navigator.pop(context);
+                      },
+                    ).show().onError((error, stackTrace) {
+                      AwesomeDialog(
+                        context: context,
+                        animType: AnimType.scale,
+                        headerAnimationLoop: true,
+                        dialogType: DialogType.error,
+                        showCloseIcon: true,
+                        autoDismiss: false,
+                        autoHide: const Duration(seconds: 4),
+                        title: 'Error',
+                        desc: 'Error while adding. Check internet & try again',
+                        btnOkOnPress: () {
+                          Navigator.pop(context);
+                        },
+                        btnOkIcon: Icons.check_circle,
+                        onDismissCallback: (type) {
+                          Navigator.pop(context);
+                        },
+                      ).show();
+                    });
+                  });
+                }
+              },
               style: ElevatedButton.styleFrom(
                   //  primary: Colors.indigoAccent,
                   textStyle: const TextStyle(
@@ -184,6 +274,7 @@ class _AddItemState extends State<AddItem> {
                     ),
                     CommonWidgets.customTextFormField(
                       hintText: 'First Name',
+
                       controller: _firstNameController,
                       //  maxLength: 18,
                       textInputType: TextInputType.text,
@@ -200,6 +291,7 @@ class _AddItemState extends State<AddItem> {
                     CommonWidgets.customTextFormField(
                       hintText: 'Last Name',
                       controller: _lastNameController,
+                      //initialValue: widget.map![ModelAddCustomer.keyFirstName],
                       //  maxLength: 18,
                       textInputType: TextInputType.text,
                       inputFormatters: [
@@ -253,10 +345,10 @@ class _AddItemState extends State<AddItem> {
                         stringAssetImage: 'assets/images/neck.jpg',
                         title: 'Neck',
                         list: CommonWidgets.generateList(11, 12),
-                        controller: _collarController,
-                        initialValue: _collarController.text,
+                        controller: _neckController,
+                        initialValue: _neckController.text,
                         onChanged: (String? value) => setState(() {
-                          _collarController.text = value!;
+                          _neckController.text = value!;
                         }),
 
                         // validator: (value) {

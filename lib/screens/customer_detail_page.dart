@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tailor_app/screens/add_customer.dart';
+import 'package:tailor_app/screens/update_customer.dart';
 
 import 'model_add_customer.dart';
 
@@ -46,27 +46,30 @@ class CustomerDetailPage extends StatelessWidget {
         title: const Text('Customer Details'),
         centerTitle: true,
         actions: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                //  primary: Colors.indigoAccent,
-                textStyle: const TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.black),
-                fixedSize: const Size(80, 5),
-                // minimumSize: const Size(100, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                )),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => AddItem(
-                            map: map,
-                          )));
-            },
-            child: const Text(
-              'Edit',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  //  primary: Colors.indigoAccent,
+                  textStyle: const TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.black),
+                  fixedSize: const Size(80, 5),
+                  // minimumSize: const Size(100, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  )),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => UpdateCustomer(
+                              map: map,
+                            )));
+              },
+              child: const Text(
+                'Edit',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
             ),
           ),
         ],
