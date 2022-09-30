@@ -620,7 +620,7 @@ class _DashBoardState extends State<DashBoard> {
                     searchedText = '';
                   },
                   icon: const Icon(
-                    Icons.cancel,
+                    Icons.clear,
                     color: Colors.black,
                     size: 20,
                   ),

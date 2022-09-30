@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tailor_app/account_creations/login_provider.dart';
 import 'package:tailor_app/account_creations/sign_up.dart';
@@ -37,8 +36,6 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
-    print(height);
-    print(width);
     // final isKeyBoard = MediaQuery.of(context).viewInsets.bottom != 0;
     return SafeArea(
         child: Scaffold(
