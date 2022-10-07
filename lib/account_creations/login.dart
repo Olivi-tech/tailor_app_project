@@ -61,7 +61,6 @@ class _LoginState extends State<Login> {
               children: [
                 CommonWidgets.customTextFormField(
                     hintText: 'Email',
-                    hintStyle: const TextStyle(color: Colors.black),
                     // validator: (value) {
                     //   if (value == null || value.isEmpty) {
                     //     return 'Email Can\'t Be Empty';

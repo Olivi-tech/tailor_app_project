@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tailor_app/account_creations/login_provider.dart';
+import 'package:tailor_app/account_creations/sign_up.dart';
 import 'package:tailor_app/screens/customer_detail_page.dart';
 import 'package:tailor_app/screens/customer_details/customer_personal_details.dart';
 import 'package:tailor_app/screens/model_add_customer.dart';
@@ -540,6 +541,8 @@ class _DashBoardState extends State<DashBoard> {
   }
 
   Widget myCustomDrawer() {
+    String? accountName = user!.displayName ?? SignUp.userName;
+    String? accountMail = user!.email ?? user!.phoneNumber;
     return Drawer(
         semanticLabel: 'Details',
         backgroundColor: Colors.deepPurpleAccent,
@@ -548,8 +551,8 @@ class _DashBoardState extends State<DashBoard> {
           children: [
             UserAccountsDrawerHeader(
                 currentAccountPictureSize: const Size(90, 90),
-                accountName: Text('${user!.displayName}'),
-                accountEmail: Text('${user!.email}'),
+                accountName: Text(accountName.toString()),
+                accountEmail: Text(accountMail.toString()),
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(colors: [
                     Colors.deepOrangeAccent,

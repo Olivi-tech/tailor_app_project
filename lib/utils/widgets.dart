@@ -50,7 +50,7 @@ class CommonWidgets {
         const BoxConstraints(maxHeight: 50, minHeight: 50),
     int? maxLength,
     TextInputType? textInputType,
-    TextStyle? hintStyle,
+    TextStyle? hintStyle = const TextStyle(color: Colors.black),
     bool obscureText = false,
     void Function()? onTap,
   }) {

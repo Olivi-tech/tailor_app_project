@@ -59,6 +59,10 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
                       child: IntlPhoneField(
                         dropdownTextStyle: const TextStyle(fontSize: 16),
                         controller: _phoneController,
+                        initialValue: '+92',
+                        onChanged: (value) {
+                          _phoneController.text = value;
+                        },
                         decoration: InputDecoration(
                             hintText: 'Phone Number',
                             hintStyle: const TextStyle(fontSize: 16),
@@ -91,16 +95,6 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
                       // ),
                     ),
                     SizedBox(
-                      height: height * 0.03,
-                    ),
-                    CommonWidgets.customBtn(
-                        name: ('Get Current Number'),
-                        width: width,
-                        height: 40,
-                        onPressed: () async {
-                          _phoneController.text = (await _smsAutoFill.hint)!;
-                        }),
-                    SizedBox(
                       height: height * 0.01,
                     ),
                     CommonWidgets.customBtn(
@@ -115,9 +109,10 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
                     ),
                     TextFormField(
                         controller: _smsController,
+                        maxLength: 4,
                         decoration: InputDecoration(
                             hintText: 'Verification code',
-                            constraints: const BoxConstraints(maxHeight: 50),
+                            constraints: const BoxConstraints(maxHeight: 70),
                             contentPadding: const EdgeInsets.only(
                                 left: 20, bottom: 0, top: 15),
                             border: OutlineInputBorder(
@@ -136,7 +131,9 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
                         width: width,
                         height: 40,
                         onPressed: () async {
-                          await signInWithPhoneNumber();
+                          print(
+                              '////////////////////////${_phoneController.text}////////////////');
+                          //  await signInWithPhoneNumber();
                           Navigator.pop(context);
                         })
                   ],
@@ -203,8 +200,8 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
       );
 
       final User user = (await _auth.signInWithCredential(credential)).user!;
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Successfully signed in UID: ${user.uid}')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Successfully signed')));
     } catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Failed to sign in: $e')));

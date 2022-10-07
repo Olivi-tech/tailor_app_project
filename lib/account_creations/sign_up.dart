@@ -3,19 +3,45 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tailor_app/account_creations/login_provider.dart';
 import 'package:tailor_app/utils/widgets.dart';
 
-class SignUp extends StatelessWidget {
+class SignUp extends StatefulWidget {
   SignUp({Key? key}) : super(key: key);
-  final String _title = 'Sign Up';
+  static late final String userName;
   static TextStyle textStyle = const TextStyle(
     fontWeight: FontWeight.bold,
     color: Colors.green,
   );
 
-  final TextEditingController _userEmailController = TextEditingController();
-  final TextEditingController _userPWDController = TextEditingController();
-  final TextEditingController _userPWDConfirmController =
-      TextEditingController();
+  @override
+  State<SignUp> createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
+  final String _title = 'Sign Up';
+  late final TextEditingController _userNameController;
+  late final TextEditingController _userEmailController;
+  late final TextEditingController _userPWDController;
+  late final TextEditingController _userPWDConfirmController;
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _userNameController = TextEditingController();
+    _userEmailController = TextEditingController();
+    _userPWDController = TextEditingController();
+    _userPWDConfirmController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _userNameController.dispose();
+    _userEmailController.dispose();
+    _userPWDController.dispose();
+    _userPWDConfirmController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +73,11 @@ class SignUp extends StatelessWidget {
             children: [
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 30.0),
+                  padding: const EdgeInsets.only(top: 10.0),
                   child: Text(
                     _title,
                     textScaleFactor: 3,
-                    style: textStyle,
+                    style: SignUp.textStyle,
                   ),
                 ),
               ),
@@ -61,55 +87,62 @@ class SignUp extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Padding(
-                        padding: const EdgeInsets.only(top: 38.0),
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: CommonWidgets.customTextFormField(
+                          hintText: 'User Name',
+                          controller: _userNameController,
+                          prefixIcon: const Icon(Icons.person_outline)),
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.only(top: 5.0),
                         child: CommonWidgets.customTextFormField(
                           hintText: 'User Email',
-                          hintStyle: const TextStyle(color: Colors.black),
-                          prefixIcon: const Icon(Icons.person_add_alt_1),
+                          prefixIcon: const Icon(Icons.email_outlined),
                           controller: _userEmailController,
                           textInputType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Email Can\'t Be Empty';
-                            }
-                            return null;
-                          },
+                          // validator: (value) {
+                          //   if (value == null || value.isEmpty) {
+                          //     return 'Email Can\'t Be Empty';
+                          //   }
+                          //   return null;
+                          // },
                         )),
                     Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
+                        padding: const EdgeInsets.only(top: 5.0),
                         child: CommonWidgets.customTextFormField(
                           hintText: 'Password',
-                          hintStyle: const TextStyle(color: Colors.black),
                           obscureText: true,
                           controller: _userPWDController,
                           prefixIcon: const Icon(Icons.password),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Password Can\'t Be Empty';
-                            }
-                            return null;
-                          },
+                          // validator: (value) {
+                          //   if (value == null || value.isEmpty) {
+                          //     return 'Password Can\'t Be Empty';
+                          //   }
+                          //   return null;
+                          // },
                         )),
                     Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
+                        padding: const EdgeInsets.only(top: 5.0),
                         child: CommonWidgets.customTextFormField(
                             hintText: 'Confirm Password',
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Confirm Password Can\'t Be Empty';
-                              } else if (value != _userPWDController.text) {
-                                return 'Password doesn\'t match';
-                              }
-                              return null;
-                            },
+                            // validator: (value) {
+                            //   if (value == null || value.isEmpty) {
+                            //     return 'Confirm Password Can\'t Be Empty';
+                            //   } else if (value != _userPWDController.text) {
+                            //     return 'Password doesn\'t match';
+                            //   }
+                            //   return null;
+                            // },
                             obscureText: true,
                             prefixIcon: const Icon(Icons.password),
                             controller: _userPWDConfirmController)),
                     Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
+                      padding: const EdgeInsets.only(top: 15.0),
                       child: CommonWidgets.customBtn(
                         onPressed: () async {
-                          if (_userEmailController.text.isEmpty ||
+                          if (_userNameController.text.isEmpty) {
+                            Fluttertoast.showToast(msg: 'Empty Name');
+                          } else if (_userEmailController.text.isEmpty ||
                               !_userEmailController.text.contains('@') ||
                               !_userEmailController.text.contains('.')) {
                             Fluttertoast.showToast(
@@ -131,6 +164,7 @@ class SignUp extends StatelessWidget {
                               password: _userPWDController.text,
                               email: _userEmailController.text,
                             );
+                            SignUp.userName = _userNameController.text;
                             LoginProvider.customSnackBar(
                                 status: status, context: context);
                             if (status == 'Account Created Successfully') {
@@ -150,9 +184,9 @@ class SignUp extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Padding(
-                    padding: EdgeInsets.only(top: 18.0),
+                    padding: EdgeInsets.only(top: 18.0, left: 30, right: 30),
                     child: Divider(
-                      color: Colors.black,
+                      color: Colors.green,
                       thickness: 1.0,
                       indent: 5,
                       endIndent: 5,
