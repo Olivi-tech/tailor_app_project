@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class CommonWidgets {
-  // static late String hintText;
   static Widget customBtn({
     required String name,
     double? fontSize = 18.0,
@@ -16,7 +15,7 @@ class CommonWidgets {
     ]),
     Color? btnBackGroundColor = Colors.brown,
     Color? btnTextColor = Colors.green,
-    double? height,
+    double? height = 40.0,
     required VoidCallback? onPressed,
   }) {
     return SizedBox(

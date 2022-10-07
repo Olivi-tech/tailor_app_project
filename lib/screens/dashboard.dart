@@ -7,6 +7,7 @@ import 'package:tailor_app/account_creations/sign_up.dart';
 import 'package:tailor_app/screens/customer_detail_page.dart';
 import 'package:tailor_app/screens/customer_details/customer_personal_details.dart';
 import 'package:tailor_app/screens/model_add_customer.dart';
+import 'package:tailor_app/screens/phone_verification.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({Key? key}) : super(key: key);
@@ -476,9 +477,9 @@ class _DashBoardState extends State<DashBoard> {
     }
     AwesomeDialog(
       context: context,
-      animType: AnimType.SCALE,
+      animType: AnimType.scale,
       headerAnimationLoop: false,
-      dialogType: DialogType.SUCCES,
+      dialogType: DialogType.success,
       showCloseIcon: true,
       autoHide: const Duration(seconds: 2),
       title: 'Deleted',
@@ -541,7 +542,21 @@ class _DashBoardState extends State<DashBoard> {
   }
 
   Widget myCustomDrawer() {
-    String? accountName = user!.displayName ?? SignUp.userName;
+    String? providerID = user!.providerData.first.providerId;
+    late String name;
+    switch (providerID) {
+      case 'google.com':
+        name = user!.displayName!;
+        break;
+      case 'facebook.com':
+        name = user!.displayName!;
+        break;
+      case 'password':
+        name = SignUp.userName;
+        break;
+      case 'phone':
+        name = PhoneNumberAuth.nameController.toString();
+    }
     String? accountMail = user!.email ?? user!.phoneNumber;
     return Drawer(
         semanticLabel: 'Details',
@@ -551,7 +566,7 @@ class _DashBoardState extends State<DashBoard> {
           children: [
             UserAccountsDrawerHeader(
                 currentAccountPictureSize: const Size(90, 90),
-                accountName: Text(accountName.toString()),
+                accountName: Text(name),
                 accountEmail: Text(accountMail.toString()),
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(colors: [

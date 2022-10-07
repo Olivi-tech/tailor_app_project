@@ -173,7 +173,7 @@ class _LoginState extends State<Login> {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => SignUp()));
                       },
-                      name: 'Register With Email',
+                      name: 'Register Email',
                       height: height * 0.06,
                       width: width),
                 )
