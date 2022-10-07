@@ -87,98 +87,7 @@ class _DashBoardState extends State<DashBoard> {
     // double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.green.shade100,
-      drawer: Drawer(
-          semanticLabel: 'Details',
-          backgroundColor: Colors.deepPurpleAccent,
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              UserAccountsDrawerHeader(
-                  currentAccountPictureSize: const Size(90, 90),
-                  accountName: Text('${user!.displayName}'),
-                  accountEmail: Text('${user!.email}'),
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(colors: [
-                      Colors.deepOrangeAccent,
-                      Colors.yellow,
-                      //Colors.indigo
-                    ]),
-                    color: Colors.deepPurple,
-                  ),
-                  arrowColor: Colors.pink,
-                  currentAccountPicture: CircleAvatar(
-                    backgroundColor: Colors.amber,
-                    backgroundImage: NetworkImage('${user!.photoURL}'),
-                  )),
-              ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: AssetImage(imgUrl),
-                ),
-                title: const Text('Title'),
-                textColor: Colors.white,
-                trailing: const Text('Trailing'),
-                tileColor: Colors.lightGreen.shade300,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30)),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 5.0),
-                child: ListTile(
-                  textColor: Colors.white,
-                  leading: const CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/logo.png'),
-                  ),
-                  title: const Text('Title'),
-                  trailing: const Text('Trailing'),
-                  tileColor: Colors.lightGreen.shade300,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 5.0),
-                child: ListTile(
-                  leading: const CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/logo.png'),
-                  ),
-                  title: const Text('Title'),
-                  textColor: Colors.white,
-                  trailing: const Text('Trailing'),
-                  tileColor: Colors.lightGreen.shade300,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 5.0),
-                child: ListTile(
-                  textColor: Colors.white,
-                  leading: const CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/logo.png'),
-                  ),
-                  title: const Text('Logout'),
-                  trailing: const Text('Logout'),
-                  tileColor: Colors.lightGreen.shade300,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  onTap: () async {
-                    final status = await LoginProvider.logout(context: context);
-                    await LoginProvider.customSnackBar(
-                        status: status, context: context);
-                  },
-                ),
-              ),
-            ],
-          )),
+      drawer: myCustomDrawer(),
       appBar: AppBar(
         centerTitle: true,
         leadingWidth: DashBoard.selectedMode ? 100 : 56,
@@ -298,16 +207,15 @@ class _DashBoardState extends State<DashBoard> {
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     child: ListTile(
                       title: Text(
-                        data[ModelAddCustomer.keyFirstName] +
-                            ' ' +
-                            data[ModelAddCustomer.keyLastName],
+                        '${data[ModelAddCustomer.keyFirstName]} '
+                        '${data[ModelAddCustomer.keyLastName]}',
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                             fontFamily: 'RobotoMono'),
                       ),
                       subtitle: Text(
-                        data[ModelAddCustomer.keyPhoneNumber] ?? '',
+                        data[ModelAddCustomer.keyPhoneNumber],
                         style: const TextStyle(color: Colors.black),
                       ),
                       leading: DashBoard.selectedMode
@@ -319,9 +227,9 @@ class _DashBoardState extends State<DashBoard> {
                                     )
                                   : const Icon(Icons.check_box_outline_blank))
                           : null,
-                      trailing: CircleAvatar(
-                        child: Text('${DashBoard.selectedFlags[index]}'),
-                      ),
+                      // trailing: CircleAvatar(
+                      //   child: Text('${DashBoard.selectedFlags[index]}'),
+                      // ),
                       selected: DashBoard.selectedFlags[index]!,
                       selectedTileColor: Colors.grey.shade300,
                       selectedColor: Colors.black,
@@ -358,8 +266,6 @@ class _DashBoardState extends State<DashBoard> {
                             }
                           });
                         } else {
-                          print(
-                              '//////////////////////////////// CustomerDetailPage////////////////////////');
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -414,7 +320,7 @@ class _DashBoardState extends State<DashBoard> {
                     child: ListTile(
                       title: Text(
                         '${data[ModelAddCustomer.keyFirstName]} '
-                        ' ${data[ModelAddCustomer.keyLastName]}',
+                        '${data[ModelAddCustomer.keyLastName]}',
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -536,7 +442,6 @@ class _DashBoardState extends State<DashBoard> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print('btn called');
           showModalBottomSheet(
               context: context,
               backgroundColor: Colors.transparent,
@@ -632,5 +537,100 @@ class _DashBoardState extends State<DashBoard> {
         ),
       ),
     );
+  }
+
+  Widget myCustomDrawer() {
+    return Drawer(
+        semanticLabel: 'Details',
+        backgroundColor: Colors.deepPurpleAccent,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            UserAccountsDrawerHeader(
+                currentAccountPictureSize: const Size(90, 90),
+                accountName: Text('${user!.displayName}'),
+                accountEmail: Text('${user!.email}'),
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(colors: [
+                    Colors.deepOrangeAccent,
+                    Colors.yellow,
+                    //Colors.indigo
+                  ]),
+                  color: Colors.deepPurple,
+                ),
+                arrowColor: Colors.pink,
+                currentAccountPicture: CircleAvatar(
+                  backgroundColor: Colors.amber,
+                  backgroundImage: NetworkImage('${user!.photoURL}'),
+                )),
+            ListTile(
+              leading: CircleAvatar(
+                backgroundImage: AssetImage(imgUrl),
+              ),
+              title: const Text('Title'),
+              textColor: Colors.white,
+              trailing: const Text('Trailing'),
+              tileColor: Colors.lightGreen.shade300,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5.0),
+              child: ListTile(
+                textColor: Colors.white,
+                leading: const CircleAvatar(
+                  backgroundImage: AssetImage('assets/images/logo.png'),
+                ),
+                title: const Text('Title'),
+                trailing: const Text('Trailing'),
+                tileColor: Colors.lightGreen.shade300,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30)),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5.0),
+              child: ListTile(
+                leading: const CircleAvatar(
+                  backgroundImage: AssetImage('assets/images/logo.png'),
+                ),
+                title: const Text('Title'),
+                textColor: Colors.white,
+                trailing: const Text('Trailing'),
+                tileColor: Colors.lightGreen.shade300,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30)),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5.0),
+              child: ListTile(
+                textColor: Colors.white,
+                leading: const CircleAvatar(
+                  backgroundImage: AssetImage('assets/images/logo.png'),
+                ),
+                title: const Text('Logout'),
+                trailing: const Text('Logout'),
+                tileColor: Colors.lightGreen.shade300,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30)),
+                onTap: () async {
+                  final status = await LoginProvider.logout(context: context);
+                  await LoginProvider.customSnackBar(
+                      status: status, context: context);
+                },
+              ),
+            ),
+          ],
+        ));
   }
 }

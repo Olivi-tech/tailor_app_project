@@ -5,7 +5,6 @@ import '../account_creations/login.dart';
 
 class DataCheck extends StatelessWidget {
   const DataCheck({Key? key}) : super(key: key);
-  static final User? user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {

@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:tailor_app/screens/dashboard.dart';
 import 'package:tailor_app/screens/model_add_customer.dart';
 import 'package:tailor_app/utils/widgets.dart';
 
@@ -161,19 +162,19 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                   Fluttertoast.showToast(
                       msg: _addressController.text.isEmpty
                           ? 'Address is empty'
-                          : 'Neck\'s measurement is empty');
+                          : 'Neck measurement is empty');
                 } else if (_shoulderController.text.isEmpty ||
                     _chestController.text.isEmpty) {
                   Fluttertoast.showToast(
                       msg: _shoulderController.text.isEmpty
-                          ? 'Shoulder\'s measurement is empty'
-                          : 'Chest\'s measurement is empty');
+                          ? 'Shoulder measurement is empty'
+                          : 'Chest measurement is empty');
                 } else if (_waistController.text.isEmpty ||
                     _armLengthController.text.isEmpty) {
                   Fluttertoast.showToast(
                       msg: _waistController.text.isEmpty
-                          ? 'Waist\'s measurement is empty'
-                          : 'Arm Length\'s measurement is empty');
+                          ? 'Waist measurement is empty'
+                          : 'Arm Length measurement is empty');
                 } else if (_bicepsController.text.isEmpty ||
                     _wristController.text.isEmpty) {
                   Fluttertoast.showToast(
@@ -208,7 +209,12 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                       title: 'Success',
                       desc: 'Updated ${_firstNameController.text}',
                       btnOkOnPress: () {
-                        Navigator.pop(context);
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const DashBoard(),
+                            ),
+                            (route) => false);
                       },
                       btnOkIcon: Icons.check_circle,
                       onDismissCallback: (type) {
@@ -226,7 +232,12 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                         title: 'Error',
                         desc: 'Error while adding. Check internet & try again',
                         btnOkOnPress: () {
-                          Navigator.pop(context);
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const DashBoard(),
+                              ),
+                              (route) => false);
                         },
                         btnOkIcon: Icons.check_circle,
                         onDismissCallback: (type) {
@@ -259,83 +270,75 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
           //  reverse: true,
           child: Column(
             children: [
-              Form(
-                key: _formKeyCustomer,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Customer Info :',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    CommonWidgets.customTextFormField(
-                      hintText: 'First Name',
-
-                      controller: _firstNameController,
-                      //  maxLength: 18,
-                      textInputType: TextInputType.text,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(
-                            RegExp('[a-zA-Z 0-9]'))
-                      ],
-                      prefixIcon: const Icon(Icons.person_add_alt_outlined),
-                      // validator: (value) {
-                      //   return CommonWidgets.customValidator('$value');
-                      // }
-                    ),
-                    const SizedBox(height: 10.0),
-                    CommonWidgets.customTextFormField(
-                      hintText: 'Last Name',
-                      controller: _lastNameController,
-                      //initialValue: widget.map![ModelAddCustomer.keyFirstName],
-                      //  maxLength: 18,
-                      textInputType: TextInputType.text,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(
-                            RegExp('[a-zA-Z 0-9]'))
-                      ],
-                      prefixIcon: const Icon(Icons.person_add_alt_outlined),
-                      // validator: (value) {
-                      //   return CommonWidgets.customValidator('$value');
-                      // }
-                    ),
-                    const SizedBox(height: 10.0),
-                    CommonWidgets.customTextFormField(
-                      controller: _phoneController,
-                      textInputType: TextInputType.phone,
-                      hintText: 'Phone Number',
-                      //   maxLength: 13,
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      prefixIcon: const Icon(Icons.phone_enabled_outlined),
-                      // validator: (value) {
-                      //   return CommonWidgets.customValidator('$value');
-                      // }
-                    ),
-                    const SizedBox(height: 10.0),
-                    CommonWidgets.customTextFormField(
-                      textInputType: TextInputType.streetAddress,
-                      hintText: 'Address',
-                      //    maxLength: 30,
-                      controller: _addressController,
-                      prefixIcon:
-                          const Icon(Icons.maps_home_work_outlined, size: 20),
-                      // validator: (value) {
-                      //   return CommonWidgets.customValidator('$value');
-                      // }
-                    ),
-                    const SizedBox(height: 5.0),
-                    const Text(
-                      'Dress Measurements:',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                    const SizedBox(height: 10.0),
-                  ],
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Customer Info :',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  CommonWidgets.customTextFormField(
+                    hintText: 'First Name',
+                    controller: _firstNameController,
+                    //  maxLength: 18,
+                    textInputType: TextInputType.text,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp('[a-zA-Z 0-9]'))
+                    ],
+                    prefixIcon: const Icon(Icons.person_add_alt_outlined),
+                    // validator: (value) {
+                    //   return CommonWidgets.customValidator('$value');
+                    // }
+                  ),
+                  const SizedBox(height: 10.0),
+                  CommonWidgets.customTextFormField(
+                    hintText: 'Last Name',
+                    controller: _lastNameController,
+                    //initialValue: widget.map![ModelAddCustomer.keyFirstName],
+                    //  maxLength: 18,
+                    textInputType: TextInputType.text,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp('[a-zA-Z 0-9]'))
+                    ],
+                    prefixIcon: const Icon(Icons.person_add_alt_outlined),
+                    // validator: (value) {
+                    //   return CommonWidgets.customValidator('$value');
+                    // }
+                  ),
+                  const SizedBox(height: 10.0),
+                  CommonWidgets.customTextFormField(
+                    controller: _phoneController,
+                    textInputType: TextInputType.phone,
+                    hintText: 'Phone Number',
+                    //   maxLength: 13,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    prefixIcon: const Icon(Icons.phone_enabled_outlined),
+                    // validator: (value) {
+                    //   return CommonWidgets.customValidator('$value');
+                    // }
+                  ),
+                  const SizedBox(height: 10.0),
+                  CommonWidgets.customTextFormField(
+                    textInputType: TextInputType.streetAddress,
+                    hintText: 'Address',
+                    //    maxLength: 30,
+                    controller: _addressController,
+                    prefixIcon:
+                        const Icon(Icons.maps_home_work_outlined, size: 20),
+                    // validator: (value) {
+                    //   return CommonWidgets.customValidator('$value');
+                    // }
+                  ),
+                  const SizedBox(height: 5.0),
+                  const Text(
+                    'Dress Measurements:',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  const SizedBox(height: 10.0),
+                ],
               ),
               Form(
                   key: _formKeyMeasurement,

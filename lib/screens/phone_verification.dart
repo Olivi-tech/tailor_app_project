@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:sms_autofill/sms_autofill.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:tailor_app/utils/widgets.dart';
 
 class PhoneNumberAuth extends StatefulWidget {
   const PhoneNumberAuth({Key? key}) : super(key: key);
@@ -36,6 +39,8 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
@@ -46,70 +51,94 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
           child: Padding(
               padding: const EdgeInsets.all(16),
               child: SingleChildScrollView(
-                reverse: true,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Form(
                       key: _formKey,
-                      child: TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter Phone Number';
-                          }
-                          return null;
-                        },
+                      child: IntlPhoneField(
+                        dropdownTextStyle: const TextStyle(fontSize: 16),
                         controller: _phoneController,
+                        decoration: InputDecoration(
+                            hintText: 'Phone Number',
+                            hintStyle: const TextStyle(fontSize: 16),
+                            contentPadding: const EdgeInsets.only(top: 13),
+                            constraints: const BoxConstraints(maxHeight: 70),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            )),
+                        keyboardType: TextInputType.phone,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
                         autofocus: true,
-                        decoration: const InputDecoration(
-                            //   border: OutlineInputBorder(),
-                            fillColor: Colors.deepOrange,
-                            labelText: 'Phone number (+xx xxx-xxx-xxxx)'),
                       ),
+                      // child: TextFormField(
+                      //   validator: (value) {
+                      //     if (value == null || value.isEmpty) {
+                      //       return 'Please enter Phone Number';
+                      //     }
+                      //     return null;
+                      //   },
+                      //   controller: _phoneController,
+                      //   // autofocus: true,
+                      //   decoration: InputDecoration(
+                      //       border: OutlineInputBorder(
+                      //         borderRadius: BorderRadius.circular(15),
+                      //       ),
+                      //       fillColor: Colors.deepOrange,
+                      //       labelText: 'Phone number (+xx xxx-xxx-xxxx)'),
+                      // ),
                     ),
-                    Container(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        alignment: Alignment.center,
-                        child: ElevatedButton(
-                          child: const Text("Get current number"),
-                          onPressed: () async => {
-                            _phoneController.text = (await _smsAutoFill.hint)!
-                          },
-                        )),
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      alignment: Alignment.center,
-                      child: ElevatedButton(
-                        child: const Text("Verify Number"),
+                    SizedBox(
+                      height: height * 0.03,
+                    ),
+                    CommonWidgets.customBtn(
+                        name: ('Get Current Number'),
+                        width: width,
+                        height: 40,
+                        onPressed: () async {
+                          _phoneController.text = (await _smsAutoFill.hint)!;
+                        }),
+                    SizedBox(
+                      height: height * 0.01,
+                    ),
+                    CommonWidgets.customBtn(
+                        name: 'Verify Number',
+                        width: width,
+                        height: 40,
                         onPressed: () async {
                           verifyPhoneNumber();
-                        },
-                      ),
+                        }),
+                    SizedBox(
+                      height: height * 0.05,
                     ),
                     TextFormField(
                         controller: _smsController,
-                        decoration: const InputDecoration(
-                          labelText: 'Verification code',
-                          //   border: OutlineInputBorder()
-                        ),
+                        decoration: InputDecoration(
+                            hintText: 'Verification code',
+                            constraints: const BoxConstraints(maxHeight: 50),
+                            contentPadding: const EdgeInsets.only(
+                                left: 20, bottom: 0, top: 15),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15))),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter Phone Number';
                           }
                           return null;
                         }),
-                    Container(
-                      padding: const EdgeInsets.only(top: 16.0),
-                      alignment: Alignment.center,
-                      child: ElevatedButton(
-                          onPressed: () async {
-                            await signInWithPhoneNumber();
-                            Navigator.pop(context);
-
-                            // Navigator.pushNamed(context, '/signed_in_page');
-                          },
-                          child: const Text("Sign in")),
+                    SizedBox(
+                      height: height * 0.03,
                     ),
+                    CommonWidgets.customBtn(
+                        name: 'Sign In',
+                        width: width,
+                        height: 40,
+                        onPressed: () async {
+                          await signInWithPhoneNumber();
+                          Navigator.pop(context);
+                        })
                   ],
                 ),
               )),

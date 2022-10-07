@@ -108,40 +108,40 @@ class SignUp extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: CommonWidgets.customBtn(
-                          onPressed: () async {
-                            if (_userEmailController.text.isEmpty ||
-                                !_userEmailController.text.contains('@') ||
-                                !_userEmailController.text.contains('.')) {
-                              Fluttertoast.showToast(
-                                  msg: _userEmailController.text.isEmpty
-                                      ? 'Email Can\'t Be Empty'
-                                      : 'Invalid Email');
-                            } else if (_userPWDController.text.isEmpty) {
-                              Fluttertoast.showToast(
-                                  msg: 'Password can\'t be empty');
-                            } else if (_userPWDConfirmController.text.isEmpty ||
-                                _userPWDController.text !=
-                                    _userPWDConfirmController.text) {
-                              Fluttertoast.showToast(
-                                  msg: _userPWDConfirmController.text.isEmpty
-                                      ? 'Confirm Password Can\'t Be Empty'
-                                      : 'Password doesn\'t match');
-                            } else {
-                              final status =
-                                  await LoginProvider.signUpWithEmail(
-                                password: _userPWDController.text,
-                                email: _userEmailController.text,
-                              );
-                              LoginProvider.customSnackBar(
-                                  status: status, context: context);
-                              if (status == 'Account Created Successfully') {
-                                Navigator.pop(context);
-                              }
+                        onPressed: () async {
+                          if (_userEmailController.text.isEmpty ||
+                              !_userEmailController.text.contains('@') ||
+                              !_userEmailController.text.contains('.')) {
+                            Fluttertoast.showToast(
+                                msg: _userEmailController.text.isEmpty
+                                    ? 'Email Can\'t Be Empty'
+                                    : 'Invalid Email');
+                          } else if (_userPWDController.text.isEmpty) {
+                            Fluttertoast.showToast(
+                                msg: 'Password can\'t be empty');
+                          } else if (_userPWDConfirmController.text.isEmpty ||
+                              _userPWDController.text !=
+                                  _userPWDConfirmController.text) {
+                            Fluttertoast.showToast(
+                                msg: _userPWDConfirmController.text.isEmpty
+                                    ? 'Confirm Password Can\'t Be Empty'
+                                    : 'Password doesn\'t match');
+                          } else {
+                            final status = await LoginProvider.signUpWithEmail(
+                              password: _userPWDController.text,
+                              email: _userEmailController.text,
+                            );
+                            LoginProvider.customSnackBar(
+                                status: status, context: context);
+                            if (status == 'Account Created Successfully') {
+                              Navigator.pop(context);
                             }
-                          },
-                          name: 'Sign Up',
-                          height: height * 0.06,
-                          width: width),
+                          }
+                        },
+                        name: 'Sign Up',
+                        height: height * 0.06,
+                        width: width,
+                      ),
                     ),
                   ],
                 ),
@@ -161,8 +161,8 @@ class SignUp extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 20.0),
                     child: SizedBox(
-                      width: 350,
-                      height: 45,
+                      height: height * 0.06,
+                      width: width,
                       child: CommonWidgets.customBtn(
                           name: 'Go to SignIn Page',
                           onPressed: () {

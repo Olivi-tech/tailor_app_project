@@ -9,11 +9,11 @@ class CommonWidgets {
     double? fontSize = 18.0,
     double? width,
     FontWeight fontWeight = FontWeight.bold,
-    // Gradient? btnBackGroundGradientColor = const LinearGradient(colors: [
-    //   Colors.deepOrangeAccent,
-    //   Colors.yellow,
-    //   //Colors.indigo
-    // ]),
+    Gradient? btnBackGroundGradientColor = const LinearGradient(colors: [
+      Colors.deepOrangeAccent,
+      Colors.yellow,
+      //Colors.indigo
+    ]),
     Color? btnBackGroundColor = Colors.brown,
     Color? btnTextColor = Colors.green,
     double? height,
@@ -28,7 +28,7 @@ class CommonWidgets {
             elevation: MaterialStateProperty.all(5.0),
             backgroundColor: MaterialStateProperty.all(btnBackGroundColor),
             shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50.0))),
+                borderRadius: BorderRadius.circular(20.0))),
             foregroundColor: MaterialStateProperty.all(btnTextColor)),
         child: Text(name,
             style: TextStyle(fontSize: fontSize, fontWeight: fontWeight)),
@@ -45,7 +45,7 @@ class CommonWidgets {
     String? initialValue,
     Widget? suffixWidget,
     TextEditingController? controller,
-    Icon? suffixIcon,
+    IconButton? suffixIcon,
     BoxConstraints? boxConstraints =
         const BoxConstraints(maxHeight: 50, minHeight: 50),
     int? maxLength,

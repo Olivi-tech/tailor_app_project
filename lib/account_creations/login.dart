@@ -17,6 +17,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   late final TextEditingController _emailController;
   late final TextEditingController _pwdController;
+  bool isObscured = true;
 
   @override
   void initState() {
@@ -76,7 +77,7 @@ class _LoginState extends State<Login> {
                     padding: const EdgeInsets.only(top: 10.0),
                     child: CommonWidgets.customTextFormField(
                         hintText: 'Password',
-                        obscureText: true,
+                        obscureText: isObscured,
                         //    maxLength: 18,
                         // validator: (value) {
                         //   if (value == null || value.isEmpty) {
@@ -86,11 +87,20 @@ class _LoginState extends State<Login> {
                         // },
                         controller: _pwdController,
                         prefixIcon: const Icon(Icons.password),
-                        suffixIcon: const Icon(Icons.remove_red_eye_outlined),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              isObscured = !isObscured;
+                            });
+                          },
+                          icon: Icon(isObscured
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined),
+                        ),
                         textInputType: TextInputType.visiblePassword)),
-                const Padding(
-                  padding: EdgeInsets.only(left: 190, top: 5),
-                  child: Text('Forgot Password',
+                Padding(
+                  padding: EdgeInsets.only(left: width * 0.55, top: 5),
+                  child: const Text('Forgot Password',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           decoration: TextDecoration.underline,
@@ -116,10 +126,6 @@ class _LoginState extends State<Login> {
                               ? 'Invalid or Empty Email'
                               : 'Password can\'t be Empty',
                           backgroundColor: Colors.black,
-                          // fontSize: 16,
-                          // textColor: Colors.white,
-                          // toastLength: Toast.LENGTH_SHORT,
-                          // gravity: ToastGravity.CENTER_RIGHT,
                         );
                       } else {
                         final status =
@@ -178,14 +184,15 @@ class _LoginState extends State<Login> {
           Padding(
             padding: const EdgeInsets.only(top: 18.0),
             child: Text(
-              'Continue With Social Accounts',
+              'Continue With...',
               style: SignUp.textStyle,
               textScaleFactor: 1.5,
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 18.0, left: 50),
+            padding: const EdgeInsets.only(top: 18.0),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CircleAvatar(
                     backgroundColor: Colors.green,
