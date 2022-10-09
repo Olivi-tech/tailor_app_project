@@ -1,12 +1,15 @@
 class ModelAddTailor {
-  String name;
-  ModelAddTailor({required this.name});
+  String? name;
+  String? email;
+  ModelAddTailor({required this.name, required this.email});
 
-  String keyName = 'name';
+  static String keyName = 'name';
+  static String keyEmail = 'email';
 
   Map<String, dynamic> toMap() {
     return {
       keyName: name,
+      keyEmail: email,
     };
   }
 }

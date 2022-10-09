@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tailor_app/account_creations/login_provider.dart';
+import 'package:tailor_app/screens/model_classes/model_add_customer.dart';
 import 'package:tailor_app/screens/model_classes/model_add_tailor.dart';
 import 'package:tailor_app/utils/widgets.dart';
 
@@ -154,15 +155,29 @@ class _SignUpState extends State<SignUp> {
                               password: _userPWDController.text,
                               email: _userEmailController.text,
                             );
-                            DatabaseReference ref = FirebaseDatabase.instance
-                                .ref(_userEmailController.text);
-                            Stream<DatabaseEvent> stream = ref.onValue;
-                            modelAddTailor =
-                                ModelAddTailor(name: _userNameController.text);
+                            // SignUp.userName = _userNameController.text;
+
+                            // DatabaseReference ref = FirebaseDatabase.instance
+                            //     .ref(_userEmailController.text.toString());
+                            // await ref.set({
+                            //   "name": SignUp.userName,
+                            // });
+
+                            // modelAddTailor = ModelAddTailor(
+                            //     name: _userNameController.text,
+                            //     email: _userEmailController.text);
+                            // FirebaseFirestore.instance
+                            //     .collection(_userEmailController.text)
+                            //     .doc(ModelAddTailor.keyName)
+                            //     .set(modelAddTailor.toMap());
+                            ModelAddCustomer modelAddCustomer =
+                                ModelAddCustomer(
+                                    tailorName: _userNameController.text,
+                                    tailorEmail: _userEmailController.text);
                             FirebaseFirestore.instance
-                                .collection(_userEmailController.text)
-                                .doc(modelAddTailor.keyName)
-                                .set(modelAddTailor.toMap());
+                                .collection(modelAddCustomer.tailorEmail!)
+                                .doc(modelAddCustomer.tailorName)
+                                .set(modelAddCustomer.toMap());
                             LoginProvider.customSnackBar(
                                 status: status, context: context);
                             if (status == 'Account Created Successfully') {

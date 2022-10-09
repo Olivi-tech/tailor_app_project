@@ -1,4 +1,9 @@
 class ModelAddCustomer {
+  ///for tailor
+  String? tailorName;
+  String? tailorEmail;
+
+  ///for tailor's customers
   String? firstName;
   String? lastName;
   String? phoneNumber;
@@ -18,6 +23,8 @@ class ModelAddCustomer {
   // String toString() {
   //   return 'ModelAddCustomer{fullName: $fullName, phoneNumber: $phoneNumber, address: $address, collar: $collar, waist: $waist, armLength: $armLength, biceps: $biceps, wrist: $wrist, length: $length, thigh: $thigh, chest: $chest, inseam: $inseam, shoulder: $shoulder, calf: $calf}';
   // }
+  static String keyTailorName = 'tailorName';
+  static String keytailorEmail = 'tailorEmail';
 
   static String keyFirstName = 'firstName';
   static String keyLastName = 'lastName';
@@ -36,6 +43,8 @@ class ModelAddCustomer {
   static String keyCalf = 'calf';
 
   ModelAddCustomer({
+    this.tailorName,
+    this.tailorEmail,
     this.firstName,
     this.lastName,
     this.phoneNumber,
@@ -60,6 +69,8 @@ class ModelAddCustomer {
 
   Map<String, dynamic> toMap() {
     return {
+      keyTailorName: tailorName,
+      keytailorEmail: tailorEmail,
       keyFirstName: firstName,
       keyLastName: lastName,
       keyPhoneNumber: phoneNumber,

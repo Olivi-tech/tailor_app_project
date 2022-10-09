@@ -7,6 +7,7 @@ import 'package:tailor_app/account_creations/login_provider.dart';
 import 'package:tailor_app/screens/customer_detail_page.dart';
 import 'package:tailor_app/screens/customer_details/customer_personal_details.dart';
 import 'package:tailor_app/screens/model_classes/model_add_customer.dart';
+import 'package:tailor_app/screens/model_classes/model_add_tailor.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({Key? key}) : super(key: key);
@@ -67,6 +68,7 @@ class _DashBoardState extends State<DashBoard> {
   void dispose() {
     super.dispose();
     _firstNameController.dispose();
+    _lastNameController.dispose();
     _phoneController.dispose();
     _addressController.dispose();
     _searchController.dispose();
@@ -541,14 +543,19 @@ class _DashBoardState extends State<DashBoard> {
   }
 
   Widget myCustomDrawer() {
+    var retrievedData =
+        FirebaseFirestore.instance.collection(user!.email!).snapshots();
+    retrievedData.first;
+    print(
+        '/////////////////////retrievedData  = $retrievedData//////////////////////');
+
     String? photoUrl = user!.photoURL ??
         'https://images.unsplash.com/photo-1584184924103-e310d9dc82fc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80';
-    //  FirebaseDatabase ref = FirebaseDatabase.instance.ref(user!.email) as FirebaseDatabase;
+    String customerName = '';
 
-    // var retrievedName =
-    //     FirebaseFirestore.instance.collection(user!.email).get();
-    print('/////////////////////');
     String? providerID = user!.providerData.first.providerId;
+    print(
+        '//////////////////////////customerName = $customerName///////////////////');
     late String name;
     switch (providerID) {
       case 'google.com':
@@ -558,10 +565,10 @@ class _DashBoardState extends State<DashBoard> {
         name = user!.displayName!;
         break;
       case 'password':
-        name = 'did not put';
+        name = customerName;
         break;
       case 'phone':
-        name = 'did not put';
+        name = customerName;
     }
     String? accountMail = user!.email ?? user!.phoneNumber;
     return Drawer(
