@@ -1,13 +1,12 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:tailor_app/account_creations/login_provider.dart';
-import 'package:tailor_app/account_creations/sign_up.dart';
 import 'package:tailor_app/screens/customer_detail_page.dart';
 import 'package:tailor_app/screens/customer_details/customer_personal_details.dart';
-import 'package:tailor_app/screens/model_add_customer.dart';
-import 'package:tailor_app/screens/phone_verification.dart';
+import 'package:tailor_app/screens/model_classes/model_add_customer.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({Key? key}) : super(key: key);
@@ -542,6 +541,13 @@ class _DashBoardState extends State<DashBoard> {
   }
 
   Widget myCustomDrawer() {
+    String? photoUrl = user!.photoURL ??
+        'https://images.unsplash.com/photo-1584184924103-e310d9dc82fc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80';
+    //  FirebaseDatabase ref = FirebaseDatabase.instance.ref(user!.email) as FirebaseDatabase;
+
+    // var retrievedName =
+    //     FirebaseFirestore.instance.collection(user!.email).get();
+    print('/////////////////////');
     String? providerID = user!.providerData.first.providerId;
     late String name;
     switch (providerID) {
@@ -552,10 +558,10 @@ class _DashBoardState extends State<DashBoard> {
         name = user!.displayName!;
         break;
       case 'password':
-        name = SignUp.userName;
+        name = 'did not put';
         break;
       case 'phone':
-        name = PhoneNumberAuth.nameController.toString();
+        name = 'did not put';
     }
     String? accountMail = user!.email ?? user!.phoneNumber;
     return Drawer(
@@ -579,7 +585,7 @@ class _DashBoardState extends State<DashBoard> {
                 arrowColor: Colors.pink,
                 currentAccountPicture: CircleAvatar(
                   backgroundColor: Colors.amber,
-                  backgroundImage: NetworkImage('${user!.photoURL}'),
+                  backgroundImage: NetworkImage(photoUrl),
                 )),
             ListTile(
               leading: CircleAvatar(

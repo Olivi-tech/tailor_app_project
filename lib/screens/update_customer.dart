@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tailor_app/screens/dashboard.dart';
-import 'package:tailor_app/screens/model_add_customer.dart';
+import 'package:tailor_app/screens/model_classes/model_add_customer.dart';
 import 'package:tailor_app/utils/widgets.dart';
 
 class UpdateCustomer extends StatefulWidget {

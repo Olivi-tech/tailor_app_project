@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tailor_app/screens/update_customer.dart';
 
-import 'model_add_customer.dart';
+import 'model_classes/model_add_customer.dart';
 
 class CustomerDetailPage extends StatelessWidget {
   Map<String, dynamic>? map = {};

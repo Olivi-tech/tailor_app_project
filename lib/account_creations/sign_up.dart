@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tailor_app/account_creations/login_provider.dart';
+import 'package:tailor_app/screens/model_classes/model_add_tailor.dart';
 import 'package:tailor_app/utils/widgets.dart';
 
 class SignUp extends StatefulWidget {
@@ -22,6 +25,7 @@ class _SignUpState extends State<SignUp> {
   late final TextEditingController _userPWDController;
   late final TextEditingController _userPWDConfirmController;
   final _formKey = GlobalKey<FormState>();
+  late ModelAddTailor modelAddTailor;
 
   @override
   void initState() {
@@ -114,25 +118,11 @@ class _SignUpState extends State<SignUp> {
                           obscureText: true,
                           controller: _userPWDController,
                           prefixIcon: const Icon(Icons.password),
-                          // validator: (value) {
-                          //   if (value == null || value.isEmpty) {
-                          //     return 'Password Can\'t Be Empty';
-                          //   }
-                          //   return null;
-                          // },
                         )),
                     Padding(
                         padding: const EdgeInsets.only(top: 5.0),
                         child: CommonWidgets.customTextFormField(
                             hintText: 'Confirm Password',
-                            // validator: (value) {
-                            //   if (value == null || value.isEmpty) {
-                            //     return 'Confirm Password Can\'t Be Empty';
-                            //   } else if (value != _userPWDController.text) {
-                            //     return 'Password doesn\'t match';
-                            //   }
-                            //   return null;
-                            // },
                             obscureText: true,
                             prefixIcon: const Icon(Icons.password),
                             controller: _userPWDConfirmController)),
@@ -164,7 +154,15 @@ class _SignUpState extends State<SignUp> {
                               password: _userPWDController.text,
                               email: _userEmailController.text,
                             );
-                            SignUp.userName = _userNameController.text;
+                            DatabaseReference ref = FirebaseDatabase.instance
+                                .ref(_userEmailController.text);
+                            Stream<DatabaseEvent> stream = ref.onValue;
+                            modelAddTailor =
+                                ModelAddTailor(name: _userNameController.text);
+                            FirebaseFirestore.instance
+                                .collection(_userEmailController.text)
+                                .doc(modelAddTailor.keyName)
+                                .set(modelAddTailor.toMap());
                             LoginProvider.customSnackBar(
                                 status: status, context: context);
                             if (status == 'Account Created Successfully') {
