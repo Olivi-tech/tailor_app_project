@@ -43,8 +43,6 @@ class ModelAddCustomer {
   static String keyCalf = 'calf';
 
   ModelAddCustomer({
-    this.tailorName,
-    this.tailorEmail,
     this.firstName,
     this.lastName,
     this.phoneNumber,
@@ -60,6 +58,11 @@ class ModelAddCustomer {
     this.thigh,
     this.inseam,
     this.calf,
+  });
+
+  ModelAddCustomer.tailorDetails({
+    this.tailorName,
+    this.tailorEmail,
   });
 
   @override
@@ -86,6 +89,13 @@ class ModelAddCustomer {
       keyThigh: thigh,
       keyInseam: inseam,
       keyCalf: calf
+    };
+  }
+
+  Map<String, dynamic> tailorToMap() {
+    return {
+      keyTailorName: tailorName,
+      keytailorEmail: tailorEmail,
     };
   }
 }

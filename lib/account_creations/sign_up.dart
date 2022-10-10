@@ -170,14 +170,18 @@ class _SignUpState extends State<SignUp> {
                             //     .collection(_userEmailController.text)
                             //     .doc(ModelAddTailor.keyName)
                             //     .set(modelAddTailor.toMap());
+
                             ModelAddCustomer modelAddCustomer =
-                                ModelAddCustomer(
-                                    tailorName: _userNameController.text,
-                                    tailorEmail: _userEmailController.text);
+                                ModelAddCustomer.tailorDetails(
+                              tailorName: _userNameController.text,
+                              tailorEmail: _userEmailController.text,
+                            );
+                            print(
+                                '/////////////${_userNameController.text},////${_userEmailController.text}///');
                             FirebaseFirestore.instance
                                 .collection(modelAddCustomer.tailorEmail!)
                                 .doc(modelAddCustomer.tailorName)
-                                .set(modelAddCustomer.toMap());
+                                .set(modelAddCustomer.tailorToMap());
                             LoginProvider.customSnackBar(
                                 status: status, context: context);
                             if (status == 'Account Created Successfully') {
