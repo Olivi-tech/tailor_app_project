@@ -155,33 +155,27 @@ class _SignUpState extends State<SignUp> {
                               password: _userPWDController.text,
                               email: _userEmailController.text,
                             );
-                            // SignUp.userName = _userNameController.text;
-
-                            // DatabaseReference ref = FirebaseDatabase.instance
-                            //     .ref(_userEmailController.text.toString());
-                            // await ref.set({
-                            //   "name": SignUp.userName,
-                            // });
-
-                            // modelAddTailor = ModelAddTailor(
-                            //     name: _userNameController.text,
-                            //     email: _userEmailController.text);
+                            // ModelAddCustomer modelAddCustomer =
+                            //     ModelAddCustomer.tailorDetails(
+                            //   tailorName: _userNameController.text,
+                            //   tailorEmail: _userEmailController.text,
+                            // );
+                            // print(
+                            //     '/////////////${_userNameController.text},////${_userEmailController.text}///');
                             // FirebaseFirestore.instance
-                            //     .collection(_userEmailController.text)
-                            //     .doc(ModelAddTailor.keyName)
-                            //     .set(modelAddTailor.toMap());
-
-                            ModelAddCustomer modelAddCustomer =
-                                ModelAddCustomer.tailorDetails(
-                              tailorName: _userNameController.text,
-                              tailorEmail: _userEmailController.text,
-                            );
-                            print(
-                                '/////////////${_userNameController.text},////${_userEmailController.text}///');
-                            FirebaseFirestore.instance
-                                .collection(modelAddCustomer.tailorEmail!)
-                                .doc(modelAddCustomer.tailorName)
-                                .set(modelAddCustomer.tailorToMap());
+                            //     .collection(modelAddCustomer.tailorEmail!)
+                            //     .doc(modelAddCustomer.tailorName)
+                            //     .set(modelAddCustomer.tailorToMap());
+                            DatabaseReference reference =
+                                FirebaseDatabase.instance.ref('Name&Email');
+                            await reference.set({
+                              'name': _userNameController.text,
+                              'email': _userEmailController.text,
+                            }).then((value) {
+                              Fluttertoast.showToast(msg: 'Data added');
+                            }).onError((error, stackTrace) {
+                              Fluttertoast.showToast(msg: 'Could not add data');
+                            });
                             LoginProvider.customSnackBar(
                                 status: status, context: context);
                             if (status == 'Account Created Successfully') {
