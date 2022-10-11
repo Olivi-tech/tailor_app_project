@@ -2,11 +2,13 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:tailor_app/account_creations/login_provider.dart';
 import 'package:tailor_app/screens/customer_detail_page.dart';
 import 'package:tailor_app/screens/customer_details/customer_personal_details.dart';
 import 'package:tailor_app/screens/model_classes/model_add_customer.dart';
+import 'package:tailor_app/utils/drawer.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({Key? key}) : super(key: key);
@@ -34,6 +36,22 @@ class _DashBoardState extends State<DashBoard> {
   late final TextEditingController _lastNameController;
   late final TextEditingController _phoneController;
   late final TextEditingController _addressController;
+  final DatabaseReference reference = FirebaseDatabase.instance.ref('tailor');
+
+  void readData() async {
+    final snapshot = await reference.get();
+    // print(
+    //     '//read////////${snapshot.child('email').value.toString()}/////////////////');
+
+    // final ref = FirebaseDatabase.instance.ref();
+    // final snapshot = await ref.child('users/$userId').get();
+    if (snapshot.exists) {
+      var map = snapshot.children.toList();
+      print('${map[0]}');
+    } else {
+      print('No data available.');
+    }
+  }
 
   @override
   void initState() {
@@ -76,6 +94,7 @@ class _DashBoardState extends State<DashBoard> {
   @override
   Widget build(BuildContext context) {
     print('build is called');
+    readData();
     // print(
     //     '//////////////${DashBoard.dataList.length}/////////////////data List = ////${DashBoard.dataList}//////////////////');
     // print(
@@ -542,36 +561,46 @@ class _DashBoardState extends State<DashBoard> {
   }
 
   Widget myCustomDrawer() {
-    DatabaseReference reference = FirebaseDatabase.instance.ref('Name&Email');
-    reference.onValue.listen((DatabaseEvent event) {
-      final map = event.snapshot.value;
-
-      print('///////////////////////data = ${map['']}//////////////////');
-      //   print('///////////////////////data = ${data!['name']}//////////////////');
-    });
-
-    String? photoUrl = user!.photoURL ??
+    String tailorImg =
         'https://images.unsplash.com/photo-1584184924103-e310d9dc82fc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80';
-    String customerName = '';
 
-    String? providerID = user!.providerData.first.providerId;
-    print(
-        '//////////////////////////customerName = $customerName///////////////////');
-    late String name;
-    switch (providerID) {
-      case 'google.com':
-        name = user!.displayName!;
-        break;
-      case 'facebook.com':
-        name = user!.displayName!;
-        break;
-      case 'password':
-        name = customerName;
-        break;
-      case 'phone':
-        name = customerName;
-    }
-    String? accountMail = user!.email ?? user!.phoneNumber;
+    String? accountImg = user!.photoURL ?? tailorImg;
+    late String? tailorName;
+
+    final DatabaseReference reference = FirebaseDatabase.instance.ref('tailor');
+    FirebaseAnimatedList(
+        shrinkWrap: true,
+        query: reference,
+        itemBuilder: (BuildContext context, DataSnapshot snapshot,
+            Animation<double> animation, int index) {
+          // tailorName =
+          //     user!.displayName ?? snapshot.child('email').value.toString();
+
+          print(
+              '///////////////////////name = ${snapshot.child('name').value.toString}//////////////////');
+          return const SizedBox();
+        });
+
+    // String customerName = '';
+
+    // String? providerID = user!.providerData.first.providerId;
+    // print(
+    //     '//////////////////////////customerName = $customerName///////////////////');
+    // late Widget name;
+    // switch (providerID) {
+    //   case 'google.com':
+    //     name = Text(user!.displayName!);
+    //     break;
+    //   case 'facebook.com':
+    //     name = Text(user!.displayName!);
+    //     break;
+    //   case 'password':
+    //     name = drawerNameList();
+    //     break;
+    //   case 'phone':
+    //     name = drawerNameList();
+    // }
+    String? accountMailOrNbr = user!.email ?? user!.phoneNumber;
     return Drawer(
         semanticLabel: 'Details',
         backgroundColor: Colors.deepPurpleAccent,
@@ -580,20 +609,19 @@ class _DashBoardState extends State<DashBoard> {
           children: [
             UserAccountsDrawerHeader(
                 currentAccountPictureSize: const Size(90, 90),
-                accountName: Text(name),
-                accountEmail: Text(accountMail.toString()),
+                accountName: Text('tailorName!'),
+                accountEmail: Text(accountMailOrNbr!),
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(colors: [
                     Colors.deepOrangeAccent,
                     Colors.yellow,
-                    //Colors.indigo
                   ]),
                   color: Colors.deepPurple,
                 ),
                 arrowColor: Colors.pink,
                 currentAccountPicture: CircleAvatar(
                   backgroundColor: Colors.amber,
-                  backgroundImage: NetworkImage(photoUrl),
+                  backgroundImage: NetworkImage(accountImg),
                 )),
             ListTile(
               leading: CircleAvatar(
@@ -608,23 +636,6 @@ class _DashBoardState extends State<DashBoard> {
               onTap: () {
                 Navigator.pop(context);
               },
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 5.0),
-              child: ListTile(
-                textColor: Colors.white,
-                leading: const CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/logo.png'),
-                ),
-                title: const Text('Title'),
-                trailing: const Text('Trailing'),
-                tileColor: Colors.lightGreen.shade300,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30)),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 5.0),

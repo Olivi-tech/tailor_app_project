@@ -166,8 +166,10 @@ class _SignUpState extends State<SignUp> {
                             //     .collection(modelAddCustomer.tailorEmail!)
                             //     .doc(modelAddCustomer.tailorName)
                             //     .set(modelAddCustomer.tailorToMap());
-                            DatabaseReference reference =
-                                FirebaseDatabase.instance.ref('Name&Email');
+                            DatabaseReference reference = FirebaseDatabase
+                                .instance
+                                .ref('tailor')
+                                .child('name&email');
                             await reference.set({
                               'name': _userNameController.text,
                               'email': _userEmailController.text,
