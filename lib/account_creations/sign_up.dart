@@ -1,15 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tailor_app/account_creations/login_provider.dart';
 import 'package:tailor_app/screens/model_classes/model_add_customer.dart';
-import 'package:tailor_app/screens/model_classes/model_add_tailor.dart';
 import 'package:tailor_app/utils/widgets.dart';
 
 class SignUp extends StatefulWidget {
   SignUp({Key? key}) : super(key: key);
   static late final String userName;
+  static var modelAddCustomer = ModelAddCustomer.tailorDetails();
   static TextStyle textStyle = const TextStyle(
     fontWeight: FontWeight.bold,
     color: Colors.green,
@@ -26,11 +25,9 @@ class _SignUpState extends State<SignUp> {
   late final TextEditingController _userPWDController;
   late final TextEditingController _userPWDConfirmController;
   final _formKey = GlobalKey<FormState>();
-  late ModelAddTailor modelAddTailor;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _userNameController = TextEditingController();
     _userEmailController = TextEditingController();
@@ -40,7 +37,6 @@ class _SignUpState extends State<SignUp> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _userNameController.dispose();
     _userEmailController.dispose();
@@ -155,29 +151,30 @@ class _SignUpState extends State<SignUp> {
                               password: _userPWDController.text,
                               email: _userEmailController.text,
                             );
-                            // ModelAddCustomer modelAddCustomer =
-                            //     ModelAddCustomer.tailorDetails(
-                            //   tailorName: _userNameController.text,
-                            //   tailorEmail: _userEmailController.text,
-                            // );
-                            // print(
-                            //     '/////////////${_userNameController.text},////${_userEmailController.text}///');
-                            // FirebaseFirestore.instance
-                            //     .collection(modelAddCustomer.tailorEmail!)
-                            //     .doc(modelAddCustomer.tailorName)
-                            //     .set(modelAddCustomer.tailorToMap());
-                            DatabaseReference reference = FirebaseDatabase
-                                .instance
-                                .ref('tailor')
-                                .child('name&email');
-                            await reference.set({
-                              'name': _userNameController.text,
-                              'email': _userEmailController.text,
-                            }).then((value) {
-                              Fluttertoast.showToast(msg: 'Data added');
-                            }).onError((error, stackTrace) {
-                              Fluttertoast.showToast(msg: 'Could not add data');
-                            });
+                            SignUp.modelAddCustomer =
+                                ModelAddCustomer.tailorDetails(
+                              tailorName: _userNameController.text,
+                              tailorEmail: _userEmailController.text,
+                            );
+                            print(
+                                '/////////////${_userNameController.text},////${_userEmailController.text}///');
+                            FirebaseFirestore.instance
+                                .collection(
+                                    SignUp.modelAddCustomer.tailorEmail!)
+                                .doc(SignUp.modelAddCustomer.tailorName)
+                                .set(SignUp.modelAddCustomer.tailorToMap());
+                            // DatabaseReference reference = FirebaseDatabase
+                            //     .instance
+                            //     .ref('tailor')
+                            //     .child('name&email');
+                            // await reference.set({
+                            //   'name': _userNameController.text,
+                            //   'email': _userEmailController.text,
+                            // }).then((value) {
+                            //   Fluttertoast.showToast(msg: 'Data added');
+                            // }).onError((error, stackTrace) {
+                            //   Fluttertoast.showToast(msg: 'Could not add data');
+                            // });
                             LoginProvider.customSnackBar(
                                 status: status, context: context);
                             if (status == 'Account Created Successfully') {

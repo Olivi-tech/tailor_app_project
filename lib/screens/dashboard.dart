@@ -1,14 +1,11 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:tailor_app/account_creations/login_provider.dart';
 import 'package:tailor_app/screens/customer_detail_page.dart';
 import 'package:tailor_app/screens/customer_details/customer_personal_details.dart';
 import 'package:tailor_app/screens/model_classes/model_add_customer.dart';
-import 'package:tailor_app/utils/drawer.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({Key? key}) : super(key: key);
@@ -36,27 +33,28 @@ class _DashBoardState extends State<DashBoard> {
   late final TextEditingController _lastNameController;
   late final TextEditingController _phoneController;
   late final TextEditingController _addressController;
-  final DatabaseReference reference = FirebaseDatabase.instance.ref('tailor');
+  dynamic tailorName = '';
 
-  void readData() async {
-    final snapshot = await reference.get();
-    // print(
-    //     '//read////////${snapshot.child('email').value.toString()}/////////////////');
-
-    // final ref = FirebaseDatabase.instance.ref();
-    // final snapshot = await ref.child('users/$userId').get();
-    if (snapshot.exists) {
-      var map = snapshot.children.toList();
-      print('${map[0]}');
-    } else {
-      print('No data available.');
-    }
-  }
+  // Future<String> getTailorData() async {
+  //   var nn;
+  //   var collection =
+  //       FirebaseFirestore.instance.collection(ModelAddCustomer.keytailorEmail);
+  //   var docSnapshot =
+  //       await collection.doc(ModelAddCustomer.keyTailorName).get();
+  //   if (docSnapshot.exists) {
+  //     Map<String, dynamic>? data = docSnapshot.data();
+  //     nn = data![ModelAddCustomer.keyTailorName
+  //         .toString()]; // <-- The value you want to retrieve.
+  //     // Call setState if needed.
+  //     print('/////////////////////tailorname = $nn/////////////////');
+  //   }
+  //   return nn;
+  // }
 
   @override
   void initState() {
     super.initState();
-
+    // tailorName = getTailorData();
     user = FirebaseAuth.instance.currentUser;
     userStream = FirebaseFirestore.instance.collection(user!.uid).snapshots();
     getData();
@@ -94,7 +92,7 @@ class _DashBoardState extends State<DashBoard> {
   @override
   Widget build(BuildContext context) {
     print('build is called');
-    readData();
+
     // print(
     //     '//////////////${DashBoard.dataList.length}/////////////////data List = ////${DashBoard.dataList}//////////////////');
     // print(
@@ -126,15 +124,15 @@ class _DashBoardState extends State<DashBoard> {
                               customerList = [];
                               customerList = DashBoard.dataList;
                               print(
-                                  '/////////////${customerList.length}///////customerList = ${customerList}/////////////////');
+                                  '/////////////${customerList.length}///////customerList = $customerList/////////////////');
                               DashBoard.selectedFlags
                                   .updateAll((key, value) => true);
                             } else {
                               print(
-                                  '///////${customerList.length}////customer list before making empty///////// = ${customerList}/////////////////');
+                                  '///////${customerList.length}////customer list before making empty///////// = $customerList/////////////////');
                               customerList = [];
                               print(
-                                  '/////${customerList.length}//////customer list after making empty/////////dataList = ${customerList}/////${customerList.length}////////////');
+                                  '/////${customerList.length}//////customer list after making empty/////////dataList = $customerList/////${customerList.length}////////////');
 
                               DashBoard.selectedFlags
                                   .updateAll((key, value) => false);
@@ -564,23 +562,6 @@ class _DashBoardState extends State<DashBoard> {
     String tailorImg =
         'https://images.unsplash.com/photo-1584184924103-e310d9dc82fc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80';
 
-    String? accountImg = user!.photoURL ?? tailorImg;
-    late String? tailorName;
-
-    final DatabaseReference reference = FirebaseDatabase.instance.ref('tailor');
-    FirebaseAnimatedList(
-        shrinkWrap: true,
-        query: reference,
-        itemBuilder: (BuildContext context, DataSnapshot snapshot,
-            Animation<double> animation, int index) {
-          // tailorName =
-          //     user!.displayName ?? snapshot.child('email').value.toString();
-
-          print(
-              '///////////////////////name = ${snapshot.child('name').value.toString}//////////////////');
-          return const SizedBox();
-        });
-
     // String customerName = '';
 
     // String? providerID = user!.providerData.first.providerId;
@@ -600,6 +581,14 @@ class _DashBoardState extends State<DashBoard> {
     //   case 'phone':
     //     name = drawerNameList();
     // }
+
+    // var data = FirebaseFirestore.instance
+    //     .collection(ModelAddCustomer.keytailorEmail)
+    //     .doc(ModelAddCustomer.keyTailorName);
+    // print(
+    //     '////////user!.displayName/////${user!.displayName}/////////tailorName = $tailorName////////////////////////');
+
+    //  String? name = user!.displayName ?? tailorName;
     String? accountMailOrNbr = user!.email ?? user!.phoneNumber;
     return Drawer(
         semanticLabel: 'Details',
@@ -609,7 +598,24 @@ class _DashBoardState extends State<DashBoard> {
           children: [
             UserAccountsDrawerHeader(
                 currentAccountPictureSize: const Size(90, 90),
-                accountName: Text('tailorName!'),
+                accountName: user!.displayName!.isEmpty
+                    ? StreamBuilder(
+                        stream: FirebaseFirestore.instance
+                            .collection(accountMailOrNbr!)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            var data = snapshot.data!.docs;
+                            var foo = data[0]
+                                [ModelAddCustomer.keyTailorName.toString()];
+                            print('.....................foo..........$foo');
+                            return Text(foo);
+                          } else {
+                            print('.....................foo.........');
+                            return const SizedBox();
+                          }
+                        })
+                    : Text(user!.displayName!.toString()),
                 accountEmail: Text(accountMailOrNbr!),
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(colors: [
@@ -621,7 +627,7 @@ class _DashBoardState extends State<DashBoard> {
                 arrowColor: Colors.pink,
                 currentAccountPicture: CircleAvatar(
                   backgroundColor: Colors.amber,
-                  backgroundImage: NetworkImage(accountImg),
+                  backgroundImage: NetworkImage(user!.photoURL ?? tailorImg),
                 )),
             ListTile(
               leading: CircleAvatar(
