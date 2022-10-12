@@ -1,14 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-import 'package:sms_autofill/sms_autofill.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:tailor_app/screens/model_classes/model_add_customer.dart';
 import 'package:tailor_app/utils/widgets.dart';
 
 class PhoneNumberAuth extends StatefulWidget {
   const PhoneNumberAuth({Key? key}) : super(key: key);
   final String title = 'Continue With Phone';
   static late TextEditingController nameController;
+  static var modelAddCustomer = ModelAddCustomer.tailorDetails();
 
   @override
   PhoneNumberAuthState createState() => PhoneNumberAuthState();
@@ -16,16 +18,14 @@ class PhoneNumberAuth extends StatefulWidget {
 
 class PhoneNumberAuthState extends State<PhoneNumberAuth> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  static late TextEditingController _phoneController;
   static late TextEditingController _smsController;
   late String _verificationId;
-  final SmsAutoFill _smsAutoFill = SmsAutoFill();
   final _formKey = GlobalKey<FormState>();
+  late String tailorPhone;
 
   @override
   void initState() {
     PhoneNumberAuth.nameController = TextEditingController();
-    _phoneController = TextEditingController();
     _smsController = TextEditingController();
     super.initState();
   }
@@ -33,13 +33,11 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
   @override
   void dispose() {
     PhoneNumberAuth.nameController.dispose();
-    _phoneController.dispose();
     _smsController.dispose();
     super.dispose();
   }
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -67,7 +65,7 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
                               decoration: InputDecoration(
                                   hintText: 'Enter Name',
                                   contentPadding:
-                                      EdgeInsets.only(top: 15, bottom: 0),
+                                      const EdgeInsets.only(top: 15, bottom: 0),
                                   constraints:
                                       const BoxConstraints(maxHeight: 70),
                                   prefixIcon: const Icon(Icons.person_outline,
@@ -87,12 +85,13 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
                             ),
                             IntlPhoneField(
                               dropdownTextStyle: const TextStyle(fontSize: 16),
-                              controller: _phoneController,
                               initialValue: '+92',
-                              onChanged: (value) {
+                              onChanged: (phone) {
+                                //_phoneController.text = phone.completeNumber;
+                                tailorPhone = phone.completeNumber;
                                 print(
-                                    '////////////////////value = $value//////////////////////////////');
-                                // _phoneController.text = value;
+                                    '////////////////////value = ${phone.completeNumber}//////////////////////////////');
+                                phone.countryCode;
                               },
                               decoration: InputDecoration(
                                   hintText: 'Phone Number',
@@ -119,8 +118,10 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
                         width: width,
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
+                            // contryCode = '$contryCode${_phoneController.text}';
+
                             print(
-                                '//////////////////${_phoneController.text}/////////////////////////');
+                                '//////////////////$tailorPhone/////////////////////////');
                             verifyPhoneNumber();
                           }
                         }),
@@ -129,7 +130,7 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
                     ),
                     TextFormField(
                         controller: _smsController,
-                        maxLength: 4,
+                        maxLength: 6,
                         keyboardType: TextInputType.phone,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly
@@ -143,7 +144,7 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
                                 borderRadius: BorderRadius.circular(15))),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter Phone Number';
+                            return 'Enter Phone Number';
                           }
                           return null;
                         }),
@@ -155,8 +156,23 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
                         width: width,
                         onPressed: () async {
                           print(
-                              '////////////////////////${_phoneController.text}////////////////');
+                              '////////////////////////$tailorPhone////////////////');
                           await signInWithPhoneNumber();
+                          PhoneNumberAuth.modelAddCustomer =
+                              ModelAddCustomer.tailorDetails(
+                                  tailorEmail: tailorPhone,
+                                  tailorName:
+                                      PhoneNumberAuth.nameController.text);
+                          print(
+                              '//////////path= ${PhoneNumberAuth.modelAddCustomer.tailorEmail!}/');
+                          print(
+                              '/////////name= ${tailorPhone}/////////////////');
+                          FirebaseFirestore.instance
+                              .collection(
+                                  PhoneNumberAuth.modelAddCustomer.tailorEmail!)
+                              .doc(PhoneNumberAuth.modelAddCustomer.tailorName)
+                              .set(PhoneNumberAuth.modelAddCustomer
+                                  .tailorToMap());
                           Navigator.pop(context);
                         })
                   ],
@@ -170,7 +186,8 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
       // If the form is valid, display a snackbar. In the real world,
       // you'd often call a server or save the information in a database.
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Processing Data')),
+        const SnackBar(
+            content: Text('Sending Code'), backgroundColor: Colors.green),
       );
     }
     //Callback for when the user has already previously signed in with this phone number on this device
@@ -179,20 +196,22 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
       await _auth.signInWithCredential(phoneAuthCredential);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
-              "Phone number automatically verified and user signed in: ${_auth.currentUser!.uid}")));
+              "Phone number automatically verified and user signed in: ${_auth.currentUser!.phoneNumber}")));
     };
     //Listens for errors with verification, such as too many attempts
     PhoneVerificationFailed verificationFailed =
         (FirebaseAuthException authException) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
-              'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}')));
+              'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}'),
+          backgroundColor: Colors.red));
     };
     //Callback for when the code is sent
     PhoneCodeSent codeSent =
         (String verificationId, [int? forceResendingToken]) async {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Please check your phone for the verification code.')));
+          content: Text('Please check your phone for the verification code'),
+          backgroundColor: Colors.green));
       _verificationId = verificationId;
     };
     PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
@@ -203,8 +222,8 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
     };
     try {
       await _auth.verifyPhoneNumber(
-          phoneNumber: _phoneController.text,
-          timeout: const Duration(seconds: 30),
+          phoneNumber: tailorPhone,
+          timeout: const Duration(minutes: 2),
           verificationCompleted: verificationCompleted,
           verificationFailed: verificationFailed,
           codeSent: codeSent,
@@ -221,7 +240,6 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
         verificationId: _verificationId,
         smsCode: _smsController.text,
       );
-
       final User user = (await _auth.signInWithCredential(credential)).user!;
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Successfully signed')));
