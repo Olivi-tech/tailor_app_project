@@ -6,6 +6,7 @@ import 'package:tailor_app/account_creations/login_provider.dart';
 import 'package:tailor_app/screens/customer_detail_page.dart';
 import 'package:tailor_app/screens/customer_details/customer_personal_details.dart';
 import 'package:tailor_app/screens/model_classes/model_add_customer.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({Key? key}) : super(key: key);
@@ -33,23 +34,6 @@ class _DashBoardState extends State<DashBoard> {
   late final TextEditingController _lastNameController;
   late final TextEditingController _phoneController;
   late final TextEditingController _addressController;
-  dynamic tailorName = '';
-
-  // Future<String> getTailorData() async {
-  //   var nn;
-  //   var collection =
-  //       FirebaseFirestore.instance.collection(ModelAddCustomer.keytailorEmail);
-  //   var docSnapshot =
-  //       await collection.doc(ModelAddCustomer.keyTailorName).get();
-  //   if (docSnapshot.exists) {
-  //     Map<String, dynamic>? data = docSnapshot.data();
-  //     nn = data![ModelAddCustomer.keyTailorName
-  //         .toString()]; // <-- The value you want to retrieve.
-  //     // Call setState if needed.
-  //     print('/////////////////////tailorname = $nn/////////////////');
-  //   }
-  //   return nn;
-  // }
 
   @override
   void initState() {
@@ -561,6 +545,8 @@ class _DashBoardState extends State<DashBoard> {
   Widget myCustomDrawer() {
     String tailorImg =
         'https://images.unsplash.com/photo-1584184924103-e310d9dc82fc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80';
+    // var tailorImg =
+    //     'https://images.unsplash.com/photo-1584184924103-e310d9dc82fc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80';
 
     // String customerName = '';
 
@@ -588,8 +574,9 @@ class _DashBoardState extends State<DashBoard> {
     // print(
     //     '////////user!.displayName/////${user!.displayName}/////////tailorName = $tailorName////////////////////////');
 
-    //  String? name = user!.displayName ?? tailorName;
     String? accountMailOrNbr = user!.email ?? user!.phoneNumber;
+    print(
+        '////////accountMailOrNbr/////$accountMailOrNbr/////////////////////////////////');
     return Drawer(
         semanticLabel: 'Details',
         backgroundColor: Colors.deepPurpleAccent,
@@ -598,24 +585,25 @@ class _DashBoardState extends State<DashBoard> {
           children: [
             UserAccountsDrawerHeader(
                 currentAccountPictureSize: const Size(90, 90),
-                accountName: user!.displayName!.isEmpty
-                    ? StreamBuilder(
-                        stream: FirebaseFirestore.instance
-                            .collection(accountMailOrNbr!)
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            var data = snapshot.data!.docs;
-                            var foo = data[0]
-                                [ModelAddCustomer.keyTailorName.toString()];
-                            print('.....................foo..........$foo');
-                            return Text(foo);
-                          } else {
-                            print('.....................foo.........');
-                            return const SizedBox();
-                          }
-                        })
-                    : Text(user!.displayName!.toString()),
+                accountName: Text(user!.displayName ?? ''),
+                // accountName: user!.displayName == null
+                //     ? StreamBuilder(
+                //         stream: FirebaseFirestore.instance
+                //             .collection(accountMailOrNbr!)
+                //             .snapshots(),
+                //         builder: (context, snapshot) {
+                //           if (snapshot.hasData) {
+                //             var data = snapshot.data!.docs;
+                //             var foo = data[0]
+                //                 [ModelAddCustomer.keyTailorName.toString()];
+                //             print('.....................foo..........$foo');
+                //             return Text(foo);
+                //           } else {
+                //             print('.....................foo.........');
+                //             return const SizedBox();
+                //           }
+                //         })
+                //     : Text(user!.displayName!.toString()),
                 accountEmail: Text(accountMailOrNbr!),
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(colors: [
@@ -627,7 +615,9 @@ class _DashBoardState extends State<DashBoard> {
                 arrowColor: Colors.pink,
                 currentAccountPicture: CircleAvatar(
                   backgroundColor: Colors.amber,
-                  backgroundImage: NetworkImage(user!.photoURL ?? tailorImg),
+                  backgroundImage: CachedNetworkImageProvider(
+                    user!.photoURL ?? tailorImg,
+                  ),
                 )),
             ListTile(
               leading: CircleAvatar(

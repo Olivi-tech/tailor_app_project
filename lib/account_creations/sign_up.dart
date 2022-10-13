@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tailor_app/account_creations/login_provider.dart';
@@ -7,7 +6,7 @@ import 'package:tailor_app/utils/widgets.dart';
 
 class SignUp extends StatefulWidget {
   SignUp({Key? key}) : super(key: key);
-  static late final String userName;
+  //static late final String userName;
   static var modelAddCustomer = ModelAddCustomer.tailorDetails();
   static TextStyle textStyle = const TextStyle(
     fontWeight: FontWeight.bold,
@@ -20,7 +19,7 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final String _title = 'Sign Up';
-  late final TextEditingController _userNameController;
+  // late final TextEditingController _userNameController;
   late final TextEditingController _userEmailController;
   late final TextEditingController _userPWDController;
   late final TextEditingController _userPWDConfirmController;
@@ -29,7 +28,7 @@ class _SignUpState extends State<SignUp> {
   @override
   void initState() {
     super.initState();
-    _userNameController = TextEditingController();
+    // _userNameController = TextEditingController();
     _userEmailController = TextEditingController();
     _userPWDController = TextEditingController();
     _userPWDConfirmController = TextEditingController();
@@ -38,7 +37,7 @@ class _SignUpState extends State<SignUp> {
   @override
   void dispose() {
     super.dispose();
-    _userNameController.dispose();
+    // _userNameController.dispose();
     _userEmailController.dispose();
     _userPWDController.dispose();
     _userPWDConfirmController.dispose();
@@ -87,15 +86,15 @@ class _SignUpState extends State<SignUp> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    // Padding(
+                    //   padding: const EdgeInsets.only(top: 20.0),
+                    //   child: CommonWidgets.customTextFormField(
+                    //       hintText: 'User Name',
+                    //       controller: _userNameController,
+                    //       prefixIcon: const Icon(Icons.person_outline)),
+                    // ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: CommonWidgets.customTextFormField(
-                          hintText: 'User Name',
-                          controller: _userNameController,
-                          prefixIcon: const Icon(Icons.person_outline)),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.only(top: 5.0),
+                        padding: const EdgeInsets.only(top: 25.0),
                         child: CommonWidgets.customTextFormField(
                           hintText: 'User Email',
                           prefixIcon: const Icon(Icons.email_outlined),
@@ -127,9 +126,10 @@ class _SignUpState extends State<SignUp> {
                       padding: const EdgeInsets.only(top: 15.0),
                       child: CommonWidgets.customBtn(
                         onPressed: () async {
-                          if (_userNameController.text.isEmpty) {
-                            Fluttertoast.showToast(msg: 'Empty Name');
-                          } else if (_userEmailController.text.isEmpty ||
+                          // if (_userNameController.text.isEmpty) {
+                          //   Fluttertoast.showToast(msg: 'Empty Name');
+                          // } else
+                          if (_userEmailController.text.isEmpty ||
                               !_userEmailController.text.contains('@') ||
                               !_userEmailController.text.contains('.')) {
                             Fluttertoast.showToast(
@@ -151,18 +151,18 @@ class _SignUpState extends State<SignUp> {
                               password: _userPWDController.text,
                               email: _userEmailController.text,
                             );
-                            SignUp.modelAddCustomer =
-                                ModelAddCustomer.tailorDetails(
-                              tailorName: _userNameController.text,
-                              tailorEmail: _userEmailController.text,
-                            );
-                            print(
-                                '/////////////${_userNameController.text},////${_userEmailController.text}///');
-                            FirebaseFirestore.instance
-                                .collection(
-                                    SignUp.modelAddCustomer.tailorEmail!)
-                                .doc(SignUp.modelAddCustomer.tailorName)
-                                .set(SignUp.modelAddCustomer.tailorToMap());
+                            // SignUp.modelAddCustomer =
+                            //     ModelAddCustomer.tailorDetails(
+                            //   tailorName: _userNameController.text,
+                            //   tailorEmail: _userEmailController.text,
+                            // );
+                            // print(
+                            //     '/////////////${_userNameController.text},////${_userEmailController.text}///');
+                            // FirebaseFirestore.instance
+                            //     .collection(
+                            //         SignUp.modelAddCustomer.tailorEmail!)
+                            //     .doc(SignUp.modelAddCustomer.tailorName)
+                            //     .set(SignUp.modelAddCustomer.tailorToMap());
                             // DatabaseReference reference = FirebaseDatabase
                             //     .instance
                             //     .ref('tailor')

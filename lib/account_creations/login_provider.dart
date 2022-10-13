@@ -126,6 +126,7 @@ class LoginProvider {
           await GoogleSignIn().disconnect().whenComplete(() async {
             await FirebaseAuth.instance.signOut();
           });
+          Navigator.pop(context);
           return 'Logged out Successfully';
         } catch (e) {
           return 'Could not Logged out';
@@ -137,6 +138,7 @@ class LoginProvider {
           await FacebookAuth.instance.logOut().whenComplete(() async {
             FirebaseAuth.instance.signOut();
           });
+          Navigator.pop(context);
           return 'Logged out Successfully';
         } catch (e) {
           return 'Could not Logged out';
@@ -147,6 +149,7 @@ class LoginProvider {
         try {
           await FirebaseAuth.instance.signOut();
           return 'Logged out Successfully';
+          Navigator.pop(context);
         } catch (e) {
           return 'Could not Logged out';
         }
@@ -155,6 +158,7 @@ class LoginProvider {
         print('/////////////////case password//////////////////');
         try {
           await FirebaseAuth.instance.signOut();
+          Navigator.pop(context);
           return 'Logged out Successfully';
         } catch (e) {
           return 'Could not Logged out';
