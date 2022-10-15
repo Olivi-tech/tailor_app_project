@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tailor_app/account_creations/login_provider.dart';
+import 'package:tailor_app/account_creations/reset_pwd.dart';
 import 'package:tailor_app/account_creations/sign_up.dart';
 import 'package:tailor_app/screens/dashboard.dart';
-import 'package:tailor_app/screens/phone_verification.dart';
+import 'package:tailor_app/account_creations/phone_verification.dart';
 import 'package:tailor_app/utils/widgets.dart';
 
 class Login extends StatefulWidget {
@@ -99,11 +100,20 @@ class _LoginState extends State<Login> {
                         textInputType: TextInputType.visiblePassword)),
                 Padding(
                   padding: EdgeInsets.only(left: width * 0.55, top: 5),
-                  child: const Text('Forgot Password',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.underline,
-                          color: Colors.blue)),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ResetPassword(),
+                          ));
+                    },
+                    child: const Text('Forgot Password',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.none,
+                            color: Colors.blue)),
+                  ),
                 ),
               ],
             ),

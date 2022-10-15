@@ -577,6 +577,8 @@ class _DashBoardState extends State<DashBoard> {
     String? accountMailOrNbr = user!.email ?? user!.phoneNumber;
     print(
         '////////accountMailOrNbr/////$accountMailOrNbr/////////////////////////////////');
+    print(
+        '////////currentUser/////${user!.displayName}/////////////////////////////////');
     return Drawer(
         semanticLabel: 'Details',
         backgroundColor: Colors.deepPurpleAccent,

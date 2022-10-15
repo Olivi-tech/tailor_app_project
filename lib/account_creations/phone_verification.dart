@@ -8,7 +8,7 @@ import 'package:tailor_app/utils/widgets.dart';
 class PhoneNumberAuth extends StatefulWidget {
   const PhoneNumberAuth({Key? key}) : super(key: key);
   final String title = 'Continue With Phone';
-  // static late TextEditingController nameController;
+  static late TextEditingController nameController;
   static var modelAddCustomer = ModelAddCustomer.tailorDetails();
 
   @override
@@ -25,14 +25,14 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
   @override
   void initState() {
     super.initState();
-    //PhoneNumberAuth.nameController = TextEditingController();
+    PhoneNumberAuth.nameController = TextEditingController();
     _smsController = TextEditingController();
   }
 
   @override
   void dispose() {
     super.dispose();
-    // PhoneNumberAuth.nameController.dispose();
+    PhoneNumberAuth.nameController.dispose();
     _smsController.dispose();
   }
 
@@ -58,38 +58,37 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
                         key: _formKey,
                         child: Column(
                           children: [
-                            // TextFormField(
-                            //   keyboardType: TextInputType.name,
-                            //   controller: PhoneNumberAuth.nameController,
-                            //   decoration: InputDecoration(
-                            //       hintText: 'Enter Name',
-                            //       contentPadding:
-                            //           const EdgeInsets.only(top: 15, bottom: 0),
-                            //       constraints:
-                            //           const BoxConstraints(maxHeight: 70),
-                            //       prefixIcon: const Icon(Icons.person_outline,
-                            //           size: 20),
-                            //       border: OutlineInputBorder(
-                            //           borderRadius: BorderRadius.circular(15))),
-                            //   autofocus: true,
-                            //   validator: (value) {
-                            //     if (value == null || value.isEmpty) {
-                            //       return 'Empty Name';
-                            //     }
-                            //     return null;
-                            //   },
+                            // SizedBox(
+                            //   height: height * 0.3,
+                            //   width: width,
+                            //   child: const ClipOval(
+                            //     child: Image(
+                            //       image: AssetImage(
+                            //           'assets/images/PhoneScreen.jpg'),
+                            //       fit: BoxFit.cover,
+                            //     ),
+                            //   ),
                             // ),
-
-                            SizedBox(
-                              height: height * 0.3,
-                              width: width,
-                              child: ClipOval(
-                                child: Image(
-                                  image: AssetImage(
-                                      'assets/images/PhoneScreen.jpg'),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+                            TextFormField(
+                              keyboardType: TextInputType.name,
+                              controller: PhoneNumberAuth.nameController,
+                              decoration: InputDecoration(
+                                  hintText: 'Enter Name',
+                                  contentPadding:
+                                      const EdgeInsets.only(top: 15, bottom: 0),
+                                  constraints:
+                                      const BoxConstraints(maxHeight: 70),
+                                  prefixIcon: const Icon(Icons.person_outline,
+                                      size: 20),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15))),
+                              autofocus: true,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Empty Name';
+                                }
+                                return null;
+                              },
                             ),
                             SizedBox(
                               height: height * 0.05,
@@ -195,13 +194,13 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
     //Callback for when the user has already previously signed in with this phone number on this device
     PhoneVerificationCompleted verificationCompleted =
         (PhoneAuthCredential phoneAuthCredential) async {
-      await _auth.signInWithCredential(phoneAuthCredential);
-      print('/////////cerde ${phoneAuthCredential}');
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Colors.green,
-          content: Text(
-              "Phone number automatically verified and ${tailorPhone} signed in")));
-      Navigator.pop(context);
+      // await _auth.signInWithCredential(phoneAuthCredential);
+      // print('/////////cerde ${phoneAuthCredential}');
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //     backgroundColor: Colors.green,
+      //     content: Text(
+      //         "Phone number automatically verified and ${tailorPhone} signed in")));
+      // Navigator.pop(context);
     };
     //Listens for errors with verification, such as too many attempts
     PhoneVerificationFailed verificationFailed =
@@ -247,6 +246,9 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
         smsCode: _smsController.text,
       );
       final User user = (await _auth.signInWithCredential(credential)).user!;
+      _auth.currentUser!.updateDisplayName(PhoneNumberAuth.nameController.text);
+      print(
+          '/////////_auth.currentUser!.displayName = ${_auth.currentUser!.displayName}');
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           backgroundColor: Colors.green, content: Text('Successfully signed')));
     } catch (e) {

@@ -191,8 +191,10 @@ class LoginProvider {
     }
   }
 
-  static Future<String> signInWithEmailAndPWD(
-      {required String email, required String password}) async {
+  static Future<String> signInWithEmailAndPWD({
+    required String email,
+    required String password,
+  }) async {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
@@ -210,13 +212,20 @@ class LoginProvider {
     return 'try again later';
   }
 
-  static Future<String> signUpWithEmail(
-      {required String email, required String password}) async {
+  static Future<String> signUpWithEmail({
+    required String email,
+    required String password,
+    required String name,
+  }) async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      FirebaseAuth.instance.currentUser!.updateDisplayName(name);
+      print(
+          '/////////${FirebaseAuth.instance.currentUser!.updateDisplayName(name)}////////////////////');
       // print('Successfully Signed');
       return 'Account Created Successfully';
     } on FirebaseAuthException catch (e) {
@@ -235,13 +244,30 @@ class LoginProvider {
     return 'SomeThing Went Wrong';
   }
 
+  static Future<String> resetPWD(
+      {required String email, required BuildContext context}) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      print('///////////////////sent /////////////');
+      // ignore: use_build_context_synchronously
+      // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      //   content: Text('link sent successfully'),
+      //   backgroundColor: Colors.white,
+      // ));
+      return 'password reset link sent successfully';
+    } catch (e) {
+      return 'error: $e';
+    }
+  }
+
   static Future<String> customSnackBar(
       {required String status, required BuildContext context}) async {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(status),
       backgroundColor: status == 'Signed In Successfully' ||
               status == 'Logged out Successfully' ||
-              status == 'Account Created Successfully'
+              status == 'Account Created Successfully' ||
+              status == 'password reset link sent successfully'
           ? Colors.green
           : Colors.red,
     ));

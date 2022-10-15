@@ -6,7 +6,7 @@ import 'package:tailor_app/utils/widgets.dart';
 
 class SignUp extends StatefulWidget {
   SignUp({Key? key}) : super(key: key);
-  //static late final String userName;
+  // static late final String userName;
   static var modelAddCustomer = ModelAddCustomer.tailorDetails();
   static TextStyle textStyle = const TextStyle(
     fontWeight: FontWeight.bold,
@@ -19,7 +19,7 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final String _title = 'Sign Up';
-  // late final TextEditingController _userNameController;
+  late final TextEditingController _userNameController;
   late final TextEditingController _userEmailController;
   late final TextEditingController _userPWDController;
   late final TextEditingController _userPWDConfirmController;
@@ -28,7 +28,7 @@ class _SignUpState extends State<SignUp> {
   @override
   void initState() {
     super.initState();
-    // _userNameController = TextEditingController();
+    _userNameController = TextEditingController();
     _userEmailController = TextEditingController();
     _userPWDController = TextEditingController();
     _userPWDConfirmController = TextEditingController();
@@ -37,7 +37,7 @@ class _SignUpState extends State<SignUp> {
   @override
   void dispose() {
     super.dispose();
-    // _userNameController.dispose();
+    _userNameController.dispose();
     _userEmailController.dispose();
     _userPWDController.dispose();
     _userPWDConfirmController.dispose();
@@ -86,13 +86,13 @@ class _SignUpState extends State<SignUp> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    // Padding(
-                    //   padding: const EdgeInsets.only(top: 20.0),
-                    //   child: CommonWidgets.customTextFormField(
-                    //       hintText: 'User Name',
-                    //       controller: _userNameController,
-                    //       prefixIcon: const Icon(Icons.person_outline)),
-                    // ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: CommonWidgets.customTextFormField(
+                          hintText: 'User Name',
+                          controller: _userNameController,
+                          prefixIcon: const Icon(Icons.person_outline)),
+                    ),
                     Padding(
                         padding: const EdgeInsets.only(top: 25.0),
                         child: CommonWidgets.customTextFormField(
@@ -150,6 +150,7 @@ class _SignUpState extends State<SignUp> {
                             final status = await LoginProvider.signUpWithEmail(
                               password: _userPWDController.text,
                               email: _userEmailController.text,
+                              name: _userNameController.text,
                             );
                             // SignUp.modelAddCustomer =
                             //     ModelAddCustomer.tailorDetails(
