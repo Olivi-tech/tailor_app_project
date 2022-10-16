@@ -264,7 +264,7 @@ class LoginProvider {
               status == 'Logged out Successfully' ||
               status == 'Account Created Successfully' ||
               status == 'password reset link sent successfully'
-          ? Colors.green
+          ? const Color(0xD2EA4A26)
           : Colors.red,
     ));
     return 'error';

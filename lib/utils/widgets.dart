@@ -5,15 +5,15 @@ class CommonWidgets {
   static Widget customBtn({
     required String name,
     double? fontSize = 18.0,
-    double? width,
+    double? width = 40,
     FontWeight fontWeight = FontWeight.bold,
     Gradient? btnBackGroundGradientColor = const LinearGradient(colors: [
       Colors.deepOrangeAccent,
       Colors.yellow,
       //Colors.indigo
     ]),
-    Color? btnBackGroundColor = Colors.brown,
-    Color? btnTextColor = Colors.green,
+    Color? btnBackGroundColor = const Color(0xD2EA4A26),
+    Color? btnTextColor = Colors.white,
     double? height = 40.0,
     required VoidCallback? onPressed,
   }) {
@@ -29,7 +29,10 @@ class CommonWidgets {
                 borderRadius: BorderRadius.circular(20.0))),
             foregroundColor: MaterialStateProperty.all(btnTextColor)),
         child: Text(name,
-            style: TextStyle(fontSize: fontSize, fontWeight: fontWeight)),
+            style: TextStyle(
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+            )),
       ),
     );
   }
@@ -55,6 +58,7 @@ class CommonWidgets {
     return Card(
       elevation: 1,
       color: Colors.white,
+      // borderOnForeground: false,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(
           30,
@@ -80,6 +84,7 @@ class CommonWidgets {
           suffixIcon: suffixIcon,
           border: InputBorder.none,
           focusedBorder: InputBorder.none,
+
           enabledBorder: InputBorder.none,
           errorBorder: InputBorder.none,
           disabledBorder: InputBorder.none,

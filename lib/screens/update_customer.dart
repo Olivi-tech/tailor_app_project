@@ -21,7 +21,6 @@ class UpdateCustomer extends StatefulWidget {
 class _UpdateCustomerState extends State<UpdateCustomer> {
   //static String firstName = widget.map![ModelAddCustomer.keyArmLength];
   // final String title = widget.editing! ? 'Update Customer': 'Add Customer';
-  final GlobalKey<FormState> _formKeyCustomer = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKeyMeasurement = GlobalKey<FormState>();
 
   ///adding customer info///
@@ -249,7 +248,7 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                  //  primary: Colors.indigoAccent,
+                  backgroundColor: const Color(0xD2EA4A26),
                   textStyle: const TextStyle(
                       fontWeight: FontWeight.bold, color: Colors.black),
                   // fixedSize: Size(80, 5),

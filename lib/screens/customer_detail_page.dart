@@ -50,7 +50,7 @@ class CustomerDetailPage extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  //  primary: Colors.indigoAccent,
+                  backgroundColor: const Color(0xD2EA4A26),
                   textStyle: const TextStyle(
                       fontWeight: FontWeight.bold, color: Colors.black),
                   fixedSize: const Size(80, 5),
@@ -126,7 +126,8 @@ class CustomerDetailPage extends StatelessWidget {
   TextStyle textStyle() {
     return const TextStyle(
       fontWeight: FontWeight.normal,
-      fontSize: 18,
+      color: Colors.black,
+      fontSize: 16,
     );
   }
 }

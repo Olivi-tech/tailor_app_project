@@ -190,21 +190,21 @@ class _LoginState extends State<Login> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 18.0),
-            child: Text(
-              'Continue With...',
-              style: SignUp.textStyle,
-              textScaleFactor: 1.5,
-            ),
-          ),
+          const Padding(
+              padding: EdgeInsets.only(top: 18.0),
+              child: Divider(
+                color: Color(0xD2EA4A26),
+                indent: 50,
+                endIndent: 50,
+                thickness: 1,
+              )),
           Padding(
             padding: const EdgeInsets.only(top: 18.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CircleAvatar(
-                    backgroundColor: Colors.green,
+                    backgroundColor: const Color(0xD2EA4A26),
                     radius: 25,
                     child: IconButton(
                         onPressed: () async {
@@ -226,13 +226,13 @@ class _LoginState extends State<Login> {
                     iconSize: 50,
                     icon: const Icon(
                       FontAwesomeIcons.facebook,
-                      color: Colors.green,
+                      color: Color(0xD2EA4A26),
                       size: 50,
                     ),
                   ),
                 ),
                 CircleAvatar(
-                  backgroundColor: Colors.green,
+                  backgroundColor: const Color(0xD2EA4A26),
                   radius: 25,
                   child: IconButton(
                       onPressed: () async {

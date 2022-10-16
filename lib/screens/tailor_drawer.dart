@@ -41,16 +41,16 @@ class TailorDrawer {
     print(
         '////////accountMailOrNbr/////$accountMailOrNbr/////////////////////////////////');
     print(
-        '////////currentUser/////${user!.displayName}/////////////////////////////////');
+        '////////currentUser/////${user.displayName}/////////////////////////////////');
     return Drawer(
         semanticLabel: 'Details',
-        backgroundColor: Colors.deepPurpleAccent,
+        backgroundColor: Colors.pink.shade200,
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             UserAccountsDrawerHeader(
                 currentAccountPictureSize: const Size(90, 90),
-                accountName: Text(user!.displayName ?? ''),
+                accountName: Text(user.displayName ?? ''),
                 // accountName: user!.displayName == null
                 //     ? StreamBuilder(
                 //         stream: FirebaseFirestore.instance
@@ -70,18 +70,18 @@ class TailorDrawer {
                 //         })
                 //     : Text(user!.displayName!.toString()),
                 accountEmail: Text(accountMailOrNbr!),
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
-                    Colors.deepOrangeAccent,
-                    Colors.yellow,
+                    Colors.red.shade400,
+                    Colors.pink.shade400,
                   ]),
                   color: Colors.deepPurple,
                 ),
-                arrowColor: Colors.pink,
+                // arrowColor: Colors.pink,
                 currentAccountPicture: CircleAvatar(
                   backgroundColor: Colors.amber,
                   backgroundImage: CachedNetworkImageProvider(
-                    user!.photoURL ?? tailorImg,
+                    user.photoURL ?? tailorImg,
                   ),
                 )),
             ListTile(
@@ -91,48 +91,42 @@ class TailorDrawer {
               title: const Text('Title'),
               textColor: Colors.white,
               trailing: const Text('Trailing'),
-              tileColor: Colors.lightGreen.shade300,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30)),
+              // tileColor: Colors.pink.shade200,
+              // shape: RoundedRectangleBorder(
+              //     borderRadius: BorderRadius.circular(30)),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 5.0),
-              child: ListTile(
-                leading: const CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/logo.png'),
-                ),
-                title: const Text('Title'),
-                textColor: Colors.white,
-                trailing: const Text('Trailing'),
-                tileColor: Colors.lightGreen.shade300,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30)),
-                onTap: () {
-                  Navigator.pop(context);
-                },
+            ListTile(
+              leading: const CircleAvatar(
+                backgroundImage: AssetImage('assets/images/logo.png'),
               ),
+              title: const Text('Title'),
+              textColor: Colors.white,
+              trailing: const Text('Trailing'),
+              // tileColor: Colors.pink.shade200,
+              // shape: RoundedRectangleBorder(
+              //     borderRadius: BorderRadius.circular(30)),
+              onTap: () {
+                Navigator.pop(context);
+              },
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 5.0),
-              child: ListTile(
-                textColor: Colors.white,
-                leading: const CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/logo.png'),
-                ),
-                title: const Text('Logout'),
-                trailing: const Text('Logout'),
-                tileColor: Colors.lightGreen.shade300,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30)),
-                onTap: () async {
-                  final status = await LoginProvider.logout(context: context);
-                  await LoginProvider.customSnackBar(
-                      status: status, context: context);
-                },
+            ListTile(
+              textColor: Colors.white,
+              leading: const CircleAvatar(
+                backgroundImage: AssetImage('assets/images/logo.png'),
               ),
+              title: const Text('Logout'),
+              trailing: const Text('Logout'),
+              // tileColor: Colors.pink.shade200,
+              // shape: RoundedRectangleBorder(
+              //     borderRadius: BorderRadius.circular(30)),
+              onTap: () async {
+                final status = await LoginProvider.logout(context: context);
+                await LoginProvider.customSnackBar(
+                    status: status, context: context);
+              },
             ),
           ],
         ));

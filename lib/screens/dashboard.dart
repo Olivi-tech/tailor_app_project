@@ -88,7 +88,7 @@ class _DashBoardState extends State<DashBoard> {
     // double width = MediaQuery.of(context).size.width;
     // double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: Colors.green.shade100,
+      backgroundColor: Colors.red.shade100,
       drawer: TailorDrawer.myCustomDrawer(context: context, user: user),
       appBar: AppBar(
         centerTitle: true,
@@ -191,7 +191,8 @@ class _DashBoardState extends State<DashBoard> {
             return const Center(
               child: Text(
                 'No Customer Added Yet',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, color: Color(0xD2EA4A26)),
               ),
             );
           }
@@ -341,9 +342,9 @@ class _DashBoardState extends State<DashBoard> {
                                     )
                                   : const Icon(Icons.check_box_outline_blank))
                           : null,
-                      trailing: CircleAvatar(
-                        child: Text('${DashBoard.selectedFlags[index]}'),
-                      ),
+                      // trailing: CircleAvatar(
+                      //   child: Text('${DashBoard.selectedFlags[index]}'),
+                      // ),
                       selected: DashBoard.selectedFlags[index]!,
                       selectedTileColor: Colors.grey.shade300,
                       selectedColor: Colors.black,
@@ -452,7 +453,11 @@ class _DashBoardState extends State<DashBoard> {
               isScrollControlled: true,
               builder: (context) => const CustomerPersonalDetails());
         },
-        child: const Icon(Icons.add),
+        backgroundColor: Color(0xD2EA4A26),
+        child: const Icon(
+          Icons.add,
+          // color: Color(0xD2EA4A26),
+        ),
       ),
     );
   }
@@ -518,7 +523,7 @@ class _DashBoardState extends State<DashBoard> {
         keyboardType: TextInputType.emailAddress,
         autofocus: true,
         decoration: InputDecoration(
-          hintStyle: const TextStyle(fontSize: 16),
+          hintStyle: const TextStyle(fontSize: 16, color: Colors.black),
           hintText: 'name or phone',
           suffixIcon: _searchController.text.isNotEmpty
               ? IconButton(

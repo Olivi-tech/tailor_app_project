@@ -5,14 +5,9 @@ import 'package:tailor_app/screens/customer_details/add_neck.dart';
 import 'package:tailor_app/screens/model_classes/model_add_customer.dart';
 import 'package:tailor_app/utils/widgets.dart';
 
-import '../dashboard.dart';
-
 class CustomerPersonalDetails extends StatefulWidget {
   static final ModelAddCustomer modelAddCustomer = ModelAddCustomer();
   const CustomerPersonalDetails({Key? key}) : super(key: key);
-  static bool? editing = false;
-  static Map<String, dynamic>? map = {};
-
   @override
   State<CustomerPersonalDetails> createState() =>
       _CustomerPersonalDetailsState();
@@ -27,23 +22,10 @@ class _CustomerPersonalDetailsState extends State<CustomerPersonalDetails> {
   @override
   void initState() {
     super.initState();
-    _firstNameController = TextEditingController(
-        text: DashBoard.editing!
-            ? DashBoard.map![ModelAddCustomer.keyFirstName]
-            : '');
-    _lastNameController = TextEditingController(
-        text: DashBoard.editing!
-            ? DashBoard.map![ModelAddCustomer.keyLastName]
-            : '');
-
-    _phoneController = TextEditingController(
-        text: DashBoard.editing!
-            ? DashBoard.map![ModelAddCustomer.keyPhoneNumber]
-            : '');
-    _addressController = TextEditingController(
-        text: DashBoard.editing!
-            ? DashBoard.map![ModelAddCustomer.keyAddress]
-            : '');
+    _firstNameController = TextEditingController();
+    _lastNameController = TextEditingController();
+    _phoneController = TextEditingController();
+    _addressController = TextEditingController();
   }
 
   @override
@@ -76,14 +58,14 @@ class _CustomerPersonalDetailsState extends State<CustomerPersonalDetails> {
                         },
                         icon: const Icon(
                           Icons.arrow_back_ios_sharp,
-                          color: Colors.green,
+                          color: Color(0xD2EA4A26),
                         )),
                   ),
                   const SizedBox(height: 5),
                   const Text(
                     'Add Customer Details',
                     style: TextStyle(
-                        color: Colors.black,
+                        color: Color(0xD2EA4A26),
                         fontSize: 22,
                         fontWeight: FontWeight.bold),
                   ),
@@ -156,7 +138,6 @@ class _CustomerPersonalDetailsState extends State<CustomerPersonalDetails> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      btnBackGroundColor: Colors.brown,
                       width: width * 0.9,
                       height: height * 0.06)
                 ]),

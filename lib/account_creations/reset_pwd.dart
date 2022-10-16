@@ -33,24 +33,24 @@ class _ResetPasswordState extends State<ResetPassword> {
     double height = MediaQuery.of(ctx).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.pink,
+          ),
+          onPressed: () {
+            Navigator.pop(ctx);
+          },
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              AppBar(
-                elevation: 0.0,
-                backgroundColor: Colors.white,
-                leading: IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back_ios,
-                    color: Colors.pink,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(ctx);
-                  },
-                ),
-              ),
               SizedBox(
                   width: width,
                   height: height * 0.3,
@@ -87,6 +87,9 @@ class _ResetPasswordState extends State<ResetPassword> {
                 onPressed: () async {
                   if (_emailController.text.isEmpty) {
                     Fluttertoast.showToast(msg: 'put email');
+                  } else if (!_emailController.text.contains('.') ||
+                      !_emailController.text.contains('@')) {
+                    Fluttertoast.showToast(msg: 'Invalid email');
                   } else {
                     print('////////////email = ${_emailController.text}//////');
                     var status = await LoginProvider.resetPWD(

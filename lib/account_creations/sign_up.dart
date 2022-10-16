@@ -8,11 +8,6 @@ class SignUp extends StatefulWidget {
   SignUp({Key? key}) : super(key: key);
   // static late final String userName;
   static var modelAddCustomer = ModelAddCustomer.tailorDetails();
-  static TextStyle textStyle = const TextStyle(
-    fontWeight: FontWeight.bold,
-    color: Colors.green,
-  );
-
   @override
   State<SignUp> createState() => _SignUpState();
 }
@@ -59,7 +54,7 @@ class _SignUpState extends State<SignUp> {
           },
           child: const Icon(
             Icons.arrow_back_ios_rounded,
-            color: Colors.green,
+            color: Color(0xD2EA4A26),
           ),
         ),
       ),
@@ -74,11 +69,11 @@ class _SignUpState extends State<SignUp> {
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 10.0),
-                  child: Text(
-                    _title,
-                    textScaleFactor: 3,
-                    style: SignUp.textStyle,
-                  ),
+                  child: Text(_title,
+                      textScaleFactor: 3,
+                      style: const TextStyle(
+                        color: Color(0xD2EA4A26),
+                      )),
                 ),
               ),
               Form(
@@ -94,18 +89,12 @@ class _SignUpState extends State<SignUp> {
                           prefixIcon: const Icon(Icons.person_outline)),
                     ),
                     Padding(
-                        padding: const EdgeInsets.only(top: 25.0),
+                        padding: const EdgeInsets.only(top: 5.0),
                         child: CommonWidgets.customTextFormField(
                           hintText: 'User Email',
                           prefixIcon: const Icon(Icons.email_outlined),
                           controller: _userEmailController,
                           textInputType: TextInputType.emailAddress,
-                          // validator: (value) {
-                          //   if (value == null || value.isEmpty) {
-                          //     return 'Email Can\'t Be Empty';
-                          //   }
-                          //   return null;
-                          // },
                         )),
                     Padding(
                         padding: const EdgeInsets.only(top: 5.0),
@@ -126,10 +115,9 @@ class _SignUpState extends State<SignUp> {
                       padding: const EdgeInsets.only(top: 15.0),
                       child: CommonWidgets.customBtn(
                         onPressed: () async {
-                          // if (_userNameController.text.isEmpty) {
-                          //   Fluttertoast.showToast(msg: 'Empty Name');
-                          // } else
-                          if (_userEmailController.text.isEmpty ||
+                          if (_userNameController.text.isEmpty) {
+                            Fluttertoast.showToast(msg: 'Empty Name');
+                          } else if (_userEmailController.text.isEmpty ||
                               !_userEmailController.text.contains('@') ||
                               !_userEmailController.text.contains('.')) {
                             Fluttertoast.showToast(
@@ -197,7 +185,7 @@ class _SignUpState extends State<SignUp> {
                   const Padding(
                     padding: EdgeInsets.only(top: 18.0, left: 30, right: 30),
                     child: Divider(
-                      color: Colors.green,
+                      color: Color(0xD2EA4A26),
                       thickness: 1.0,
                       indent: 5,
                       endIndent: 5,
