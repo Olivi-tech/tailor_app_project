@@ -32,6 +32,7 @@ class _ResetPasswordState extends State<ResetPassword> {
     double width = MediaQuery.of(ctx).size.width;
     double height = MediaQuery.of(ctx).size.height;
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: SingleChildScrollView(
@@ -56,7 +57,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                   child: Image(
                     image: AssetImage(resetImg),
                     fit: BoxFit.fitWidth,
-                    filterQuality: FilterQuality.high,
+                    //filterQuality: FilterQuality.high,
                     // loadingBuilder: (BuildContext context, Widget child,
                     //     ImageChunkEvent? loadingProgress) {
                     //   return const Center(child: CircularProgressIndicator());

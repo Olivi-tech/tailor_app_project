@@ -131,7 +131,6 @@ class LoginProvider {
         } catch (e) {
           return 'Could not Logged out';
         }
-        break;
       case 'facebook.com':
         print('///////////////// case facebook.com//////////////////');
         try {
@@ -143,7 +142,6 @@ class LoginProvider {
         } catch (e) {
           return 'Could not Logged out';
         }
-        break;
       case 'phone':
         print('///////////////// case phone//////////////////');
         try {
@@ -153,7 +151,6 @@ class LoginProvider {
         } catch (e) {
           return 'Could not Logged out';
         }
-        break;
       case 'password':
         print('/////////////////case password//////////////////');
         try {
@@ -163,7 +160,6 @@ class LoginProvider {
         } catch (e) {
           return 'Could not Logged out';
         }
-        break;
     }
     return 'SomeThing Went Wrong';
   }
@@ -224,8 +220,8 @@ class LoginProvider {
       );
 
       FirebaseAuth.instance.currentUser!.updateDisplayName(name);
-      print(
-          '/////////${FirebaseAuth.instance.currentUser!.updateDisplayName(name)}////////////////////');
+      // print(
+      //     '/////////${FirebaseAuth.instance.currentUser!.updateDisplayName(name)}////////////////////');
       // print('Successfully Signed');
       return 'Account Created Successfully';
     } on FirebaseAuthException catch (e) {
