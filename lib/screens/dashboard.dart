@@ -2,6 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tailor_app/screens/search_box.dart';
 import 'package:tailor_app/screens/customer_detail_page.dart';
 import 'package:tailor_app/screens/customer_details/customer_personal_details.dart';
 import 'package:tailor_app/screens/model_classes/model_add_customer.dart';
@@ -74,7 +75,7 @@ class _DashBoardState extends State<DashBoard> {
 
   @override
   Widget build(BuildContext context) {
-    print('build is called');
+    print('//////////////////build is called///////////////');
 
     // print(
     //     '//////////////${DashBoard.dataList.length}/////////////////data List = ////${DashBoard.dataList}//////////////////');
@@ -168,9 +169,7 @@ class _DashBoardState extends State<DashBoard> {
                 )
               : const Text(''),
         ],
-        title: DashBoard.isSearching
-            ? searchTextField()
-            : appBarTitle('Tailor Book'),
+        title: DashBoard.isSearching ? SearchBar() : appBarTitle('Tailor Book'),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: userStream,
@@ -453,7 +452,7 @@ class _DashBoardState extends State<DashBoard> {
               isScrollControlled: true,
               builder: (context) => const CustomerPersonalDetails());
         },
-        backgroundColor: Color(0xD2EA4A26),
+        backgroundColor: const Color(0xD2EA4A26),
         child: const Icon(
           Icons.add,
           // color: Color(0xD2EA4A26),
@@ -505,44 +504,6 @@ class _DashBoardState extends State<DashBoard> {
     return Text(
       title,
       style: const TextStyle(fontWeight: FontWeight.bold),
-    );
-  }
-
-  Widget searchTextField() {
-    return Container(
-      height: 35,
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(32)),
-      child: TextFormField(
-        onChanged: (value) => setState(() {
-          searchedText = value;
-        }),
-        cursorColor: Colors.black,
-        controller: _searchController,
-        textInputAction: TextInputAction.search,
-        keyboardType: TextInputType.emailAddress,
-        autofocus: true,
-        decoration: InputDecoration(
-          hintStyle: const TextStyle(fontSize: 16, color: Colors.black),
-          hintText: 'name or phone',
-          suffixIcon: _searchController.text.isNotEmpty
-              ? IconButton(
-                  onPressed: () {
-                    _searchController.clear();
-                    searchedText = '';
-                  },
-                  icon: const Icon(
-                    Icons.clear,
-                    color: Colors.black,
-                    size: 20,
-                  ),
-                )
-              : null,
-          border: InputBorder.none,
-          contentPadding:
-              const EdgeInsets.only(top: 3, left: 15, right: 0.0, bottom: 15),
-        ),
-      ),
     );
   }
 }

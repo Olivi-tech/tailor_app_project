@@ -11,37 +11,6 @@ class LoginProvider {
       {required String phoneNumber, required BuildContext context}) async {
     auth = FirebaseAuth.instance;
 
-    //Callback for when the user has already previously signed in with this phone number on this device
-    // PhoneVerificationCompleted verificationCompleted =
-    //     (PhoneAuthCredential phoneAuthCredential) async {
-    //   await auth.signInWithCredential(phoneAuthCredential);
-    //   customSnackBarForPhone(
-    //       context: context,
-    //       status:
-    //       "Phone number automatically verified and user signed in: ${auth.currentUser!.uid}");
-    // };
-
-    // PhoneVerificationFailed verificationFailed =
-    //     (FirebaseAuthException authException) {
-    //   customSnackBarForPhone(
-    //       context: context,
-    //       status:
-    //           'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
-    // };
-
-    // PhoneCodeSent codeSent =
-    //     (String verificationId, [int? forceResendingToken]) async {
-    //   customSnackBarForPhone(
-    //       context: context,
-    //       status: 'Please check your phone for the verification code.');
-    //   _verificationId = verificationId;
-    // };
-    // PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
-    //     (String verificationId) {
-    //   customSnackBarForPhone(
-    //       context: context, status: 'verification code: $verificationId');
-    //   _verificationId = verificationId;
-    // };
     try {
       await FirebaseAuth.instance.verifyPhoneNumber(
           phoneNumber: phoneNumber,

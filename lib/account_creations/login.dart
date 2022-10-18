@@ -1,41 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:tailor_app/account_creations/login_provider.dart';
 import 'package:tailor_app/account_creations/reset_pwd.dart';
 import 'package:tailor_app/account_creations/sign_up.dart';
+import 'package:tailor_app/provider/change_pwd_icon.dart';
 import 'package:tailor_app/screens/dashboard.dart';
 import 'package:tailor_app/account_creations/phone_verification.dart';
 import 'package:tailor_app/utils/widgets.dart';
 
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+class Login extends StatelessWidget {
+  Login({super.key});
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _pwdController = TextEditingController();
   static final _formKey = GlobalKey<FormState>();
-  @override
-  State<Login> createState() => _LoginState();
-}
-
-class _LoginState extends State<Login> {
-  late final TextEditingController _emailController;
-  late final TextEditingController _pwdController;
   bool isObscured = true;
 
   @override
-  void initState() {
-    _emailController = TextEditingController();
-    _pwdController = TextEditingController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _pwdController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    print('/////////////////////build///////////////////////////');
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     // final isKeyBoard = MediaQuery.of(context).viewInsets.bottom != 0;
@@ -57,47 +41,39 @@ class _LoginState extends State<Login> {
             ),
           ),
           Form(
-            key: Login._formKey,
+            key: _formKey,
             child: Column(
               children: [
                 CommonWidgets.customTextFormField(
                     hintText: 'Email',
-                    // validator: (value) {
-                    //   if (value == null || value.isEmpty) {
-                    //     return 'Email Can\'t Be Empty';
-                    //   } else if (!value.contains('@') || !value.contains('.')) {
-                    //     return 'put valid email';
-                    //   }
-                    //   return null;
-                    // },
                     controller: _emailController,
                     textInputType: TextInputType.emailAddress,
                     prefixIcon: const Icon(Icons.email_outlined)),
                 Padding(
                     padding: const EdgeInsets.only(top: 10.0),
-                    child: CommonWidgets.customTextFormField(
-                        hintText: 'Password',
-                        obscureText: isObscured,
-                        //    maxLength: 18,
-                        // validator: (value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Password Can\'t Be Empty';
-                        //   }
-                        //   return null;
-                        // },
-                        controller: _pwdController,
-                        prefixIcon: const Icon(Icons.password),
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              isObscured = !isObscured;
-                            });
-                          },
-                          icon: Icon(isObscured
-                              ? Icons.visibility_off_outlined
-                              : Icons.visibility_outlined),
-                        ),
-                        textInputType: TextInputType.visiblePassword)),
+                    child: Consumer<ChangeIcon>(
+                      builder: (context, value, child) =>
+                          CommonWidgets.customTextFormField(
+                              hintText: 'Password',
+                              obscureText: isObscured,
+                              controller: _pwdController,
+                              prefixIcon: const Icon(Icons.password),
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  value.iconVisible =
+                                      const Icon(Icons.visibility_outlined);
+                                  value.iconInVisible =
+                                      const Icon(Icons.visibility_off_sharp);
+                                  isObscured = !isObscured;
+                                  print(
+                                      '//////////////$isObscured/////////////');
+                                },
+                                icon: isObscured
+                                    ? value.iconInVisible
+                                    : value.iconVisible,
+                              ),
+                              textInputType: TextInputType.visiblePassword),
+                    )),
                 Padding(
                   padding: EdgeInsets.only(left: width * 0.55, top: 5),
                   child: InkWell(
