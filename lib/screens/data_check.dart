@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tailor_app/screens/dashboard.dart';
 import '../account_creations/login.dart';
+import 'package:provider/provider.dart';
 
 class DataCheck extends StatelessWidget {
   const DataCheck({Key? key}) : super(key: key);
