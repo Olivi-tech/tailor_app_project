@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tailor_app/provider/change_pwd_icon.dart';
-import 'package:tailor_app/provider/search_provider.dart';
-import 'package:tailor_app/screens/search_box.dart';
 import 'package:tailor_app/screens/dashboard.dart';
 import '../account_creations/login.dart';
 
@@ -16,7 +14,6 @@ class DataCheck extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ChangeIcon()),
-        ChangeNotifierProvider(create: (context) => SearchProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

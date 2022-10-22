@@ -60,17 +60,12 @@ class Login extends StatelessWidget {
                               prefixIcon: const Icon(Icons.password),
                               suffixIcon: IconButton(
                                 onPressed: () {
-                                  value.iconVisible =
-                                      const Icon(Icons.visibility_outlined);
-                                  value.iconInVisible =
-                                      const Icon(Icons.visibility_off_sharp);
                                   isObscured = !isObscured;
-                                  print(
-                                      '//////////////$isObscured/////////////');
+                                  value.changeIcon(isObsecured: isObscured);
                                 },
-                                icon: isObscured
-                                    ? value.iconInVisible
-                                    : value.iconVisible,
+                                icon: value.isObsecure
+                                    ? const Icon(Icons.visibility_off_sharp)
+                                    : const Icon(Icons.visibility_outlined),
                               ),
                               textInputType: TextInputType.visiblePassword),
                     )),
