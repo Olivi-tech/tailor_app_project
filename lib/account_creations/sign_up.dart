@@ -10,7 +10,6 @@ import 'package:tailor_app/utils/widgets.dart';
 
 class SignUp extends StatefulWidget {
   SignUp({Key? key}) : super(key: key);
-  // static late final String userName;
   static var modelAddCustomer = ModelAddCustomer.tailorDetails();
   @override
   State<SignUp> createState() => _SignUpState();
@@ -65,10 +64,7 @@ class _SignUpState extends State<SignUp> {
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
         child: SingleChildScrollView(
-          //   reverse: true,
           child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Center(
                 child: Padding(

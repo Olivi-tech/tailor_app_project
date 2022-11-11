@@ -19,8 +19,6 @@ class UpdateCustomer extends StatefulWidget {
 }
 
 class _UpdateCustomerState extends State<UpdateCustomer> {
-  //static String firstName = widget.map![ModelAddCustomer.keyArmLength];
-  // final String title = widget.editing! ? 'Update Customer': 'Add Customer';
   final GlobalKey<FormState> _formKeyMeasurement = GlobalKey<FormState>();
 
   ///adding customer info///
@@ -82,10 +80,6 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
 
     _firstNameController.addListener(() => setState(() {}));
     super.initState();
-    // print(
-    //     '////////empty=${_firstNameController.text.isEmpty}///////////////////');
-    // print('//////empty=${_addressController.text.isEmpty}///////////////////');
-    // print('/////empty=${_phoneController.text.isEmpty}///////////////////');
   }
 
   @override
@@ -204,9 +198,9 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                       showCloseIcon: false,
                       dismissOnTouchOutside: false,
                       autoDismiss: false,
-                      // autoHide: const Duration(seconds: 3),
                       title: 'Success',
                       desc: 'Updated ${_firstNameController.text}',
+                      descTextStyle: const TextStyle(color: Colors.black),
                       btnOkOnPress: () {
                         Navigator.pushAndRemoveUntil(
                             context,
@@ -266,7 +260,6 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
         padding:
             const EdgeInsets.only(top: 15.0, left: 20, right: 20, bottom: 15),
         child: SingleChildScrollView(
-          //  reverse: true,
           child: Column(
             children: [
               Column(
@@ -523,10 +516,6 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                         onChanged: (String? value) => setState(() {
                           _calfController.text = value!;
                         }),
-                        // validator: (value) {
-                        //   return CommonWidgets
-                        //       .customValidatorForMeasurementTile(value);
-                        // }
                       )
                     ],
                   ))
