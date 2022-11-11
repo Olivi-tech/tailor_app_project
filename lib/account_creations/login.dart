@@ -1,14 +1,19 @@
+import 'dart:developer';
+
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:tailor_app/account_creations/login_provider.dart';
 import 'package:tailor_app/account_creations/reset_pwd.dart';
-import 'package:tailor_app/account_creations/sign_up.dart';
 import 'package:tailor_app/provider/change_pwd_icon.dart';
 import 'package:tailor_app/screens/dashboard.dart';
 import 'package:tailor_app/account_creations/phone_verification.dart';
 import 'package:tailor_app/utils/widgets.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+
+import 'sign_up.dart';
 
 class Login extends StatelessWidget {
   Login({super.key});
@@ -79,11 +84,11 @@ class Login extends StatelessWidget {
                             builder: (context) => const ResetPassword(),
                           ));
                     },
-                    child: const Text('Forgot Password',
+                    child: const Text('Forgot Password?',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             decoration: TextDecoration.none,
-                            color: Colors.blue)),
+                            color: Colors.teal)),
                   ),
                 ),
               ],
@@ -108,41 +113,42 @@ class Login extends StatelessWidget {
                           backgroundColor: Colors.black,
                         );
                       } else {
-                        final status =
-                            await LoginProvider.signInWithEmailAndPWD(
-                                email: _emailController.text,
-                                password: _pwdController.text);
-                        LoginProvider.customSnackBar(
-                            status: status, context: context);
-                        if (status == 'Signed In Successfully') {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const DashBoard()));
-                        } else {
-                          return;
+                        bool isAvailable =
+                            await InternetConnectionChecker().hasConnection;
+                        log('/////////////////internet is available = $isAvailable');
+                        switch (isAvailable) {
+                          case true:
+                            final status =
+                                await LoginProvider.signInWithEmailAndPWD(
+                                    email: _emailController.text,
+                                    password: _pwdController.text);
+                            LoginProvider.customSnackBar(
+                                status: status, context: context);
+                            if (status == 'Signed In Successfully') {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const DashBoard()));
+                            }
+                            break;
+                          case false:
+                            AwesomeDialog(
+                              context: context,
+                              dialogType: DialogType.warning,
+                              dismissOnTouchOutside: true,
+                              dismissOnBackKeyPress: true,
+                              headerAnimationLoop: true,
+                              animType: AnimType.scale,
+                              title: 'No Internet',
+                              desc:
+                                  'Please make sure you are connected to internet',
+                              descTextStyle:
+                                  const TextStyle(color: Colors.black),
+                              showCloseIcon: true,
+                              btnOkOnPress: () {},
+                            ).show();
                         }
                       }
-                      // if (Login._formKey.currentState!.validate()) {
-                      //   final status =
-                      //       await LoginProvider.signInWithEmailAndPWD(
-                      //           email: _emailController.text,
-                      //           password: _pwdController.text);
-                      //   LoginProvider.customSnackBar(
-                      //       status: status, context: context);
-                      //   if (status == 'Signed In Successfully') {
-                      //     Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //             builder: (context) => const DashBoard()));
-                      //   } else {
-                      //     return;
-                      //   }
-                      // }
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => const DashBoard()));
                     },
                     name: 'Login',
                     height: height * 0.06,

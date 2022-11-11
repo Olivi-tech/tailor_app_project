@@ -1,5 +1,9 @@
+import 'dart:developer';
+
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:tailor_app/account_creations/login_provider.dart';
 import 'package:tailor_app/screens/model_classes/model_add_customer.dart';
 import 'package:tailor_app/utils/widgets.dart';
@@ -135,39 +139,39 @@ class _SignUpState extends State<SignUp> {
                                     ? 'Confirm Password Can\'t Be Empty'
                                     : 'Password doesn\'t match');
                           } else {
-                            final status = await LoginProvider.signUpWithEmail(
-                              password: _userPWDController.text,
-                              email: _userEmailController.text,
-                              name: _userNameController.text,
-                            );
-                            // SignUp.modelAddCustomer =
-                            //     ModelAddCustomer.tailorDetails(
-                            //   tailorName: _userNameController.text,
-                            //   tailorEmail: _userEmailController.text,
-                            // );
-                            // print(
-                            //     '/////////////${_userNameController.text},////${_userEmailController.text}///');
-                            // FirebaseFirestore.instance
-                            //     .collection(
-                            //         SignUp.modelAddCustomer.tailorEmail!)
-                            //     .doc(SignUp.modelAddCustomer.tailorName)
-                            //     .set(SignUp.modelAddCustomer.tailorToMap());
-                            // DatabaseReference reference = FirebaseDatabase
-                            //     .instance
-                            //     .ref('tailor')
-                            //     .child('name&email');
-                            // await reference.set({
-                            //   'name': _userNameController.text,
-                            //   'email': _userEmailController.text,
-                            // }).then((value) {
-                            //   Fluttertoast.showToast(msg: 'Data added');
-                            // }).onError((error, stackTrace) {
-                            //   Fluttertoast.showToast(msg: 'Could not add data');
-                            // });
-                            LoginProvider.customSnackBar(
-                                status: status, context: context);
-                            if (status == 'Account Created Successfully') {
-                              Navigator.pop(context);
+                            bool isAvailable =
+                                await InternetConnectionChecker().hasConnection;
+                            log('//////////////internet is available = $isAvailable//////');
+                            switch (isAvailable) {
+                              case true:
+                                final status =
+                                    await LoginProvider.signUpWithEmail(
+                                  password: _userPWDController.text,
+                                  email: _userEmailController.text,
+                                  name: _userNameController.text,
+                                );
+                                LoginProvider.customSnackBar(
+                                    status: status, context: context);
+                                if (status == 'Account Created Successfully') {
+                                  Navigator.pop(context);
+                                }
+                                break;
+                              case false:
+                                AwesomeDialog(
+                                  context: context,
+                                  dialogType: DialogType.warning,
+                                  dismissOnTouchOutside: true,
+                                  dismissOnBackKeyPress: true,
+                                  headerAnimationLoop: true,
+                                  animType: AnimType.scale,
+                                  title: 'No Internet',
+                                  desc:
+                                      'Please make sure you are connected to internet',
+                                  descTextStyle:
+                                      const TextStyle(color: Colors.black),
+                                  showCloseIcon: true,
+                                  btnOkOnPress: () {},
+                                ).show();
                             }
                           }
                         },
