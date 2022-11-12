@@ -95,7 +95,7 @@ class LoginProvider {
           await GoogleSignIn().disconnect().whenComplete(() async {
             await FirebaseAuth.instance.signOut();
           });
-          Navigator.pop(context);
+          // Navigator.pop(context);
           return 'Logged out Successfully';
         } catch (e) {
           return 'Could not Logged out';
@@ -115,8 +115,8 @@ class LoginProvider {
         print('///////////////// case phone//////////////////');
         try {
           await FirebaseAuth.instance.signOut();
-          return 'Logged out Successfully';
           Navigator.pop(context);
+          return 'Logged out Successfully';
         } catch (e) {
           return 'Could not Logged out';
         }
@@ -187,11 +187,7 @@ class LoginProvider {
         email: email,
         password: password,
       );
-
       FirebaseAuth.instance.currentUser!.updateDisplayName(name);
-      // print(
-      //     '/////////${FirebaseAuth.instance.currentUser!.updateDisplayName(name)}////////////////////');
-      // print('Successfully Signed');
       return 'Account Created Successfully';
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -214,11 +210,6 @@ class LoginProvider {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       print('///////////////////sent /////////////');
-      // ignore: use_build_context_synchronously
-      // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      //   content: Text('link sent successfully'),
-      //   backgroundColor: Colors.white,
-      // ));
       return 'password reset link sent successfully';
     } catch (e) {
       return 'error: $e';

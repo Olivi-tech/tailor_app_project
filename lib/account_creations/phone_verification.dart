@@ -49,159 +49,122 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
         body: Padding(
           padding: const EdgeInsets.all(8),
           child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Form(
-                        key: _formKey,
-                        child: Column(
-                          children: [
-                            // SizedBox(
-                            //   height: height * 0.3,
-                            //   width: width,
-                            //   child: const ClipOval(
-                            //     child: Image(
-                            //       image: AssetImage(
-                            //           'assets/images/PhoneScreen.jpg'),
-                            //       fit: BoxFit.cover,
-                            //     ),
-                            //   ),
-                            // ),
-                            TextFormField(
-                              keyboardType: TextInputType.name,
-                              controller: PhoneNumberAuth.nameController,
-                              decoration: InputDecoration(
-                                  hintText: 'Enter Name',
-                                  contentPadding:
-                                      const EdgeInsets.only(top: 15, bottom: 0),
-                                  constraints:
-                                      const BoxConstraints(maxHeight: 70),
-                                  prefixIcon: const Icon(Icons.person_outline,
-                                      size: 20),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(15))),
-                              autofocus: true,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Empty Name';
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(
-                              height: height * 0.05,
-                            ),
-                            IntlPhoneField(
-                              dropdownTextStyle: const TextStyle(fontSize: 16),
-                              initialValue: '+92',
-                              onChanged: (phone) {
-                                //_phoneController.text = phone.completeNumber;
-                                tailorPhone = phone.completeNumber;
-                              },
-                              decoration: InputDecoration(
-                                  hintText: 'Phone Number',
-                                  hintStyle: const TextStyle(fontSize: 16),
-                                  contentPadding:
-                                      const EdgeInsets.only(top: 13),
-                                  constraints:
-                                      const BoxConstraints(maxHeight: 70),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  )),
-                              keyboardType: TextInputType.phone,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
-                              ],
-                            ),
-                          ],
-                        )),
-                    SizedBox(
-                      height: height * 0.01,
-                    ),
-                    CommonWidgets.customBtn(
-                        name: 'Get OTP',
-                        width: width,
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            print(
-                                '//////////////////$tailorPhone/////////////////////////');
-                            verifyPhoneNumber();
-                          }
-                        }),
-                    SizedBox(
-                      height: height * 0.05,
-                    ),
-                    TextFormField(
-                        controller: _smsController,
-                        maxLength: 6,
-                        keyboardType: TextInputType.phone,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly
+            padding: const EdgeInsets.all(16),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            keyboardType: TextInputType.name,
+                            controller: PhoneNumberAuth.nameController,
+                            decoration: InputDecoration(
+                                hintText: 'Enter Name',
+                                contentPadding:
+                                    const EdgeInsets.only(top: 15, bottom: 0),
+                                constraints:
+                                    const BoxConstraints(maxHeight: 70),
+                                prefixIcon:
+                                    const Icon(Icons.person_outline, size: 20),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15))),
+                            autofocus: true,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Empty Name';
+                              }
+                              return null;
+                            },
+                          ),
+                          SizedBox(
+                            height: height * 0.05,
+                          ),
+                          IntlPhoneField(
+                            dropdownTextStyle: const TextStyle(fontSize: 16),
+                            initialValue: '+92',
+                            onChanged: (phone) {
+                              tailorPhone = phone.completeNumber;
+                            },
+                            decoration: InputDecoration(
+                                hintText: 'Phone Number',
+                                hintStyle: const TextStyle(fontSize: 16),
+                                contentPadding: const EdgeInsets.only(top: 13),
+                                constraints:
+                                    const BoxConstraints(maxHeight: 70),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                )),
+                            keyboardType: TextInputType.phone,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                          ),
                         ],
-                        decoration: InputDecoration(
-                            hintText: 'Verification code',
-                            constraints: const BoxConstraints(maxHeight: 70),
-                            contentPadding: const EdgeInsets.only(
-                                left: 20, bottom: 0, top: 15),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15))),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Enter Phone Number';
-                          }
-                          return null;
-                        }),
-                    SizedBox(
-                      height: height * 0.03,
-                    ),
-                    CommonWidgets.customBtn(
-                        name: 'Sign In',
-                        width: width,
-                        onPressed: () async {
-                          print(
-                              '////////////////////////$tailorPhone////////////////');
-                          await signInWithPhoneNumber();
-                          // PhoneNumberAuth.modelAddCustomer =
-                          //     ModelAddCustomer.tailorDetails(
-                          //         tailorEmail: tailorPhone,
-                          //         tailorName:
-                          //             PhoneNumberAuth.nameController.text);
-                          // print(
-                          //     '//////////path= ${PhoneNumberAuth.modelAddCustomer.tailorEmail!}/');
-                          // print(
-                          //     '/////////name= ${tailorPhone}/////////////////');
-                          // FirebaseFirestore.instance
-                          //     .collection(
-                          //         PhoneNumberAuth.modelAddCustomer.tailorEmail!)
-                          //     .doc(PhoneNumberAuth.modelAddCustomer.tailorName)
-                          //     .set(PhoneNumberAuth.modelAddCustomer
-                          //         .tailorToMap());
-                          Navigator.pop(context);
-                        })
-                  ],
-                ),
-              )),
+                      )),
+                  SizedBox(
+                    height: height * 0.01,
+                  ),
+                  CommonWidgets.customBtn(
+                      name: 'Get OTP',
+                      width: width,
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          verifyPhoneNumber();
+                        }
+                      }),
+                  SizedBox(
+                    height: height * 0.05,
+                  ),
+                  TextFormField(
+                      controller: _smsController,
+                      maxLength: 6,
+                      keyboardType: TextInputType.phone,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      decoration: InputDecoration(
+                          hintText: 'Verification code',
+                          constraints: const BoxConstraints(maxHeight: 70),
+                          contentPadding: const EdgeInsets.only(
+                              left: 20, bottom: 0, top: 15),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15))),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter Phone Number';
+                        }
+                        return null;
+                      }),
+                  SizedBox(
+                    height: height * 0.03,
+                  ),
+                  CommonWidgets.customBtn(
+                      name: 'Sign In',
+                      width: width,
+                      onPressed: () async {
+                        print(
+                            '////////////////////////$tailorPhone////////////////');
+                        await signInWithPhoneNumber();
+                        Navigator.pop(context);
+                      })
+                ],
+              ),
+            ),
+          ),
         ));
   }
 
   Future verifyPhoneNumber() async {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-          content: Text('Sending Code'), backgroundColor: Colors.green),
+        content: Text('Sending Code'),
+        backgroundColor: Color(0xD2EA4A26),
+      ),
     );
     //Callback for when the user has already previously signed in with this phone number on this device
     PhoneVerificationCompleted verificationCompleted =
-        (PhoneAuthCredential phoneAuthCredential) async {
-      // await _auth.signInWithCredential(phoneAuthCredential);
-      // print('/////////cerde ${phoneAuthCredential}');
-      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //     backgroundColor: Colors.green,
-      //     content: Text(
-      //         "Phone number automatically verified and ${tailorPhone} signed in")));
-      // Navigator.pop(context);
-    };
+        (PhoneAuthCredential phoneAuthCredential) async {};
     //Listens for errors with verification, such as too many attempts
     PhoneVerificationFailed verificationFailed =
         (FirebaseAuthException authException) {
@@ -214,8 +177,9 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
     PhoneCodeSent codeSent =
         (String verificationId, [int? forceResendingToken]) async {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Please check your phone for the verification code'),
-          backgroundColor: Colors.green));
+        content: Text('Please check your phone for the verification code'),
+        backgroundColor: Color(0xD2EA4A26),
+      ));
       _verificationId = verificationId;
     };
     PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
@@ -250,7 +214,8 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
       print(
           '/////////_auth.currentUser!.displayName = ${_auth.currentUser!.displayName}');
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          backgroundColor: Colors.green, content: Text('Successfully signed')));
+          backgroundColor: Color(0xD2EA4A26),
+          content: Text('Successfully signed')));
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.red, content: Text('Failed to sign in: $e')));

@@ -73,19 +73,8 @@ class _DashBoardState extends State<DashBoard> {
 
   @override
   Widget build(BuildContext context) {
-    print('//////////////////Dashboard build is called///////////////');
-
-    // print(
-    //     '//////////////${DashBoard.dataList.length}/////////////////data List = ////${DashBoard.dataList}//////////////////');
-    // print(
-    //     '////////////${customerList.length}///////////////////Customer List = ////$customerList//////////////////');
-    //
     DashBoard.selectedMode = DashBoard.selectedFlags.containsValue(true);
-    // print(
-    //   '/////////////// DashBoard.selectedMode = ${DashBoard.selectedMode}/////////');
-    // print('${user?.email}//////////////////////////////email//////');
     double width = MediaQuery.of(context).size.width;
-    // double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.red.shade100,
       drawer: TailorDrawer.myCustomDrawer(context: context, user: user),
@@ -147,9 +136,6 @@ class _DashBoardState extends State<DashBoard> {
                                 )
                               : const Icon(Icons.check_box_outline_blank)
                           : null,
-                      // trailing: CircleAvatar(
-                      //   child: Text('${DashBoard.selectedFlags[index]}'),
-                      // ),
                       selected: DashBoard.selectedFlags[index]!,
                       selectedTileColor: Colors.grey.shade300,
                       selectedColor: Colors.black,
@@ -191,34 +177,6 @@ class _DashBoardState extends State<DashBoard> {
                               MaterialPageRoute(
                                   builder: (context) =>
                                       CustomerDetailPage(map: data)));
-                          // print(
-                          //     '////////////////fullName////////// ${data['fullName']}/////////////////////////');
-                          // print(
-                          //     '/////////////////phoneNumber///////// ${data['phoneNumber']}/////////////////////////');
-                          // print(
-                          //     '/////////////////address///////// ${data['address']}/////////////////////////');
-                          // print(
-                          //     '////////////////wrist////////// ${data['wrist']}/////////////////////////');
-                          // print(
-                          //     '/////////////armLength///////////// ${data['armLength']}/////////////////////////');
-                          // print(
-                          //     '////////////////biceps////////// ${data['biceps']}/////////////////////////');
-                          // print(
-                          //     '/////////////calf///////////// ${data['calf']}/////////////////////////');
-                          // print(
-                          //     '////////////collar////////////// ${data['collar']}/////////////////////////');
-                          // print(
-                          //     '/////////////chest///////////// ${data['chest']}/////////////////////////');
-                          // print(
-                          //     '///////////////inseam/////////// ${data['inseam']}/////////////////////////');
-                          // print(
-                          //     '/////////////length///////////// ${data['length']}/////////////////////////');
-                          // print(
-                          //     '/////////////thigh///////////// ${data['thigh']}/////////////////////////');
-                          // print(
-                          //     '//////////////waist//////////// ${data['waist']}/////////////////////////');
-                          // print(
-                          //     '/////////////shoulder///////////// ${data['shoulder']}/////////////////////////');
                         }
                       },
                     ));
@@ -259,9 +217,6 @@ class _DashBoardState extends State<DashBoard> {
                                     )
                                   : const Icon(Icons.check_box_outline_blank))
                           : null,
-                      // trailing: CircleAvatar(
-                      //   child: Text('${DashBoard.selectedFlags[index]}'),
-                      // ),
                       selected: DashBoard.selectedFlags[index]!,
                       selectedTileColor: Colors.grey.shade300,
                       selectedColor: Colors.black,
@@ -298,59 +253,11 @@ class _DashBoardState extends State<DashBoard> {
                             }
                           });
                         } else {
-                          // print(
-                          //     '//////////////////////////////// CustomerDetailPage////////////////////////');
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      CustomerDetailPage(map: data)
-                                  //     CustomerDetailPage(
-                                  //   fullName: data['fullName'],
-                                  //   phoneNumber: data['phoneNumber'],
-                                  //   address: data['address'],
-                                  //   wrist: data['wrist'],
-                                  //   armLength: data['armLength'],
-                                  //   biceps: data['biceps'],
-                                  //   calf: data['calf'],
-                                  //   collar: data['collar'],
-                                  //   chest: data['chest'],
-                                  //   inseam: data['inseam'],
-                                  //   length: data['length'],
-                                  //   thigh: data['thigh'],
-                                  //   waist: data['waist'],
-                                  //   shoulder: data['shoulder'],
-                                  //   title: 'Customer Info',
-                                  // ),
-                                  ));
-                          // print(
-                          //     '////////////////fullName////////// ${data['fullName']}/////////////////////////');
-                          // print(
-                          //     '/////////////////phoneNumber///////// ${data['phoneNumber']}/////////////////////////');
-                          // print(
-                          //     '/////////////////address///////// ${data['address']}/////////////////////////');
-                          // print(
-                          //     '////////////////wrist////////// ${data['wrist']}/////////////////////////');
-                          // print(
-                          //     '/////////////armLength///////////// ${data['armLength']}/////////////////////////');
-                          // print(
-                          //     '////////////////biceps////////// ${data['biceps']}/////////////////////////');
-                          // print(
-                          //     '/////////////calf///////////// ${data['calf']}/////////////////////////');
-                          // print(
-                          //     '////////////collar////////////// ${data['collar']}/////////////////////////');
-                          // print(
-                          //     '/////////////chest///////////// ${data['chest']}/////////////////////////');
-                          // print(
-                          //     '///////////////inseam/////////// ${data['inseam']}/////////////////////////');
-                          // print(
-                          //     '/////////////length///////////// ${data['length']}/////////////////////////');
-                          // print(
-                          //     '/////////////thigh///////////// ${data['thigh']}/////////////////////////');
-                          // print(
-                          //     '//////////////waist//////////// ${data['waist']}/////////////////////////');
-                          // print(
-                          //     '/////////////shoulder///////////// ${data['shoulder']}/////////////////////////');
+                                      CustomerDetailPage(map: data)));
                         }
                       },
                     ));
@@ -375,7 +282,6 @@ class _DashBoardState extends State<DashBoard> {
         backgroundColor: const Color(0xD2EA4A26),
         child: const Icon(
           Icons.add,
-          // color: Color(0xD2EA4A26),
         ),
       ),
     );
