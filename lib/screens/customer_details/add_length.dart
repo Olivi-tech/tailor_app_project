@@ -18,7 +18,7 @@ class _AddLengthState extends State<AddLength> {
     return CommonWidgets.addCustomerDetails(
         context: context,
         list: CommonWidgets.generateList(11, 20),
-        stringAssetImg: 'assets/images/shirt_length-removebg-preview.png',
+        stringAssetImg: 'assets/images/shirt_length1.png',
         name: 'Shirt Length',
         onPressed: (String? value) {
           setState(() {

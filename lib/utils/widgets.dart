@@ -84,36 +84,13 @@ class CommonWidgets {
           suffixIcon: suffixIcon,
           border: InputBorder.none,
           focusedBorder: InputBorder.none,
-
           enabledBorder: InputBorder.none,
           errorBorder: InputBorder.none,
           disabledBorder: InputBorder.none,
-
-          // border: OutlineInputBorder(
-          //     borderRadius: BorderRadius.circular(20),
-          //     borderSide: const BorderSide(color: Colors.black)),
         ),
       ),
     );
   }
-
-  // static String? customValidator(String? value) {
-  //   if (value!.isEmpty || value.length < 6) {
-  //     return 'value must be greater or equal to 6';
-  //   } else if (value.length > 30 && value.length > 6) {
-  //     return 'Value Can\'t be greater than 30 characters';
-  //   }
-  //   return null;
-  // }
-  //
-  // static String? customValidatorForMeasurementTile(String? value) {
-  //   if (value!.isEmpty || value.length < 2) {
-  //     return 'keep more than 1';
-  //   } else if (value.length > 4) {
-  //     return 'keep less than 5';
-  //   }
-  //   return null;
-  // }
 
   static Widget customMeasurementTile(
       {required String stringAssetImage,
@@ -127,7 +104,7 @@ class CommonWidgets {
       tileColor: Colors.black26,
       contentPadding: const EdgeInsets.only(left: 0.0, right: 3),
       leading: CircleAvatar(
-        backgroundColor: Colors.grey,
+        backgroundColor: const Color(0xD2EA4A26),
         backgroundImage: AssetImage(stringAssetImage),
         radius: 27.5,
       ),
@@ -163,37 +140,18 @@ class CommonWidgets {
               onChanged: onChanged),
         ),
       ),
-      // trailing: SizedBox(
-      //   height: 50,
-      //   width: 130,
-      //   // color: Colors.green,
-      //   child: TextFormField(
-      //     keyboardType: TextInputType.number,
-      //     validator: validator,
-      //     initialValue: initialValue,
-      //     controller: controller,
-      //     textInputAction: TextInputAction.done,
-      //     decoration: InputDecoration(
-      //         hintText: 'inch...',
-      //         contentPadding: const EdgeInsets.only(
-      //             left: 7, top: 10, right: 0.0, bottom: 0.0),
-      //         border: OutlineInputBorder(
-      //             borderRadius: BorderRadius.circular(5),
-      //             borderSide: const BorderSide(color: Colors.deepPurple))),
-      //   ),
-      // ),
     );
   }
 
-  static Widget addCustomerDetails({
-    required BuildContext context,
-    required List<String> list,
-    required String stringAssetImg,
-    required String name,
-    required void Function(String?)? onPressed,
-    required void Function()? nextOnPressed,
-    required String? value,
-  }) {
+  static Widget addCustomerDetails(
+      {required BuildContext context,
+      required List<String> list,
+      required String stringAssetImg,
+      required String name,
+      required void Function(String?)? onPressed,
+      required void Function()? nextOnPressed,
+      required String? value,
+      BoxFit? boxFit = BoxFit.cover}) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     // String? value;
@@ -206,7 +164,7 @@ class CommonWidgets {
           alignment: Alignment.center,
           fit: StackFit.expand,
           children: [
-            Image(image: AssetImage(stringAssetImg), fit: BoxFit.cover),
+            Image(image: AssetImage(stringAssetImg), fit: boxFit),
             Padding(
                 padding: EdgeInsets.only(top: height * 0.85),
                 child: Column(

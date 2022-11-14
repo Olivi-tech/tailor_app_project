@@ -25,6 +25,7 @@ class _AddWristState extends State<AddWrist> {
             this.value = value;
           });
         },
+        boxFit: BoxFit.contain,
         nextOnPressed: () {
           if (value == null || value!.isEmpty) {
             Fluttertoast.showToast(msg: 'Select Value');

@@ -337,7 +337,8 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                   child: Column(
                     children: [
                       CommonWidgets.customMeasurementTile(
-                        stringAssetImage: 'assets/images/neck.jpg',
+                        stringAssetImage:
+                            'assets/images/NeckMeasurement-removebg-preview.png',
                         title: 'Neck',
                         list: CommonWidgets.generateList(11, 12),
                         controller: _neckController,
@@ -353,14 +354,16 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                       ),
                       const SizedBox(height: 10),
                       CommonWidgets.customMeasurementTile(
-                        stringAssetImage: 'assets/images/shoulder.jpg',
+                        stringAssetImage:
+                            'assets/images/shoulder-removebg-preview.png',
                         title: 'Shoulder',
                         controller: _shoulderController,
                         initialValue: _shoulderController.text,
                         list: CommonWidgets.generateList(9, 13),
                         onChanged: (String? value) => setState(() {
                           _shoulderController.text = value!;
-                        }), // validator: (value) {
+                        }),
+                        // validator: (value) {
                         //   return CommonWidgets
                         //       .customValidatorForMeasurementTile(value);
                         // }
@@ -369,7 +372,8 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                         height: 10,
                       ),
                       CommonWidgets.customMeasurementTile(
-                        stringAssetImage: 'assets/images/chest.jpg',
+                        stringAssetImage:
+                            'assets/images/chest-removebg-preview.png',
                         title: 'Chest',
                         controller: _chestController,
                         initialValue: _chestController.text,
@@ -405,7 +409,8 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                         height: 10,
                       ),
                       CommonWidgets.customMeasurementTile(
-                        stringAssetImage: 'assets/images/arm_length.jpg',
+                        stringAssetImage:
+                            'assets/images/arm_length-removebg-preview.png',
                         title: 'Arm Length',
                         controller: _armLengthController,
                         initialValue: _armLengthController.text,
@@ -422,7 +427,8 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                         height: 10,
                       ),
                       CommonWidgets.customMeasurementTile(
-                        stringAssetImage: 'assets/images/biceps.jpg',
+                        stringAssetImage:
+                            'assets/images/biceps-removebg-preview.png',
                         title: 'Biceps',
                         controller: _bicepsController,
                         initialValue: _bicepsController.text,
@@ -439,7 +445,8 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                         height: 10,
                       ),
                       CommonWidgets.customMeasurementTile(
-                        stringAssetImage: 'assets/images/wrist.jpg',
+                        stringAssetImage:
+                            'assets/images/wrist-removebg-preview.png',
                         title: 'Wrist',
                         controller: _wristController,
                         initialValue: _wristController.text,
@@ -456,7 +463,7 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                         height: 10,
                       ),
                       CommonWidgets.customMeasurementTile(
-                        stringAssetImage: 'assets/images/shirt_length.jpg',
+                        stringAssetImage: 'assets/images/shirt_length1.png',
                         title: 'Length',
                         controller: _lengthController,
                         initialValue: _lengthController.text,
@@ -490,7 +497,8 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                         height: 10,
                       ),
                       CommonWidgets.customMeasurementTile(
-                        stringAssetImage: 'assets/images/inseam.jpg',
+                        stringAssetImage:
+                            'assets/images/inseam-removebg-preview.png',
                         title: 'Inseam',
                         controller: _inseamController,
                         initialValue: _inseamController.text,
@@ -508,7 +516,8 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                         height: 10,
                       ),
                       CommonWidgets.customMeasurementTile(
-                        stringAssetImage: 'assets/images/calf.png',
+                        stringAssetImage:
+                            'assets/images/calf-removebg-preview.png',
                         title: 'Calf',
                         controller: _calfController,
                         initialValue: _calfController.text,

@@ -18,7 +18,7 @@ class _AddThighState extends State<AddThigh> {
     return CommonWidgets.addCustomerDetails(
         context: context,
         list: CommonWidgets.generateList(15, 14),
-        stringAssetImg: 'assets/images/thigh-removebg-preview.png',
+        stringAssetImg: 'assets/images/thigh.png',
         name: 'Thigh',
         onPressed: (String? value) {
           setState(() {

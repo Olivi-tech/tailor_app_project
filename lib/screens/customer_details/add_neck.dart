@@ -32,7 +32,7 @@ class _AddNeckState extends State<AddNeck> {
     return CommonWidgets.addCustomerDetails(
       context: context,
       list: CommonWidgets.generateList(11, 12),
-      stringAssetImg: 'assets/images/neck-removebg-preview.png',
+      stringAssetImg: 'assets/images/NeckMeasurement-removebg-preview.png',
       name: 'Neck',
       value: value,
       onPressed: (String? value) {
