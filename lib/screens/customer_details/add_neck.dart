@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:tailor_app/screens/customer_details/add_shoulder.dart';
 import 'package:tailor_app/screens/customer_details/customer_personal_details.dart';
 import 'package:tailor_app/utils/widgets.dart';
@@ -47,8 +48,11 @@ class _AddNeckState extends State<AddNeck> {
           //   _neckController.text = value!;
           CustomerPersonalDetails.modelAddCustomer.neck = value!;
           // print('///////////////////////////$value/////////////////////');
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const AddShoulder()));
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: const AddShoulder()));
         }
       },
     );

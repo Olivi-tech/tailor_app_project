@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:tailor_app/screens/customer_details/add_neck.dart';
 import 'package:tailor_app/screens/model_classes/model_add_customer.dart';
 import 'package:tailor_app/utils/widgets.dart';
@@ -30,9 +31,6 @@ class _CustomerPersonalDetailsState extends State<CustomerPersonalDetails> {
 
   @override
   Widget build(BuildContext context) {
-    // User? currentUser = FirebaseAuth.instance.currentUser;
-    // final customerCollection =
-    //     FirebaseFirestore.instance.collection(currentUser!.uid);
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return SafeArea(
@@ -124,9 +122,9 @@ class _CustomerPersonalDetailsState extends State<CustomerPersonalDetails> {
                             _addressController.text;
                         Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => const AddNeck()));
-                        // print(modelAddCustomer.toString());
+                            PageTransition(
+                                type: PageTransitionType.rightToLeft,
+                                child: const AddNeck()));
                       }
                     },
                     width: width * 0.9,

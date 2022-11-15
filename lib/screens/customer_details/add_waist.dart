@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:tailor_app/screens/customer_details/add_arm_length.dart';
 import 'package:tailor_app/utils/widgets.dart';
 
@@ -32,8 +33,11 @@ class _AddWaistState extends State<AddWaist> {
             Fluttertoast.showToast(msg: 'Select Value');
           } else {
             CustomerPersonalDetails.modelAddCustomer.waist = value!;
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const AddArmLength()));
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    child: const AddArmLength()));
           }
         });
   }

@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:tailor_app/screens/customer_detail_page.dart';
 import 'package:tailor_app/screens/customer_details/customer_personal_details.dart';
 import 'package:tailor_app/screens/model_classes/model_add_customer.dart';
@@ -174,9 +177,9 @@ class _DashBoardState extends State<DashBoard> {
                         } else {
                           Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      CustomerDetailPage(map: data)));
+                              PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  child: CustomerDetailPage(map: data)));
                         }
                       },
                     ));
@@ -255,9 +258,9 @@ class _DashBoardState extends State<DashBoard> {
                         } else {
                           Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      CustomerDetailPage(map: data)));
+                              PageTransition(
+                                  type: PageTransitionType.leftToRight,
+                                  child: CustomerDetailPage(map: data)));
                         }
                       },
                     ));
@@ -289,7 +292,6 @@ class _DashBoardState extends State<DashBoard> {
 
   Widget myAppBar() {
     return AppBar(
-      // centerTitle: true,
       leadingWidth: DashBoard.selectedMode ? 100 : 56,
       leading: DashBoard.selectedMode
           ? Row(
@@ -304,22 +306,12 @@ class _DashBoardState extends State<DashBoard> {
                           if (DashBoard.selectedFlags.containsValue(false)) {
                             DashBoard.customerList = [];
                             DashBoard.customerList = DashBoard.dataList;
-
-                            // print(
-                            //     '/////////////${DashBoard.customerList.length}///////customerList = ${DashBoard.customerList}/////////////////');
                             DashBoard.selectedFlags
                                 .updateAll((key, value) => true);
-                            //   searchProvider.checkValue(value: false);
                           } else {
-                            // print(
-                            //     '///////${DashBoard.customerList.length}////customer list before making empty///////// = ${DashBoard.customerList}/////////////////');
                             DashBoard.customerList = [];
-                            // print(
-                            //     '/////${DashBoard.customerList.length}//////customer list after making empty/////////dataList = ${DashBoard.customerList}/////${DashBoard.customerList.length}////////////');
-
                             DashBoard.selectedFlags
                                 .updateAll((key, value) => false);
-                            //   searchProvider.checkValue(value: true);
                           }
                         });
                       },
@@ -348,10 +340,8 @@ class _DashBoardState extends State<DashBoard> {
             onPressed: () {
               setState(() {
                 DashBoard.isSearching = !DashBoard.isSearching;
-                //   consumerValue.isSearching = DashBoard.isSearching;
                 _searchController.clear();
-                // consumerValue.searchedText = '';
-                print('///////////issearching ${DashBoard.isSearching}/////');
+                log('///////////issearching ${DashBoard.isSearching}/////');
               });
             },
             icon: DashBoard.isSearching
@@ -390,9 +380,9 @@ class _DashBoardState extends State<DashBoard> {
             color: Colors.white.withOpacity(0.9),
             borderRadius: BorderRadius.circular(10)),
         child: TextFormField(
-          onChanged: (val) {
-            //print('////val = $val///////');
-          },
+          // onChanged: (val) {
+          //   //print('////val = $val///////');
+          // },
           controller: _searchController,
           cursorColor: Colors.black,
           textInputAction: TextInputAction.search,

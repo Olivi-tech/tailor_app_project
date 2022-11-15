@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:tailor_app/screens/customer_details/add_chest.dart';
 import 'package:tailor_app/screens/customer_details/customer_personal_details.dart';
 import 'package:tailor_app/utils/widgets.dart';
@@ -31,8 +32,11 @@ class _AddShoulderState extends State<AddShoulder> {
             Fluttertoast.showToast(msg: 'Select Value');
           } else {
             CustomerPersonalDetails.modelAddCustomer.shoulder = value!;
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const AddChest()));
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    child: const AddChest()));
           }
         });
   }

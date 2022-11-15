@@ -488,10 +488,6 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                         onChanged: (String? value) => setState(() {
                           _thighController.text = value!;
                         }),
-                        // validator: (value) {
-                        //   return CommonWidgets
-                        //       .customValidatorForMeasurementTile(value);
-                        // }
                       ),
                       const SizedBox(
                         height: 10,
@@ -506,11 +502,6 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                         onChanged: (String? value) => setState(() {
                           _inseamController.text = value!;
                         }),
-
-                        // validator: (value) {
-                        //   return CommonWidgets
-                        //       .customValidatorForMeasurementTile(value);
-                        // }
                       ),
                       const SizedBox(
                         height: 10,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:tailor_app/screens/customer_details/add_calf.dart';
 import 'package:tailor_app/screens/customer_details/customer_personal_details.dart';
 import 'package:tailor_app/utils/widgets.dart';
@@ -31,8 +32,11 @@ class _AddInseamState extends State<AddInseam> {
           } else {
             CustomerPersonalDetails.modelAddCustomer.inseam = value!;
 
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const AddCalf()));
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    child: const AddCalf()));
           }
         },
         value: value);

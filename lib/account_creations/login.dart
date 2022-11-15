@@ -4,6 +4,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:tailor_app/account_creations/login_provider.dart';
 import 'package:tailor_app/account_creations/reset_pwd.dart';
@@ -80,8 +81,9 @@ class Login extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => const ResetPassword(),
+                          PageTransition(
+                            type: PageTransitionType.rightToLeft,
+                            child: const ResetPassword(),
                           ));
                     },
                     child: const Text('Forgot Password?',
@@ -127,8 +129,9 @@ class Login extends StatelessWidget {
                             if (status == 'Signed In Successfully') {
                               Navigator.push(
                                   context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const DashBoard()));
+                                  PageTransition(
+                                      type: PageTransitionType.leftToRight,
+                                      child: const DashBoard()));
                             }
                             break;
                           case false:
@@ -157,8 +160,11 @@ class Login extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 5.0),
                   child: CommonWidgets.customBtn(
                       onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => SignUp()));
+                        Navigator.push(
+                            context,
+                            PageTransition(
+                                type: PageTransitionType.rightToLeft,
+                                child: SignUp()));
                       },
                       name: 'Register Email',
                       height: height * 0.06,
@@ -215,8 +221,9 @@ class Login extends StatelessWidget {
                       onPressed: () async {
                         Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => const PhoneNumberAuth()));
+                            PageTransition(
+                                type: PageTransitionType.rightToLeft,
+                                child: const PhoneNumberAuth()));
                       },
                       icon: const Icon(FontAwesomeIcons.phone,
                           color: Colors.white)),

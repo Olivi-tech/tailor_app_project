@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:tailor_app/screens/customer_details/customer_personal_details.dart';
 import 'package:tailor_app/screens/dashboard.dart';
 import 'package:tailor_app/utils/widgets.dart';
@@ -63,8 +64,9 @@ class _AddCalfState extends State<AddCalf> {
                 btnOkOnPress: () {
                   Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => const DashBoard(),
+                      PageTransition(
+                        type: PageTransitionType.leftToRight,
+                        child: const DashBoard(),
                       ),
                       (route) => false);
                 },
@@ -72,8 +74,9 @@ class _AddCalfState extends State<AddCalf> {
                 onDismissCallback: (type) {
                   Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => const DashBoard(),
+                      PageTransition(
+                        type: PageTransitionType.leftToRight,
+                        child: const DashBoard(),
                       ),
                       (route) => false);
                 },
@@ -94,8 +97,9 @@ class _AddCalfState extends State<AddCalf> {
                 btnOkOnPress: () {
                   Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => const DashBoard(),
+                      PageTransition(
+                        type: PageTransitionType.leftToRight,
+                        child: const DashBoard(),
                       ),
                       (route) => false);
                 },

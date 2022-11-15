@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:tailor_app/screens/customer_details/add_inseam.dart';
 import 'package:tailor_app/screens/customer_details/customer_personal_details.dart';
 import 'package:tailor_app/utils/widgets.dart';
@@ -30,8 +31,11 @@ class _AddThighState extends State<AddThigh> {
             Fluttertoast.showToast(msg: 'Select Value');
           } else {
             CustomerPersonalDetails.modelAddCustomer.thigh = value!;
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const AddInseam()));
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    child: const AddInseam()));
           }
         },
         value: value);

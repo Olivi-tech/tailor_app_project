@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:tailor_app/screens/update_customer.dart';
 
 import 'model_classes/model_add_customer.dart';
@@ -61,10 +62,11 @@ class CustomerDetailPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => UpdateCustomer(
-                              map: map,
-                            )));
+                    PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: UpdateCustomer(
+                          map: map,
+                        )));
               },
               child: const Text(
                 'Edit',

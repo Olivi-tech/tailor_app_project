@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:tailor_app/account_creations/login.dart';
 import 'package:tailor_app/account_creations/login_provider.dart';
 
 class TailorDrawer {
@@ -46,8 +48,12 @@ class TailorDrawer {
               trailing: const Icon(Icons.logout_sharp),
               onTap: () async {
                 final status = await LoginProvider.logout(context: context);
-                await LoginProvider.customSnackBar(
-                    status: status, context: context);
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.leftToRight, child: Login()));
+                // await LoginProvider.customSnackBar(
+                //     status: status, context: context);
               },
             ),
           ],
