@@ -47,7 +47,7 @@ class TailorDrawer {
               title: const Text('Logout'),
               trailing: const Icon(Icons.logout_sharp),
               onTap: () async {
-                final status = await LoginProvider.logout(context: context);
+                // final status = await LoginProvider.logout(context: context);
                 Navigator.push(
                     context,
                     PageTransition(
