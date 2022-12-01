@@ -1,6 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:tailor_app/account_creations/login_provider.dart';
 import 'package:tailor_app/utils/widgets.dart';
 
@@ -51,17 +52,13 @@ class _ResetPasswordState extends State<ResetPassword> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(height: height * 0.1),
               SizedBox(
                   width: width,
                   height: height * 0.3,
                   child: Image(
                     image: AssetImage(resetImg),
                     fit: BoxFit.fitWidth,
-                    //filterQuality: FilterQuality.high,
-                    // loadingBuilder: (BuildContext context, Widget child,
-                    //     ImageChunkEvent? loadingProgress) {
-                    //   return const Center(child: CircularProgressIndicator());
-                    // },
                   )),
               SizedBox(
                 height: height * 0.05,
@@ -70,12 +67,6 @@ class _ResetPasswordState extends State<ResetPassword> {
                 hintText: 'Enter Email',
                 controller: _emailController,
                 prefixIcon: const Icon(Icons.email),
-                // validator: (value) {
-                //   if (value == null || value.isEmpty) {
-                //     return 'put email';
-                //   }
-                //   return null;
-                // },
               ),
               SizedBox(
                 height: height * 0.02,
@@ -85,14 +76,28 @@ class _ResetPasswordState extends State<ResetPassword> {
                 height: 40,
                 width: width,
                 onPressed: () async {
+                  late var status;
                   if (_emailController.text.isEmpty) {
                     Fluttertoast.showToast(msg: 'put email');
                   } else if (!_emailController.text.contains('.') ||
                       !_emailController.text.contains('@')) {
                     Fluttertoast.showToast(msg: 'Invalid email');
+                  } else if (!await InternetConnectionChecker().hasConnection) {
+                    AwesomeDialog(
+                      context: context,
+                      dialogType: DialogType.warning,
+                      dismissOnTouchOutside: true,
+                      dismissOnBackKeyPress: true,
+                      headerAnimationLoop: true,
+                      animType: AnimType.scale,
+                      title: 'No Internet 😟',
+                      desc: 'Please make sure you are connected to internet',
+                      descTextStyle: const TextStyle(color: Colors.black),
+                      showCloseIcon: true,
+                      btnOkOnPress: () {},
+                    ).show();
                   } else {
-                    print('////////////email = ${_emailController.text}//////');
-                    var status = await LoginProvider.resetPWD(
+                    status = await LoginProvider.resetPWD(
                       email: _emailController.text,
                       context: ctx,
                     );
@@ -103,8 +108,10 @@ class _ResetPasswordState extends State<ResetPassword> {
                         headerAnimationLoop: false,
                         dialogType: DialogType.success,
                         showCloseIcon: true,
-                        title: 'Succes',
-                        desc: 'Link sent successfully',
+                        title: 'Link Sent',
+                        titleTextStyle: TextStyle(color: Colors.black),
+                        desc: 'Please Check your mail box',
+                        descTextStyle: TextStyle(color: Colors.black),
                         btnOkOnPress: () {
                           debugPrint('OnClcik');
                         },
@@ -119,8 +126,12 @@ class _ResetPasswordState extends State<ResetPassword> {
                         dialogType: DialogType.error,
                         animType: AnimType.rightSlide,
                         headerAnimationLoop: false,
-                        title: 'Error',
-                        desc: 'Error Sending Link',
+                        title: 'Error 😟',
+                        titleTextStyle: TextStyle(color: Colors.black),
+                        desc: status == 'user-not-found'
+                            ? '${_emailController.text} Doesn\'t exist in our database '
+                            : 'Error Sending link',
+                        descTextStyle: TextStyle(color: Colors.black),
                         btnOkOnPress: () {},
                         btnOkIcon: Icons.cancel,
                         btnOkColor: Colors.red,

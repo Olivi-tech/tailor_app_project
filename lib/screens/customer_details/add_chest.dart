@@ -19,7 +19,7 @@ class _AddChestState extends State<AddChest> {
     return CommonWidgets.addCustomerDetails(
         context: context,
         list: CommonWidgets.generateList(31, 28),
-        stringAssetImg: 'assets/images/chest-removebg-preview.png',
+        stringAssetImg: 'assets/images/chest.png',
         name: 'Chest',
         onPressed: (String? value) {
           setState(() {

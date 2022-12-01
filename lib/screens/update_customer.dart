@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:tailor_app/screens/dashboard.dart';
 import 'package:tailor_app/screens/model_classes/model_add_customer.dart';
 import 'package:tailor_app/utils/widgets.dart';
@@ -142,7 +146,7 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
             child: ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (_firstNameController.text.isEmpty ||
                     _lastNameController.text.isEmpty ||
                     _phoneController.text.isEmpty) {
@@ -188,47 +192,30 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                           ? 'Inseam measurement is empty'
                           : 'Calf measurement is empty');
                 } else {
-                  updateCustomer().whenComplete(() {
-                    AwesomeDialog(
-                      width: width,
-                      context: context,
-                      animType: AnimType.scale,
-                      headerAnimationLoop: true,
-                      dialogType: DialogType.success,
-                      showCloseIcon: false,
-                      dismissOnTouchOutside: false,
-                      autoDismiss: false,
-                      title: 'Success',
-                      desc: 'Updated ${_firstNameController.text}',
-                      descTextStyle: const TextStyle(color: Colors.black),
-                      btnOkOnPress: () {
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const DashBoard(),
-                            ),
-                            (route) => false);
-                      },
-                      btnOkIcon: Icons.check_circle,
-                      onDismissCallback: (type) {
-                        Navigator.pop(context);
-                      },
-                    ).show().onError((error, stackTrace) {
+                  updateCustomer();
+                  bool internetAvailable =
+                      await InternetConnectionChecker().hasConnection;
+                  log('///////////internet available = $internetAvailable/////////////');
+                  switch (internetAvailable) {
+                    case true:
                       AwesomeDialog(
+                        width: width,
                         context: context,
                         animType: AnimType.scale,
                         headerAnimationLoop: true,
-                        dialogType: DialogType.error,
-                        showCloseIcon: true,
+                        dialogType: DialogType.success,
+                        showCloseIcon: false,
+                        dismissOnTouchOutside: false,
                         autoDismiss: false,
-                        autoHide: const Duration(seconds: 4),
-                        title: 'Error',
-                        desc: 'Error while adding. Check internet & try again',
+                        title: 'Success',
+                        desc: 'Updated ${_firstNameController.text}',
+                        descTextStyle: const TextStyle(color: Colors.black),
                         btnOkOnPress: () {
                           Navigator.pushAndRemoveUntil(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => const DashBoard(),
+                              PageTransition(
+                                type: PageTransitionType.leftToRight,
+                                child: const DashBoard(),
                               ),
                               (route) => false);
                         },
@@ -237,8 +224,30 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                           Navigator.pop(context);
                         },
                       ).show();
-                    });
-                  });
+                      break;
+                    case false:
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.warning,
+                        dismissOnTouchOutside: false,
+                        dismissOnBackKeyPress: false,
+                        headerAnimationLoop: true,
+                        animType: AnimType.scale,
+                        title: 'Updated In Current Device',
+                        desc:
+                            'Note:Customer is not Updated to cloud. Provide internet to this device to sync and if you change device later',
+                        descTextStyle: const TextStyle(color: Colors.black),
+                        btnOkOnPress: () {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.leftToRight,
+                                child: const DashBoard(),
+                              ),
+                              (route) => false);
+                        },
+                      ).show();
+                  }
                 }
               },
               style: ElevatedButton.styleFrom(

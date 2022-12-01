@@ -28,82 +28,81 @@ class _AddCalfState extends State<AddCalf> {
       context: context,
       list: CommonWidgets.generateList(10, 11),
       stringAssetImg: 'assets/images/calf-removebg-preview.png',
-      name: 'Add Calf',
+      name: 'Calf',
       value: value,
       onPressed: (String? value) {
         setState(() {
           this.value = value;
         });
       },
+      btnName: 'Add All Measurements',
       nextOnPressed: () async {
         if (value == null || value!.isEmpty) {
           Fluttertoast.showToast(msg: 'Select Value');
         } else {
           CustomerPersonalDetails.modelAddCustomer.calf = value!;
+          FirebaseFirestore.instance
+              .collection(collection)
+              .doc(CustomerPersonalDetails.modelAddCustomer.phoneNumber)
+              .set(CustomerPersonalDetails.modelAddCustomer.toMap());
           bool isAvailable = await InternetConnectionChecker().hasConnection;
           log('//////////internet isavailable = $isAvailable////////////');
-          switch (isAvailable) {
-            case true:
-              await FirebaseFirestore.instance
-                  .collection(collection)
-                  .doc(CustomerPersonalDetails.modelAddCustomer.phoneNumber)
-                  .set(CustomerPersonalDetails.modelAddCustomer.toMap());
-              AwesomeDialog(
-                width: width,
-                context: context,
-                animType: AnimType.scale,
-                headerAnimationLoop: true,
-                dialogType: DialogType.success,
-                showCloseIcon: false,
-                dismissOnTouchOutside: false,
-                autoDismiss: false,
-                title: 'Success',
-                desc:
-                    'Added ${CustomerPersonalDetails.modelAddCustomer.firstName}',
-                descTextStyle: const TextStyle(color: Colors.black),
-                btnOkOnPress: () {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      PageTransition(
-                        type: PageTransitionType.leftToRight,
-                        child: const DashBoard(),
-                      ),
-                      (route) => false);
-                },
-                btnOkIcon: Icons.check_circle,
-                onDismissCallback: (type) {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      PageTransition(
-                        type: PageTransitionType.leftToRight,
-                        child: const DashBoard(),
-                      ),
-                      (route) => false);
-                },
-              ).show();
-              break;
-            case false:
-              AwesomeDialog(
-                context: context,
-                dialogType: DialogType.warning,
-                dismissOnTouchOutside: false,
-                dismissOnBackKeyPress: false,
-                headerAnimationLoop: true,
-                animType: AnimType.scale,
-                title: 'Added In Current Device',
-                desc:
-                    'Note:Customer is not added to cloud. Provide internet to this device to sync and if you chnage device later',
-                descTextStyle: const TextStyle(color: Colors.black),
-                btnOkOnPress: () {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      PageTransition(
-                        type: PageTransitionType.leftToRight,
-                        child: const DashBoard(),
-                      ),
-                      (route) => false);
-                },
-              ).show();
+          if (isAvailable) {
+            AwesomeDialog(
+              width: width,
+              context: context,
+              animType: AnimType.scale,
+              headerAnimationLoop: true,
+              dialogType: DialogType.success,
+              showCloseIcon: false,
+              dismissOnTouchOutside: false,
+              autoDismiss: false,
+              title: 'Success',
+              desc:
+                  'Added ${CustomerPersonalDetails.modelAddCustomer.firstName}',
+              descTextStyle: const TextStyle(color: Colors.black),
+              btnOkOnPress: () {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    PageTransition(
+                      type: PageTransitionType.leftToRight,
+                      child: const DashBoard(),
+                    ),
+                    (route) => false);
+              },
+              btnOkIcon: Icons.check_circle,
+              onDismissCallback: (type) {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    PageTransition(
+                      type: PageTransitionType.leftToRight,
+                      child: const DashBoard(),
+                    ),
+                    (route) => false);
+              },
+            ).show();
+          } else {
+            AwesomeDialog(
+              context: context,
+              dialogType: DialogType.warning,
+              dismissOnTouchOutside: false,
+              dismissOnBackKeyPress: false,
+              headerAnimationLoop: true,
+              animType: AnimType.scale,
+              title: 'Added In Current Device',
+              desc:
+                  'Note:Customer is not added to cloud. Provide internet to this device to sync and if you change device later',
+              descTextStyle: const TextStyle(color: Colors.black),
+              btnOkOnPress: () {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    PageTransition(
+                      type: PageTransitionType.leftToRight,
+                      child: const DashBoard(),
+                    ),
+                    (route) => false);
+              },
+            ).show();
           }
         }
       },

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -209,10 +211,16 @@ class LoginProvider {
       {required String email, required BuildContext context}) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      print('///////////////////sent /////////////');
+      log('///////////////////sent /////////////');
       return 'password reset link sent successfully';
-    } catch (e) {
-      return 'error: $e';
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        log('user-not-found');
+        return 'user-not-found';
+      } else {
+        log('$e');
+        return '$e';
+      }
     }
   }
 

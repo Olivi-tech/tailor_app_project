@@ -94,9 +94,7 @@ class _DashBoardState extends State<DashBoard> {
             );
           } else if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-                child: CircularProgressIndicator(
-              color: Colors.green,
-            ));
+                child: CircularProgressIndicator(color: Color(0xD2EA4A26)));
           } else if (snapshot.data!.size == 0) {
             return const Center(
               child: Text(

@@ -25,14 +25,14 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('/////////////////////build///////////////////////////');
+    print('//////////build///////////');
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
-    // final isKeyBoard = MediaQuery.of(context).viewInsets.bottom != 0;
     return SafeArea(
         child: Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
+          // reverse: true,
           child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: <Widget>[
@@ -160,6 +160,7 @@ class Login extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 5.0),
                   child: CommonWidgets.customBtn(
                       onPressed: () {
+                        FocusScope.of(context).unfocus();
                         Navigator.push(
                             context,
                             PageTransition(
@@ -219,6 +220,7 @@ class Login extends StatelessWidget {
                   radius: 25,
                   child: IconButton(
                       onPressed: () async {
+                        FocusScope.of(context).unfocus();
                         Navigator.push(
                             context,
                             PageTransition(
