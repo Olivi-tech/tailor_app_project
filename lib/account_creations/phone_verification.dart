@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:tailor_app/screens/model_classes/model_add_customer.dart';
 import 'package:tailor_app/utils/widgets.dart';
+
+import 'login_provider.dart';
 
 class PhoneNumberAuth extends StatefulWidget {
   const PhoneNumberAuth({Key? key}) : super(key: key);
@@ -83,15 +86,21 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
                             height: height * 0.05,
                           ),
                           IntlPhoneField(
-                            dropdownTextStyle: const TextStyle(fontSize: 16),
+                            dropdownTextStyle: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.normal),
                             initialValue: '+92',
                             onChanged: (phone) {
                               tailorPhone = phone.completeNumber;
                             },
                             decoration: InputDecoration(
                                 hintText: 'Phone Number',
-                                hintStyle: const TextStyle(fontSize: 16),
-                                contentPadding: const EdgeInsets.only(top: 13),
+                                hintStyle: const TextStyle(
+                                  fontSize: 16,
+                                ),
+                                contentPadding:
+                                    const EdgeInsets.only(top: 15, bottom: 15),
                                 constraints:
                                     const BoxConstraints(maxHeight: 70),
                                 border: OutlineInputBorder(
@@ -112,7 +121,13 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
                       width: width,
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          verifyPhoneNumber();
+                          if (await InternetConnectionChecker().hasConnection) {
+                            verifyPhoneNumber();
+                          } else {
+                            LoginProvider.customSnackBar(
+                                status: 'Internet Connection not available',
+                                context: context);
+                          }
                         }
                       }),
                   SizedBox(
@@ -143,8 +158,7 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
                       name: 'Sign In',
                       width: width,
                       onPressed: () async {
-                        print(
-                            '////////////////////////$tailorPhone////////////////');
+                        print('//////$tailorPhone///////');
                         await signInWithPhoneNumber();
                         Navigator.pop(context);
                       })
@@ -209,7 +223,7 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
         verificationId: _verificationId,
         smsCode: _smsController.text,
       );
-      final User user = (await _auth.signInWithCredential(credential)).user!;
+      (await _auth.signInWithCredential(credential)).user!;
       _auth.currentUser!.updateDisplayName(PhoneNumberAuth.nameController.text);
       print(
           '/////////_auth.currentUser!.displayName = ${_auth.currentUser!.displayName}');

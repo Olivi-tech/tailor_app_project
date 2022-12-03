@@ -208,7 +208,8 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                         dismissOnTouchOutside: false,
                         autoDismiss: false,
                         title: 'Success',
-                        desc: 'Updated ${_firstNameController.text}',
+                        desc:
+                            'Updated ${_firstNameController.text} successfully',
                         descTextStyle: const TextStyle(color: Colors.black),
                         btnOkOnPress: () {
                           Navigator.pushAndRemoveUntil(

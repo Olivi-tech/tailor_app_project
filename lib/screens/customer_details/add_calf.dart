@@ -13,7 +13,6 @@ import 'package:tailor_app/utils/widgets.dart';
 
 class AddCalf extends StatefulWidget {
   const AddCalf({Key? key}) : super(key: key);
-
   @override
   State<AddCalf> createState() => _AddCalfState();
 }

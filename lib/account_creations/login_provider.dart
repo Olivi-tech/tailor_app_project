@@ -61,29 +61,26 @@ class LoginProvider {
 
   static Future<String> signInWithFacebook(
       {required BuildContext context}) async {
-// Trigger the sign-in flow
     final LoginResult loginResult = await FacebookAuth.instance.login();
     if (loginResult.status == LoginStatus.success) {
       final AccessToken accessToken = loginResult.accessToken!;
       final OAuthCredential credential =
           FacebookAuthProvider.credential(accessToken.token);
-      print(
-          '${credential.idToken}//////////////credential.idToken/////////////////');
       try {
         await FirebaseAuth.instance.signInWithCredential(credential);
+        log(credential.toString());
         return 'Signed In Successfully';
-        //  print();
       } on FirebaseAuthException catch (e) {
         print(e.toString());
+        log(e.toString());
         return '$e';
       } catch (e) {
-        print(e.toString());
+        log(e.toString());
         return '$e';
-        // manage other exceptions
       }
     }
+    log('Something has went wrong');
     return 'Something has went wrong';
-    // Create a credential from the access token
   }
 
   static Future<String> logout({required BuildContext context}) async {

@@ -1,8 +1,10 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CommonWidgets {
   static Widget customBtn({
+    bool? isLoading = false,
     required String name,
     double? fontSize = 18.0,
     double? width = 40,

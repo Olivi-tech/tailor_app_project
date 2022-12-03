@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,11 +16,11 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'sign_up.dart';
 
 class Login extends StatelessWidget {
-  Login({super.key});
+  Login({Key? key}) : super(key: key);
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _pwdController = TextEditingController();
   static final _formKey = GlobalKey<FormState>();
-  bool isObscured = true;
+  static bool isObscured = true;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +31,6 @@ class Login extends StatelessWidget {
         child: Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-          // reverse: true,
           child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: <Widget>[
@@ -117,40 +115,21 @@ class Login extends StatelessWidget {
                       } else {
                         bool isAvailable =
                             await InternetConnectionChecker().hasConnection;
-                        log('/////////////////internet is available = $isAvailable');
-                        switch (isAvailable) {
-                          case true:
-                            final status =
-                                await LoginProvider.signInWithEmailAndPWD(
-                                    email: _emailController.text,
-                                    password: _pwdController.text);
-                            LoginProvider.customSnackBar(
-                                status: status, context: context);
-                            if (status == 'Signed In Successfully') {
-                              Navigator.push(
-                                  context,
-                                  PageTransition(
-                                      type: PageTransitionType.leftToRight,
-                                      child: const DashBoard()));
-                            }
-                            break;
-                          case false:
-                            AwesomeDialog(
-                              context: context,
-                              dialogType: DialogType.warning,
-                              dismissOnTouchOutside: true,
-                              dismissOnBackKeyPress: true,
-                              headerAnimationLoop: true,
-                              animType: AnimType.scale,
-                              title: 'No Internet',
-                              desc:
-                                  'Please make sure you are connected to internet',
-                              descTextStyle:
-                                  const TextStyle(color: Colors.black),
-                              showCloseIcon: true,
-                              btnOkOnPress: () {},
-                            ).show();
-                        }
+                        if (isAvailable) {
+                          final status =
+                              await LoginProvider.signInWithEmailAndPWD(
+                                  email: _emailController.text,
+                                  password: _pwdController.text);
+                          LoginProvider.customSnackBar(
+                              status: status, context: context);
+                          if (status == 'Signed In Successfully') {
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.leftToRight,
+                                    child: const DashBoard()));
+                          }
+                        } else {}
                       }
                     },
                     name: 'Login',
@@ -192,9 +171,16 @@ class Login extends StatelessWidget {
                     radius: 25,
                     child: IconButton(
                         onPressed: () async {
-                          final status = await LoginProvider.signInWithGoogle();
-                          LoginProvider.customSnackBar(
-                              status: status, context: context);
+                          if (await InternetConnectionChecker().hasConnection) {
+                            final status =
+                                await LoginProvider.signInWithGoogle();
+                            LoginProvider.customSnackBar(
+                                status: status, context: context);
+                          } else {
+                            LoginProvider.customSnackBar(
+                                status: 'Internet Connection not available',
+                                context: context);
+                          }
                         },
                         icon: const Icon(FontAwesomeIcons.google,
                             color: Colors.white))),
@@ -202,10 +188,16 @@ class Login extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: IconButton(
                     onPressed: () async {
-                      final status = await LoginProvider.signInWithFacebook(
-                          context: context);
-                      LoginProvider.customSnackBar(
-                          status: status, context: context);
+                      if (await InternetConnectionChecker().hasConnection) {
+                        final status = await LoginProvider.signInWithFacebook(
+                            context: context);
+                        LoginProvider.customSnackBar(
+                            status: status, context: context);
+                      } else {
+                        LoginProvider.customSnackBar(
+                            status: 'Internet Connection not available',
+                            context: context);
+                      }
                     },
                     iconSize: 50,
                     icon: const Icon(
