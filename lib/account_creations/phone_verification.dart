@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
@@ -205,7 +207,7 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
     try {
       await _auth.verifyPhoneNumber(
           phoneNumber: tailorPhone,
-          timeout: const Duration(minutes: 2),
+          timeout: const Duration(minutes: 1),
           verificationCompleted: verificationCompleted,
           verificationFailed: verificationFailed,
           codeSent: codeSent,
@@ -225,8 +227,7 @@ class PhoneNumberAuthState extends State<PhoneNumberAuth> {
       );
       (await _auth.signInWithCredential(credential)).user!;
       _auth.currentUser!.updateDisplayName(PhoneNumberAuth.nameController.text);
-      print(
-          '/////////_auth.currentUser!.displayName = ${_auth.currentUser!.displayName}');
+      log('/////////_auth.currentUser!.displayName = ${_auth.currentUser!.displayName}');
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           backgroundColor: Color(0xD2EA4A26),
           content: Text('Successfully signed')));

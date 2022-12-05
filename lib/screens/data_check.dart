@@ -19,6 +19,7 @@ class DataCheck extends StatelessWidget {
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+            primarySwatch: Colors.red,
             appBarTheme: const AppBarTheme(
                 centerTitle: true, backgroundColor: Color(0xD2EA4A26)),
             textTheme: GoogleFonts.tinosTextTheme(

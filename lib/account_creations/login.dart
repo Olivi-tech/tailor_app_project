@@ -1,5 +1,3 @@
-import 'dart:developer';
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -113,9 +111,7 @@ class Login extends StatelessWidget {
                           backgroundColor: Colors.black,
                         );
                       } else {
-                        bool isAvailable =
-                            await InternetConnectionChecker().hasConnection;
-                        if (isAvailable) {
+                        if (await InternetConnectionChecker().hasConnection) {
                           final status =
                               await LoginProvider.signInWithEmailAndPWD(
                                   email: _emailController.text,
@@ -129,7 +125,9 @@ class Login extends StatelessWidget {
                                     type: PageTransitionType.leftToRight,
                                     child: const DashBoard()));
                           }
-                        } else {}
+                        } else {
+                          Fluttertoast.showToast(msg: 'Internet Not Available');
+                        }
                       }
                     },
                     name: 'Login',

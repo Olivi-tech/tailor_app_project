@@ -1,4 +1,3 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -30,11 +29,13 @@ class CommonWidgets {
             shape: MaterialStateProperty.all(RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0))),
             foregroundColor: MaterialStateProperty.all(btnTextColor)),
-        child: Text(name,
-            style: TextStyle(
-              fontSize: fontSize,
-              fontWeight: fontWeight,
-            )),
+        child: FittedBox(
+          child: Text(name,
+              style: TextStyle(
+                fontSize: fontSize,
+                fontWeight: fontWeight,
+              )),
+        ),
       ),
     );
   }
@@ -157,7 +158,6 @@ class CommonWidgets {
       BoxFit? boxFit = BoxFit.cover}) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    // String? value;
     return Material(
       child: Container(
         color: Colors.teal.withOpacity(0.5),
