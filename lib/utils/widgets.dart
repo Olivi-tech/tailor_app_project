@@ -11,7 +11,6 @@ class CommonWidgets {
     Gradient? btnBackGroundGradientColor = const LinearGradient(colors: [
       Colors.deepOrangeAccent,
       Colors.yellow,
-      //Colors.indigo
     ]),
     Color? btnBackGroundColor = const Color(0xD2EA4A26),
     Color? btnTextColor = Colors.white,

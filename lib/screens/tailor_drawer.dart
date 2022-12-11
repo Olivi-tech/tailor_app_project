@@ -3,6 +3,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:tailor_app/screens/completed_orders.dart';
 import '../account_creations/login_provider.dart';
 
 class TailorDrawer {
@@ -40,9 +42,36 @@ class TailorDrawer {
               leading: const CircleAvatar(
                 backgroundImage: AssetImage('assets/images/logo.png'),
               ),
-              title: const Text('Logout'),
+              title: Text(
+                'Completed Orders',
+                style: textStyle(),
+              ),
+              trailing: const Icon(Icons.local_offer_outlined),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: CompletedOrders(
+                        title: 'Completed Orders',
+                      ),
+                    ));
+              },
+            ),
+            Divider(color: Colors.white),
+            ListTile(
+              textColor: Colors.white,
+              leading: const CircleAvatar(
+                backgroundImage: AssetImage('assets/images/logo.png'),
+              ),
+              title: Text(
+                'Logout',
+                style: textStyle(),
+              ),
               trailing: const Icon(Icons.logout_sharp),
               onTap: () async {
+                Navigator.pop(context);
                 if (await InternetConnectionChecker().hasConnection) {
                   final status = await LoginProvider.logout(context: context);
                   await LoginProvider.customSnackBar(
@@ -66,5 +95,12 @@ class TailorDrawer {
             ),
           ],
         ));
+  }
+
+  static TextStyle textStyle() {
+    return TextStyle(
+      color: Colors.black,
+      fontSize: 18,
+    );
   }
 }

@@ -7,7 +7,8 @@ import 'package:tailor_app/screens/model_classes/model_add_customer.dart';
 import 'package:tailor_app/utils/widgets.dart';
 
 class CustomerPersonalDetails extends StatefulWidget {
-  static final ModelAddCustomer modelAddCustomer = ModelAddCustomer();
+  static final ModelAddCustomer modelAddCustomer =
+      ModelAddCustomer(orderStatus: 'Active');
   const CustomerPersonalDetails({Key? key}) : super(key: key);
   @override
   State<CustomerPersonalDetails> createState() =>

@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
+import 'package:tailor_app/provider/change_pwd_icon.dart';
 import 'package:tailor_app/screens/dashboard.dart';
 import 'package:tailor_app/screens/model_classes/model_add_customer.dart';
 import 'package:tailor_app/utils/widgets.dart';
@@ -24,6 +26,7 @@ class UpdateCustomer extends StatefulWidget {
 
 class _UpdateCustomerState extends State<UpdateCustomer> {
   final GlobalKey<FormState> _formKeyMeasurement = GlobalKey<FormState>();
+  ChangeIcon _changeIcon = ChangeIcon();
 
   ///adding customer info///
   late final TextEditingController _firstNameController;
@@ -109,13 +112,15 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
     super.dispose();
   }
 
+  late ModelAddCustomer _modelAddCustomer;
   @override
   Widget build(BuildContext context) {
     User? currentUser = FirebaseAuth.instance.currentUser;
     final customerCollection =
         FirebaseFirestore.instance.collection(currentUser!.uid);
     Future<void> updateCustomer() async {
-      var obj = ModelAddCustomer(
+      _modelAddCustomer = ModelAddCustomer(
+          orderStatus: _changeIcon.isActive ? 'Active' : 'Completed',
           firstName: _firstNameController.text,
           lastName: _lastNameController.text,
           phoneNumber: _phoneController.text,
@@ -133,11 +138,10 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
           wrist: _wristController.text);
       return await customerCollection
           .doc(_phoneController.text)
-          .set(obj.toMap());
+          .set(_modelAddCustomer.toMap());
     }
 
     double width = MediaQuery.of(context).size.width;
-    // double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Update Customer'),
@@ -193,62 +197,64 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                           : 'Calf measurement is empty');
                 } else {
                   updateCustomer();
-                  bool internetAvailable =
-                      await InternetConnectionChecker().hasConnection;
-                  log('///////////internet available = $internetAvailable/////////////');
-                  switch (internetAvailable) {
-                    case true:
-                      AwesomeDialog(
-                        width: width,
-                        context: context,
-                        animType: AnimType.scale,
-                        headerAnimationLoop: true,
-                        dialogType: DialogType.success,
-                        showCloseIcon: false,
-                        dismissOnTouchOutside: false,
-                        autoDismiss: false,
-                        title: 'Success',
-                        desc:
-                            'Updated ${_firstNameController.text} successfully',
-                        descTextStyle: const TextStyle(color: Colors.black),
-                        btnOkOnPress: () {
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              PageTransition(
-                                type: PageTransitionType.leftToRight,
-                                child: const DashBoard(),
-                              ),
-                              (route) => false);
-                        },
-                        btnOkIcon: Icons.check_circle,
-                        onDismissCallback: (type) {
-                          Navigator.pop(context);
-                        },
-                      ).show();
-                      break;
-                    case false:
-                      AwesomeDialog(
-                        context: context,
-                        dialogType: DialogType.warning,
-                        dismissOnTouchOutside: false,
-                        dismissOnBackKeyPress: false,
-                        headerAnimationLoop: true,
-                        animType: AnimType.scale,
-                        title: 'Updated In Current Device',
-                        desc:
-                            'Note:Customer is not Updated to cloud. Provide internet to this device to sync and if you change device later',
-                        descTextStyle: const TextStyle(color: Colors.black),
-                        btnOkOnPress: () {
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              PageTransition(
-                                type: PageTransitionType.leftToRight,
-                                child: const DashBoard(),
-                              ),
-                              (route) => false);
-                        },
-                      ).show();
-                  }
+                  log('//////${widget.map![ModelAddCustomer.keyOrderStatus]}/////');
+                  // switch (await InternetConnectionChecker().hasConnection) {
+                  //   case true:
+                  //     AwesomeDialog(
+                  //       width: width,
+                  //       context: context,
+                  //       animType: AnimType.scale,
+                  //       headerAnimationLoop: true,
+                  //       dialogType: DialogType.success,
+                  //       showCloseIcon: false,
+                  //       dismissOnTouchOutside: false,
+                  //       autoDismiss: false,
+                  //       title: 'Success',
+                  //       desc: _phoneController.text ==
+                  //               widget.map![ModelAddCustomer.keyPhoneNumber]
+                  //           ? 'Updated ${_firstNameController.text} Successfully'
+                  //           : 'Updated ${_firstNameController.text} Successfully.' +
+                  //               ' ' +
+                  //               'InCase you change phone number of customer, He/She will be added as new customer. you will need to delete customer with past number manually',
+                  //       descTextStyle: const TextStyle(color: Colors.black),
+                  //       btnOkOnPress: () {
+                  //         Navigator.pushAndRemoveUntil(
+                  //             context,
+                  //             PageTransition(
+                  //               type: PageTransitionType.leftToRight,
+                  //               child: const DashBoard(),
+                  //             ),
+                  //             (route) => false);
+                  //       },
+                  //       btnOkIcon: Icons.check_circle,
+                  //       onDismissCallback: (type) {
+                  //         Navigator.pop(context);
+                  //       },
+                  //     ).show();
+                  //     break;
+                  //   case false:
+                  //     AwesomeDialog(
+                  //       context: context,
+                  //       dialogType: DialogType.warning,
+                  //       dismissOnTouchOutside: false,
+                  //       dismissOnBackKeyPress: false,
+                  //       headerAnimationLoop: true,
+                  //       animType: AnimType.scale,
+                  //       title: 'Updated In Current Device',
+                  //       desc:
+                  //           'Note:Customer is not Updated to cloud. Provide internet to this device to sync and if you change device later',
+                  //       descTextStyle: const TextStyle(color: Colors.black),
+                  //       btnOkOnPress: () {
+                  //         Navigator.pushAndRemoveUntil(
+                  //             context,
+                  //             PageTransition(
+                  //               type: PageTransitionType.leftToRight,
+                  //               child: const DashBoard(),
+                  //             ),
+                  //             (route) => false);
+                  //       },
+                  //     ).show();
+                  // }
                 }
               },
               style: ElevatedButton.styleFrom(
@@ -273,11 +279,55 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
           child: Column(
             children: [
               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text(
-                    'Customer Info :',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        'Mark Order as Completed',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.black),
+                      ),
+                      Consumer<ChangeIcon>(
+                        builder: (BuildContext context, value, Widget? child) {
+                          return Checkbox(
+                            value: !value.isActive,
+                            onChanged: (boxValue) {
+                              value.isActive = boxValue;
+                              // log('${value.isActive}');
+                              value.isActive
+                                  ? AwesomeDialog(
+                                      context: context,
+                                      dialogType: DialogType.warning,
+                                      dismissOnTouchOutside: false,
+                                      dismissOnBackKeyPress: false,
+                                      headerAnimationLoop: true,
+                                      animType: AnimType.scale,
+                                      title: 'Please Note That:',
+                                      desc:
+                                          'Order marked as completed will be moved from Home Page to Completed Orders Page ',
+                                      descTextStyle:
+                                          const TextStyle(color: Colors.black),
+                                      btnOkOnPress: () {
+                                        // Navigator.pushAndRemoveUntil(
+                                        //     context,
+                                        //     PageTransition(
+                                        //       type: PageTransitionType
+                                        //           .leftToRight,
+                                        //       child: const DashBoard(),
+                                        //     ),
+                                        //     (route) => false);
+                                      },
+                                    ).show()
+                                  : SizedBox();
+                            },
+                          );
+                        },
+                      ),
+                    ],
                   ),
                   const SizedBox(
                     height: 10,
@@ -285,54 +335,37 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                   CommonWidgets.customTextFormField(
                     hintText: 'First Name',
                     controller: _firstNameController,
-                    //  maxLength: 18,
                     textInputType: TextInputType.text,
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(RegExp('[a-zA-Z 0-9]'))
                     ],
                     prefixIcon: const Icon(Icons.person_add_alt_outlined),
-                    // validator: (value) {
-                    //   return CommonWidgets.customValidator('$value');
-                    // }
                   ),
                   const SizedBox(height: 10.0),
                   CommonWidgets.customTextFormField(
                     hintText: 'Last Name',
                     controller: _lastNameController,
-                    //initialValue: widget.map![ModelAddCustomer.keyFirstName],
-                    //  maxLength: 18,
                     textInputType: TextInputType.text,
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(RegExp('[a-zA-Z 0-9]'))
                     ],
                     prefixIcon: const Icon(Icons.person_add_alt_outlined),
-                    // validator: (value) {
-                    //   return CommonWidgets.customValidator('$value');
-                    // }
                   ),
                   const SizedBox(height: 10.0),
                   CommonWidgets.customTextFormField(
                     controller: _phoneController,
                     textInputType: TextInputType.phone,
                     hintText: 'Phone Number',
-                    //   maxLength: 13,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     prefixIcon: const Icon(Icons.phone_enabled_outlined),
-                    // validator: (value) {
-                    //   return CommonWidgets.customValidator('$value');
-                    // }
                   ),
                   const SizedBox(height: 10.0),
                   CommonWidgets.customTextFormField(
                     textInputType: TextInputType.streetAddress,
                     hintText: 'Address',
-                    //    maxLength: 30,
                     controller: _addressController,
                     prefixIcon:
                         const Icon(Icons.maps_home_work_outlined, size: 20),
-                    // validator: (value) {
-                    //   return CommonWidgets.customValidator('$value');
-                    // }
                   ),
                   const SizedBox(height: 5.0),
                   const Text(
@@ -391,11 +424,6 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                         onChanged: (String? value) => setState(() {
                           _chestController.text = value!;
                         }),
-                        // validator: (value) {
-                        //   return CommonWidgets
-                        //       .customValidatorForMeasur
-                        //       ementTile(value);
-                        // }
                       ),
                       const SizedBox(
                         height: 10,

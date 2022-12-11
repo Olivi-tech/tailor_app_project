@@ -55,7 +55,6 @@ class CustomerDetailPage extends StatelessWidget {
                   textStyle: const TextStyle(
                       fontWeight: FontWeight.bold, color: Colors.black),
                   fixedSize: const Size(80, 5),
-                  // minimumSize: const Size(100, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   )),

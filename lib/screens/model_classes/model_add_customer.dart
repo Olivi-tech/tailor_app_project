@@ -19,10 +19,8 @@ class ModelAddCustomer {
   String? inseam;
   String? shoulder;
   String? calf;
+  String? orderStatus;
 
-  // String toString() {
-  //   return 'ModelAddCustomer{fullName: $fullName, phoneNumber: $phoneNumber, address: $address, collar: $collar, waist: $waist, armLength: $armLength, biceps: $biceps, wrist: $wrist, length: $length, thigh: $thigh, chest: $chest, inseam: $inseam, shoulder: $shoulder, calf: $calf}';
-  // }
   static String keyTailorName = 'tailorName';
   static String keytailorEmail = 'tailorEmail';
 
@@ -41,6 +39,7 @@ class ModelAddCustomer {
   static String keyThigh = 'thigh';
   static String keyLength = 'length';
   static String keyCalf = 'calf';
+  static String keyOrderStatus = 'OrderStatus';
 
   ModelAddCustomer({
     this.firstName,
@@ -58,6 +57,7 @@ class ModelAddCustomer {
     this.thigh,
     this.inseam,
     this.calf,
+    required this.orderStatus,
   });
 
   ModelAddCustomer.tailorDetails({
@@ -88,7 +88,8 @@ class ModelAddCustomer {
       keyLength: length,
       keyThigh: thigh,
       keyInseam: inseam,
-      keyCalf: calf
+      keyCalf: calf,
+      keyOrderStatus: orderStatus,
     };
   }
 

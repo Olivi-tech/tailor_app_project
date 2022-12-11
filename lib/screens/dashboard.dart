@@ -112,6 +112,10 @@ class _DashBoardState extends State<DashBoard> {
               DashBoard.selectedFlags[index] =
                   DashBoard.selectedFlags[index] ?? false;
               DashBoard.selected = DashBoard.selectedFlags[index];
+              final String _orderStatus =
+                  data[ModelAddCustomer.keyOrderStatus] == 'Active'
+                      ? 'Active'
+                      : 'Completed';
               if (_searchController.text.isEmpty) {
                 return Padding(
                     padding:
@@ -128,6 +132,10 @@ class _DashBoardState extends State<DashBoard> {
                       subtitle: Text(
                         data[ModelAddCustomer.keyPhoneNumber],
                         style: const TextStyle(color: Colors.black),
+                      ),
+                      trailing: Text(
+                        'OrderStatus: $_orderStatus',
+                        style: TextStyle(color: Colors.black),
                       ),
                       leading: DashBoard.selectedMode
                           ? DashBoard.selectedFlags[index]!
