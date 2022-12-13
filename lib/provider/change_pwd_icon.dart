@@ -1,11 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 class ChangeIcon with ChangeNotifier {
-  bool _isActive = true;
-  get isActive => _isActive;
+  bool _isCompleted = false;
+  get isCompleted => _isCompleted;
 
-  set isActive(value) {
-    _isActive = value;
+  set isCompleted(value) {
+    _isCompleted = value;
+    log('change icon is completed: $_isCompleted');
     notifyListeners();
   }
 

@@ -116,6 +116,7 @@ class _DashBoardState extends State<DashBoard> {
                   data[ModelAddCustomer.keyOrderStatus] == 'Active'
                       ? 'Active'
                       : 'Completed';
+              log('dashboard is completed ${data[ModelAddCustomer.keyOrderStatus] == 'Completed'}');
               if (_searchController.text.isEmpty) {
                 return Padding(
                     padding:

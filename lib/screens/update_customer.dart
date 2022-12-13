@@ -10,9 +10,10 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:tailor_app/provider/change_pwd_icon.dart';
-import 'package:tailor_app/screens/dashboard.dart';
 import 'package:tailor_app/screens/model_classes/model_add_customer.dart';
 import 'package:tailor_app/utils/widgets.dart';
+
+import 'dashboard.dart';
 
 class UpdateCustomer extends StatefulWidget {
   Map<String, dynamic>? map = {};
@@ -26,7 +27,8 @@ class UpdateCustomer extends StatefulWidget {
 
 class _UpdateCustomerState extends State<UpdateCustomer> {
   final GlobalKey<FormState> _formKeyMeasurement = GlobalKey<FormState>();
-  ChangeIcon _changeIcon = ChangeIcon();
+  // ChangeIcon _changeIcon = ChangeIcon();
+  late bool statusCompleted;
 
   ///adding customer info///
   late final TextEditingController _firstNameController;
@@ -115,12 +117,20 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
   late ModelAddCustomer _modelAddCustomer;
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    statusCompleted =
+        Provider.of<ChangeIcon>(context, listen: false).isCompleted;
     User? currentUser = FirebaseAuth.instance.currentUser;
     final customerCollection =
         FirebaseFirestore.instance.collection(currentUser!.uid);
+
     Future<void> updateCustomer() async {
+      log('before updating is completed:${Provider.of<ChangeIcon>(context, listen: false).isCompleted}');
       _modelAddCustomer = ModelAddCustomer(
-          orderStatus: _changeIcon.isActive ? 'Active' : 'Completed',
+          orderStatus:
+              Provider.of<ChangeIcon>(context, listen: false).isCompleted
+                  ? 'Completed'
+                  : 'Active',
           firstName: _firstNameController.text,
           lastName: _lastNameController.text,
           phoneNumber: _phoneController.text,
@@ -141,7 +151,6 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
           .set(_modelAddCustomer.toMap());
     }
 
-    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Update Customer'),
@@ -196,65 +205,66 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                           ? 'Inseam measurement is empty'
                           : 'Calf measurement is empty');
                 } else {
+                  log('update customer is called');
                   updateCustomer();
-                  log('//////${widget.map![ModelAddCustomer.keyOrderStatus]}/////');
-                  // switch (await InternetConnectionChecker().hasConnection) {
-                  //   case true:
-                  //     AwesomeDialog(
-                  //       width: width,
-                  //       context: context,
-                  //       animType: AnimType.scale,
-                  //       headerAnimationLoop: true,
-                  //       dialogType: DialogType.success,
-                  //       showCloseIcon: false,
-                  //       dismissOnTouchOutside: false,
-                  //       autoDismiss: false,
-                  //       title: 'Success',
-                  //       desc: _phoneController.text ==
-                  //               widget.map![ModelAddCustomer.keyPhoneNumber]
-                  //           ? 'Updated ${_firstNameController.text} Successfully'
-                  //           : 'Updated ${_firstNameController.text} Successfully.' +
-                  //               ' ' +
-                  //               'InCase you change phone number of customer, He/She will be added as new customer. you will need to delete customer with past number manually',
-                  //       descTextStyle: const TextStyle(color: Colors.black),
-                  //       btnOkOnPress: () {
-                  //         Navigator.pushAndRemoveUntil(
-                  //             context,
-                  //             PageTransition(
-                  //               type: PageTransitionType.leftToRight,
-                  //               child: const DashBoard(),
-                  //             ),
-                  //             (route) => false);
-                  //       },
-                  //       btnOkIcon: Icons.check_circle,
-                  //       onDismissCallback: (type) {
-                  //         Navigator.pop(context);
-                  //       },
-                  //     ).show();
-                  //     break;
-                  //   case false:
-                  //     AwesomeDialog(
-                  //       context: context,
-                  //       dialogType: DialogType.warning,
-                  //       dismissOnTouchOutside: false,
-                  //       dismissOnBackKeyPress: false,
-                  //       headerAnimationLoop: true,
-                  //       animType: AnimType.scale,
-                  //       title: 'Updated In Current Device',
-                  //       desc:
-                  //           'Note:Customer is not Updated to cloud. Provide internet to this device to sync and if you change device later',
-                  //       descTextStyle: const TextStyle(color: Colors.black),
-                  //       btnOkOnPress: () {
-                  //         Navigator.pushAndRemoveUntil(
-                  //             context,
-                  //             PageTransition(
-                  //               type: PageTransitionType.leftToRight,
-                  //               child: const DashBoard(),
-                  //             ),
-                  //             (route) => false);
-                  //       },
-                  //     ).show();
-                  // }
+                  log('after calling is completed : ${widget.map![ModelAddCustomer.keyOrderStatus]}');
+                  switch (await InternetConnectionChecker().hasConnection) {
+                    case true:
+                      AwesomeDialog(
+                        width: width,
+                        context: context,
+                        animType: AnimType.scale,
+                        headerAnimationLoop: true,
+                        dialogType: DialogType.success,
+                        showCloseIcon: false,
+                        dismissOnTouchOutside: false,
+                        autoDismiss: false,
+                        title: 'Success',
+                        desc: _phoneController.text ==
+                                widget.map![ModelAddCustomer.keyPhoneNumber]
+                            ? 'Updated ${_firstNameController.text} Successfully'
+                            : 'Updated ${_firstNameController.text} Successfully.' +
+                                ' ' +
+                                'InCase you change phone number of customer, He/She will be added as new customer. you will need to delete customer with past number manually',
+                        descTextStyle: const TextStyle(color: Colors.black),
+                        btnOkOnPress: () {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.leftToRight,
+                                child: const DashBoard(),
+                              ),
+                              (route) => false);
+                        },
+                        btnOkIcon: Icons.check_circle,
+                        onDismissCallback: (type) {
+                          Navigator.pop(context);
+                        },
+                      ).show();
+                      break;
+                    case false:
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.warning,
+                        dismissOnTouchOutside: false,
+                        dismissOnBackKeyPress: false,
+                        headerAnimationLoop: true,
+                        animType: AnimType.scale,
+                        title: 'Updated In Current Device',
+                        desc:
+                            'Note:Customer is not Updated to cloud. Provide internet to this device to sync and if you change device later',
+                        descTextStyle: const TextStyle(color: Colors.black),
+                        btnOkOnPress: () {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.leftToRight,
+                                child: const DashBoard(),
+                              ),
+                              (route) => false);
+                        },
+                      ).show();
+                  }
                 }
               },
               style: ElevatedButton.styleFrom(
@@ -294,11 +304,12 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                       Consumer<ChangeIcon>(
                         builder: (BuildContext context, value, Widget? child) {
                           return Checkbox(
-                            value: !value.isActive,
+                            value: value.isCompleted,
                             onChanged: (boxValue) {
-                              value.isActive = boxValue;
-                              // log('${value.isActive}');
-                              value.isActive
+                              Provider.of<ChangeIcon>(context, listen: false)
+                                  .isCompleted = boxValue;
+                              log('on tap ${value.isCompleted}');
+                              value.isCompleted
                                   ? AwesomeDialog(
                                       context: context,
                                       dialogType: DialogType.warning,
