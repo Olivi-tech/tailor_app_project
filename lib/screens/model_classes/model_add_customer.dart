@@ -57,7 +57,7 @@ class ModelAddCustomer {
     this.thigh,
     this.inseam,
     this.calf,
-    required this.orderStatus,
+    this.orderStatus,
   });
 
   ModelAddCustomer.tailorDetails({
