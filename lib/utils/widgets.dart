@@ -241,4 +241,38 @@ class CommonWidgets {
     }
     return finalList;
   }
+
+  static Widget searchBox({required TextEditingController searchController}) {
+    return Container(
+        height: 35,
+        decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.9),
+            borderRadius: BorderRadius.circular(10)),
+        child: TextFormField(
+          controller: searchController,
+          cursorColor: Colors.black,
+          textInputAction: TextInputAction.search,
+          keyboardType: TextInputType.emailAddress,
+          autofocus: true,
+          decoration: InputDecoration(
+            hintStyle: const TextStyle(fontSize: 16, color: Colors.black),
+            hintText: 'name or phone',
+            suffixIcon: searchController.text.isNotEmpty
+                ? IconButton(
+                    onPressed: () {
+                      searchController.clear();
+                    },
+                    icon: const Icon(
+                      Icons.clear,
+                      color: Colors.black,
+                      size: 20,
+                    ),
+                  )
+                : null,
+            border: InputBorder.none,
+            contentPadding:
+                const EdgeInsets.only(top: 3, left: 15, right: 0.0, bottom: 15),
+          ),
+        ));
+  }
 }

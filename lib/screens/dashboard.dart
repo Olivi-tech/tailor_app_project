@@ -9,6 +9,7 @@ import 'package:tailor_app/screens/customer_detail_page.dart';
 import 'package:tailor_app/screens/customer_details/customer_personal_details.dart';
 import 'package:tailor_app/screens/model_classes/model_add_customer.dart';
 import 'package:tailor_app/screens/tailor_drawer.dart';
+import 'package:tailor_app/utils/widgets.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({Key? key}) : super(key: key);
@@ -30,18 +31,18 @@ class _DashBoardState extends State<DashBoard> {
   final String imgUrl = 'assets/images/avatar_image.jpg';
   bool check = true;
   late User? user;
-  late Stream<QuerySnapshot> userStream;
+  late CollectionReference userStream;
   late TextEditingController _searchController;
   late final TextEditingController _firstNameController;
   late final TextEditingController _lastNameController;
-  late final TextEditingController _phoneController;
   late final TextEditingController _addressController;
+  late final TextEditingController _phoneController;
 
   @override
   void initState() {
     super.initState();
     user = FirebaseAuth.instance.currentUser;
-    userStream = FirebaseFirestore.instance.collection(user!.uid).snapshots();
+    userStream = FirebaseFirestore.instance.collection(user!.uid);
     getData();
     _searchController = TextEditingController();
     _searchController.addListener(() => setState(() {}));
@@ -83,7 +84,9 @@ class _DashBoardState extends State<DashBoard> {
       drawer: TailorDrawer.myCustomDrawer(context: context, user: user),
       appBar: PreferredSize(preferredSize: Size(width, 56), child: myAppBar()),
       body: StreamBuilder<QuerySnapshot>(
-        stream: userStream,
+        stream: userStream
+            .where(ModelAddCustomer.keyOrderStatus, isEqualTo: 'Active')
+            .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return const Center(
@@ -339,7 +342,9 @@ class _DashBoardState extends State<DashBoard> {
                     icon: const Icon(Icons.menu)),
               ),
             ),
-      title: DashBoard.isSearching ? searchBox() : appBarTitle('Tailor Book'),
+      title: DashBoard.isSearching
+          ? CommonWidgets.searchBox(searchController: _searchController)
+          : appBarTitle('Tailor Book'),
       actions: <Widget>[
         Padding(
           padding: EdgeInsets.only(right: DashBoard.selectedMode ? 5.0 : 18.0),
@@ -378,45 +383,6 @@ class _DashBoardState extends State<DashBoard> {
       title,
       style: const TextStyle(fontWeight: FontWeight.bold),
     );
-  }
-
-  Widget searchBox() {
-    return Container(
-        height: 35,
-        decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.9),
-            borderRadius: BorderRadius.circular(10)),
-        child: TextFormField(
-          // onChanged: (val) {
-          //   //print('////val = $val///////');
-          // },
-          controller: _searchController,
-          cursorColor: Colors.black,
-          textInputAction: TextInputAction.search,
-          keyboardType: TextInputType.emailAddress,
-          autofocus: true,
-          decoration: InputDecoration(
-            hintStyle: const TextStyle(fontSize: 16, color: Colors.black),
-            hintText: 'name or phone',
-            suffixIcon: _searchController.text.isNotEmpty
-                ? IconButton(
-                    onPressed: () {
-                      //    searchProvider.searchedText = '';
-                      _searchController.clear();
-                    },
-                    icon: const Icon(
-                      Icons.clear,
-                      color: Colors.black,
-                      size: 20,
-                    ),
-                  )
-                : null,
-            border: InputBorder.none,
-            contentPadding:
-                const EdgeInsets.only(top: 3, left: 15, right: 0.0, bottom: 15),
-          ),
-        ));
-    // }));
   }
 
   Future<void> getData() async {
