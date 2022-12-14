@@ -303,11 +303,11 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                       ),
                       Consumer<ChangeIcon>(
                         builder: (BuildContext context, value, Widget? child) {
+                          log('checkbox is rebuilt');
                           return Checkbox(
                             value: value.isCompleted,
                             onChanged: (boxValue) {
-                              Provider.of<ChangeIcon>(context, listen: false)
-                                  .isCompleted = boxValue;
+                              value.isCompleted = boxValue!;
                               log('on tap ${value.isCompleted}');
                               value.isCompleted
                                   ? AwesomeDialog(

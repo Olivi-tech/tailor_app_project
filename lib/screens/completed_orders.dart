@@ -87,7 +87,8 @@ class _CompletedOrdersState extends State<CompletedOrders> {
                           horizontal: 15, vertical: 5),
                       child: ListTile(
                         title: Text(
-                            '${data[ModelAddCustomer.keyFirstName]}${data[ModelAddCustomer.keyLastName]}',
+                            '${data[ModelAddCustomer.keyFirstName]} '
+                            '${data[ModelAddCustomer.keyLastName]}',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold)),
@@ -130,7 +131,8 @@ class _CompletedOrdersState extends State<CompletedOrders> {
                           horizontal: 15, vertical: 5),
                       child: ListTile(
                         title: Text(
-                            '${data[ModelAddCustomer.keyFirstName]}${data[ModelAddCustomer.keyLastName]}',
+                            '${data[ModelAddCustomer.keyFirstName]} '
+                            '${data[ModelAddCustomer.keyLastName]}',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold)),
@@ -148,6 +150,9 @@ class _CompletedOrdersState extends State<CompletedOrders> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         onTap: () {
+                          _searchController.clear();
+                          isSearching = !isSearching;
+                          FocusScope.of(context).unfocus();
                           Navigator.push(
                               context,
                               PageTransition(
