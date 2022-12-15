@@ -39,7 +39,7 @@ class ModelAddCustomer {
   static String keyThigh = 'thigh';
   static String keyLength = 'length';
   static String keyCalf = 'calf';
-  static String keyOrderStatus = 'OrderStatus';
+  static String keyOrderStatus = 'orderStatus';
 
   ModelAddCustomer({
     this.firstName,
@@ -57,7 +57,7 @@ class ModelAddCustomer {
     this.thigh,
     this.inseam,
     this.calf,
-    this.orderStatus,
+    this.orderStatus = 'Active',
   });
 
   ModelAddCustomer.tailorDetails({

@@ -36,7 +36,6 @@ class _CustomerPersonalDetailsState extends State<CustomerPersonalDetails> {
     return SafeArea(
       child: Container(
         height: MediaQuery.of(context).size.height - 50,
-        // padding: EdgeInsets.only(right: 10, left: 0.0),
         decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.vertical(top: Radius.circular(20))),

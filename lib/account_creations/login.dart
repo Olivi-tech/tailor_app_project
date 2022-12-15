@@ -160,9 +160,10 @@ class Login extends StatelessWidget {
                 thickness: 1,
               )),
           Padding(
-            padding: const EdgeInsets.only(top: 18.0),
+            padding: EdgeInsets.only(
+                top: height * 0.02, left: width * 0.15, right: width * 0.15),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CircleAvatar(
                     backgroundColor: const Color(0xD2EA4A26),
@@ -182,29 +183,29 @@ class Login extends StatelessWidget {
                         },
                         icon: const Icon(FontAwesomeIcons.google,
                             color: Colors.white))),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: IconButton(
-                    onPressed: () async {
-                      if (await InternetConnectionChecker().hasConnection) {
-                        final status = await LoginProvider.signInWithFacebook(
-                            context: context);
-                        LoginProvider.customSnackBar(
-                            status: status, context: context);
-                      } else {
-                        LoginProvider.customSnackBar(
-                            status: 'Internet Connection not available',
-                            context: context);
-                      }
-                    },
-                    iconSize: 50,
-                    icon: const Icon(
-                      FontAwesomeIcons.facebook,
-                      color: Color(0xD2EA4A26),
-                      size: 50,
-                    ),
-                  ),
-                ),
+                //    Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                //   child: IconButton(
+                //     onPressed: () async {
+                //       if (await InternetConnectionChecker().hasConnection) {
+                //         final status = await LoginProvider.signInWithFacebook(
+                //             context: context);
+                //         LoginProvider.customSnackBar(
+                //             status: status, context: context);
+                //       } else {
+                //         LoginProvider.customSnackBar(
+                //             status: 'Internet Connection not available',
+                //             context: context);
+                //       }
+                //     },
+                //     iconSize: 50,
+                //     icon: const Icon(
+                //       FontAwesomeIcons.facebook,
+                //       color: Color(0xD2EA4A26),
+                //       size: 50,
+                //     ),
+                //   ),
+                // ),
                 CircleAvatar(
                   backgroundColor: const Color(0xD2EA4A26),
                   radius: 25,

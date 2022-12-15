@@ -27,8 +27,8 @@ class UpdateCustomer extends StatefulWidget {
 
 class _UpdateCustomerState extends State<UpdateCustomer> {
   final GlobalKey<FormState> _formKeyMeasurement = GlobalKey<FormState>();
-  // ChangeIcon _changeIcon = ChangeIcon();
-  late bool statusCompleted;
+  // // ChangeIcon _changeIcon = ChangeIcon();
+  // late bool _statusCompleted;
 
   ///adding customer info///
   late final TextEditingController _firstNameController;
@@ -118,14 +118,15 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    statusCompleted =
-        Provider.of<ChangeIcon>(context, listen: false).isCompleted;
+    // _statusCompleted =
+    //     Provider.of<ChangeIcon>(context, listen: false).isCompleted;
     User? currentUser = FirebaseAuth.instance.currentUser;
     final customerCollection =
         FirebaseFirestore.instance.collection(currentUser!.uid);
-
+    //////////
+    print(
+        '${Provider.of<ChangeIcon>(context, listen: false).isCompleted} before');
     Future<void> updateCustomer() async {
-      log('before updating is completed:${Provider.of<ChangeIcon>(context, listen: false).isCompleted}');
       _modelAddCustomer = ModelAddCustomer(
           orderStatus:
               Provider.of<ChangeIcon>(context, listen: false).isCompleted
@@ -205,9 +206,10 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                           ? 'Inseam measurement is empty'
                           : 'Calf measurement is empty');
                 } else {
-                  log('update customer is called');
+                  print('update customer is called');
                   updateCustomer();
-                  log('after calling is completed : ${widget.map![ModelAddCustomer.keyOrderStatus]}');
+
+                  log('${Provider.of<ChangeIcon>(context, listen: false).isCompleted} after');
                   switch (await InternetConnectionChecker().hasConnection) {
                     case true:
                       AwesomeDialog(
@@ -307,7 +309,8 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                           return Checkbox(
                             value: value.isCompleted,
                             onChanged: (boxValue) {
-                              value.isCompleted = boxValue!;
+                              Provider.of<ChangeIcon>(context, listen: false)
+                                  .isCompleted = boxValue!;
                               log('on tap ${value.isCompleted}');
                               value.isCompleted
                                   ? AwesomeDialog(

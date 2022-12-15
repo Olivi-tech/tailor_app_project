@@ -89,6 +89,7 @@ class _DashBoardState extends State<DashBoard> {
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
+            log('error');
             return const Center(
               child: Text(
                 'Something went wrong',
@@ -96,9 +97,11 @@ class _DashBoardState extends State<DashBoard> {
               ),
             );
           } else if (snapshot.connectionState == ConnectionState.waiting) {
+            log('waiting');
             return const Center(
                 child: CircularProgressIndicator(color: Color(0xD2EA4A26)));
           } else if (snapshot.data!.size == 0) {
+            log('no customer');
             return const Center(
               child: Text(
                 'No Customer Added Yet',
@@ -107,6 +110,7 @@ class _DashBoardState extends State<DashBoard> {
               ),
             );
           }
+          log('list builder');
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
@@ -115,11 +119,7 @@ class _DashBoardState extends State<DashBoard> {
               DashBoard.selectedFlags[index] =
                   DashBoard.selectedFlags[index] ?? false;
               DashBoard.selected = DashBoard.selectedFlags[index];
-              final String _orderStatus =
-                  data[ModelAddCustomer.keyOrderStatus] == 'Active'
-                      ? 'Active'
-                      : 'Completed';
-              log('dashboard is completed ${data[ModelAddCustomer.keyOrderStatus] == 'Completed'}');
+
               if (_searchController.text.isEmpty) {
                 return Padding(
                     padding:
@@ -138,7 +138,7 @@ class _DashBoardState extends State<DashBoard> {
                         style: const TextStyle(color: Colors.black),
                       ),
                       trailing: Text(
-                        'OrderStatus: $_orderStatus',
+                        'OrderStatus: ${data[ModelAddCustomer.keyOrderStatus]}',
                         style: TextStyle(color: Colors.black),
                       ),
                       leading: DashBoard.selectedMode

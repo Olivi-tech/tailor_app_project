@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -38,10 +40,12 @@ class _AddCalfState extends State<AddCalf> {
           Fluttertoast.showToast(msg: 'Select Value');
         } else {
           CustomerPersonalDetails.modelAddCustomer.calf = value!;
+          log('${CustomerPersonalDetails.modelAddCustomer.orderStatus} BEFORE');
           FirebaseFirestore.instance
               .collection(collection)
               .doc(CustomerPersonalDetails.modelAddCustomer.phoneNumber)
               .set(CustomerPersonalDetails.modelAddCustomer.toMap());
+          log('${CustomerPersonalDetails.modelAddCustomer.orderStatus} AFTER');
           if (await InternetConnectionChecker().hasConnection) {
             AwesomeDialog(
               width: width,

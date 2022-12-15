@@ -92,7 +92,7 @@ class LoginProvider {
         print(' ///////////////case google.com//////////////////////');
         try {
           await GoogleSignIn().disconnect().whenComplete(() async {
-            await FirebaseAuth.instance.signOut();
+            await FirebaseAuth.instance.signOut().asStream();
           });
           // Navigator.pop(context);
           return 'Logged out Successfully';
