@@ -86,10 +86,10 @@ class LoginProvider {
   static Future<String> logout({required BuildContext context}) async {
     var providerID =
         FirebaseAuth.instance.currentUser?.providerData.first.providerId;
-    print('////////////////providerID = $providerID/////////////////');
+    log('providerID = $providerID');
     switch (providerID) {
       case 'google.com':
-        print(' ///////////////case google.com//////////////////////');
+        log('case google.com');
         try {
           await GoogleSignIn().disconnect().whenComplete(() async {
             await FirebaseAuth.instance.signOut().asStream();
@@ -100,30 +100,30 @@ class LoginProvider {
           return 'Could not Logged out';
         }
       case 'facebook.com':
-        print('///////////////// case facebook.com//////////////////');
+        log('case facebook.com');
         try {
           await FacebookAuth.instance.logOut().whenComplete(() async {
-            FirebaseAuth.instance.signOut();
+            FirebaseAuth.instance.signOut().asStream();
           });
-          Navigator.pop(context);
+          // Navigator.pop(context);
           return 'Logged out Successfully';
         } catch (e) {
           return 'Could not Logged out';
         }
       case 'phone':
-        print('///////////////// case phone//////////////////');
+        log('case phone');
         try {
-          await FirebaseAuth.instance.signOut();
-          Navigator.pop(context);
+          await FirebaseAuth.instance.signOut().asStream();
+          // Navigator.pop(context);
           return 'Logged out Successfully';
         } catch (e) {
           return 'Could not Logged out';
         }
       case 'password':
-        print('/////////////////case password//////////////////');
+        log('case password');
         try {
-          await FirebaseAuth.instance.signOut();
-          Navigator.pop(context);
+          await FirebaseAuth.instance.signOut().asStream();
+          // Navigator.pop(context);
           return 'Logged out Successfully';
         } catch (e) {
           return 'Could not Logged out';
@@ -190,14 +190,11 @@ class LoginProvider {
       return 'Account Created Successfully';
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        //  print('weak-password');
         return 'The password provided is too weak.';
       } else if (e.code == 'email-already-in-use') {
-        //   print(e.toString());
         return 'The account already exists for this email.';
       }
     } catch (e) {
-      //  print(e);
       return 'Error: $e';
       //ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('SomeThing Went Wrong')));
     }
@@ -208,7 +205,7 @@ class LoginProvider {
       {required String email, required BuildContext context}) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      log('///////////////////sent /////////////');
+      log('sent');
       return 'password reset link sent successfully';
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

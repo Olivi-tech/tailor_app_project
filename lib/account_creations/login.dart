@@ -22,7 +22,6 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('//////////build///////////');
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return SafeArea(

@@ -72,8 +72,8 @@ class TailorDrawer {
               trailing: const Icon(Icons.logout_sharp),
               onTap: () async {
                 if (await InternetConnectionChecker().hasConnection) {
-                  final status = await LoginProvider.logout(context: context);
                   Navigator.pop(context);
+                  final status = await LoginProvider.logout(context: context);
                   await LoginProvider.customSnackBar(
                       status: status, context: context);
                 } else {
