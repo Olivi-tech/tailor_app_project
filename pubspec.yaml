@@ -42,11 +42,11 @@ dependencies:
   awesome_dialog:
   google_fonts:
   fluttertoast:
-  intl_phone_field: ^3.1.0
-  cached_network_image: ^3.2.2
-  flutter_native_splash: ^2.2.11
-  provider: ^6.0.4
-  internet_connection_checker: ^1.0.0+1
+  intl_phone_field:
+  cached_network_image:
+  flutter_native_splash: 
+  provider:
+  internet_connection_checker: 
    
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

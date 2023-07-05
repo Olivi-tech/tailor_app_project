@@ -21,14 +21,17 @@ class DataCheck extends StatelessWidget {
         theme: ThemeData(
             primarySwatch: Colors.red,
             appBarTheme: const AppBarTheme(
-                centerTitle: true, backgroundColor: Color(0xD2EA4A26)),
+              centerTitle: true,
+              backgroundColor: Color(0xD2EA4A26),
+            ),
             textTheme: GoogleFonts.tinosTextTheme(
               Theme.of(context).textTheme.copyWith(
-                  bodyText2: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+                    bodyText2: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    bodyText1: const TextStyle(color: Colors.black),
                   ),
-                  bodyText1: const TextStyle(color: Colors.black)),
             )),
         home: StreamBuilder(
             stream: FirebaseAuth.instance.userChanges(),
