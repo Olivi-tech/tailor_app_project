@@ -26,11 +26,11 @@ class DataCheck extends StatelessWidget {
             ),
             textTheme: GoogleFonts.tinosTextTheme(
               Theme.of(context).textTheme.copyWith(
-                    bodyText2: const TextStyle(
+                    bodyMedium: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
-                    bodyText1: const TextStyle(color: Colors.black),
+                    bodyLarge: const TextStyle(color: Colors.black),
                   ),
             )),
         home: StreamBuilder(
